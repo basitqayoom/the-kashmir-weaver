@@ -59,6 +59,13 @@ export const metadata: Metadata = {
       },
     ],
   },
+  twitter: {
+    card: "summary_large_image",
+    title: `${siteConfig.name} | Authentic Handwoven Kashmiri Pashmina`,
+    description:
+      "GI-certified luxury Pashmina shawls — from the looms of Kashmir to the world.",
+    images: ["/images/logo/logo-green-bg.png"],
+  },
   robots: {
     index: true,
     follow: true,
@@ -72,6 +79,10 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: "/",
+    languages: {
+      "x-default": "https://thekashmirweaver.com",
+      "en-IN": "https://thekashmirweaver.in",
+    },
   },
   verification: {
     google: "Z1IoiWticf5Ho_AAlEmWW1G-eA4niLGaphHfO3EOO10",

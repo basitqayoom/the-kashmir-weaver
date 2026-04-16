@@ -44,12 +44,6 @@ const localBusinessJsonLd = {
     longitude: siteConfig.address.geo.longitude,
   },
   sameAs: [siteConfig.social.instagram, siteConfig.social.linkedin],
-  aggregateRating: {
-    "@type": "AggregateRating",
-    ratingValue: "5",
-    reviewCount: "4",
-    bestRating: "5",
-  },
 };
 
 const faqJsonLd = {
