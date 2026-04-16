@@ -19,7 +19,7 @@ export default function PrivacyPage() {
           <p className="mt-2">
             When you submit an inquiry through our contact form, we collect your name, email address,
             phone number (if provided), inquiry type, company name (if provided), estimated volume,
-            and message. This information is sent to us via Formspree and delivered to our email.
+            and message. This information is collected via Google Forms and delivered to our email.
           </p>
         </section>
 
@@ -43,9 +43,9 @@ export default function PrivacyPage() {
         <section>
           <h2 className="font-heading text-lg font-bold text-charcoal">Third-Party Services</h2>
           <p className="mt-2">
-            Our contact form is powered by Formspree. Please refer to{" "}
-            <a href="https://formspree.io/legal/privacy-policy" className="text-gold underline" target="_blank" rel="noopener noreferrer">
-              Formspree&rsquo;s privacy policy
+            Our contact form is powered by Google Forms. Please refer to{" "}
+            <a href="https://policies.google.com/privacy" className="text-gold underline" target="_blank" rel="noopener noreferrer">
+              Google&rsquo;s privacy policy
             </a>{" "}
             for information on how they handle data.
           </p>
