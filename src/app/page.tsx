@@ -1,3 +1,4 @@
+import dynamic from "next/dynamic";
 import { siteConfig } from "@/config/site";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
@@ -6,19 +7,20 @@ import Heritage from "@/components/Heritage";
 import WhyUs from "@/components/WhyUs";
 import StatsStrip from "@/components/StatsStrip";
 import Authenticity from "@/components/Authenticity";
-import CraftProcess from "@/components/CraftProcess";
-import DiscoverCTA from "@/components/DiscoverCTA";
-import Services from "@/components/Services";
-import Testimonials from "@/components/Testimonials";
-import Stories from "@/components/Stories";
-import FAQ from "@/components/FAQ";
-import Contact from "@/components/Contact";
-import ShawlShowcase from "@/components/ShawlShowcase";
 import Footer from "@/components/Footer";
 import WhatsAppFAB from "@/components/WhatsAppFAB";
-import CookieBanner from "@/components/CookieBanner";
 import ScrollReveal from "@/components/ScrollReveal";
 import ImageModalProvider from "@/components/ImageModal";
+
+const CraftProcess = dynamic(() => import("@/components/CraftProcess"));
+const ShawlShowcase = dynamic(() => import("@/components/ShawlShowcase"));
+const DiscoverCTA = dynamic(() => import("@/components/DiscoverCTA"));
+const Services = dynamic(() => import("@/components/Services"));
+const Testimonials = dynamic(() => import("@/components/Testimonials"));
+const Stories = dynamic(() => import("@/components/Stories"));
+const FAQ = dynamic(() => import("@/components/FAQ"));
+const Contact = dynamic(() => import("@/components/Contact"));
+const CookieBanner = dynamic(() => import("@/components/CookieBanner"));
 
 const localBusinessJsonLd = {
   "@context": "https://schema.org",

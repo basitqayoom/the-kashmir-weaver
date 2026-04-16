@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import LazyIframe from "./LazyIframe";
 import { useImageModal } from "./ImageModal";
 
 const CDN = "https://cdn.shopify.com/s/files/1/0175/0928/files";
@@ -85,7 +86,7 @@ export default function CraftProcess() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="reveal text-center">
-          <p className="font-accent text-[10px] font-light uppercase tracking-[0.35em] text-gold">
+          <p className="font-accent text-[10px] font-light uppercase tracking-[0.35em] text-gold-text">
             The Craft
           </p>
           <h2 className="mt-4 font-heading text-3xl font-bold text-charcoal sm:text-4xl lg:text-5xl">
@@ -150,7 +151,7 @@ export default function CraftProcess() {
               {/* Content */}
               <div className="flex-1 pb-8">
                 {step.term && (
-                  <p className="mb-1 text-xs font-semibold uppercase tracking-wider text-gold">
+                  <p className="mb-1 text-xs font-semibold uppercase tracking-wider text-gold-text">
                     {step.term}
                   </p>
                 )}
@@ -175,7 +176,7 @@ export default function CraftProcess() {
 
         {/* Video — Full Pashmina Process */}
         <div className="reveal mt-16">
-          <p className="font-accent mb-3 text-center text-[10px] font-light uppercase tracking-[0.35em] text-gold">
+          <p className="font-accent mb-3 text-center text-[10px] font-light uppercase tracking-[0.35em] text-gold-text">
             Watch the Full Process
           </p>
           <p className="mx-auto mb-6 max-w-xl text-center text-sm text-charcoal/70">
@@ -183,7 +184,7 @@ export default function CraftProcess() {
           </p>
           <div className="mx-auto max-w-3xl overflow-hidden rounded-2xl border border-gold/10 shadow-lg">
             <div className="relative aspect-video">
-              <iframe
+              <LazyIframe
                 src="https://www.youtube-nocookie.com/embed/yT-aXywFA0I?si=p-uPhTJsdr4wcdkB"
                 title="From Thread to Pashmina — The Complete Journey"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"

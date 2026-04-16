@@ -8,42 +8,37 @@ const FORM_URL =
 
 export default function Contact() {
   const [open, setOpen] = useState(false);
-  const [iframeHeight, setIframeHeight] = useState(1100);
-  const iframeRef = useRef<HTMLIFrameElement>(null);
+  const [iframeLoaded, setIframeLoaded] = useState(false);
+  const sentinelRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const iframe = iframeRef.current;
-    if (!iframe) return;
+    const el = sentinelRef.current;
+    if (!el) return;
 
-    const ro = new ResizeObserver((entries) => {
-      for (const entry of entries) {
-        try {
-          const doc = iframe.contentDocument;
-          if (doc) {
-            const h = doc.documentElement.scrollHeight || doc.body.scrollHeight;
-            if (h > 0) setIframeHeight(h);
-          }
-        } catch {
-          // cross-origin — keep current height
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIframeLoaded(true);
+          observer.disconnect();
         }
-      }
-    });
-
-    ro.observe(iframe);
-    return () => ro.disconnect();
+      },
+      { rootMargin: "200px" },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
   }, []);
 
   return (
     <section id="contact" className="bg-ivory bg-linen py-20 sm:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="reveal text-center">
-          <p className="font-accent text-[10px] font-light uppercase tracking-[0.35em] text-gold">
+          <p className="font-accent text-[10px] font-light uppercase tracking-[0.35em] text-gold-text">
             Get in Touch
           </p>
           <h2 className="mt-4 font-heading text-3xl font-bold text-charcoal sm:text-4xl">
             Let&rsquo;s Start a Conversation
           </h2>
-          <p className="mx-auto mt-4 max-w-xl text-base text-charcoal/60">
+          <p className="mx-auto mt-4 max-w-xl text-base text-charcoal/70">
             Whether you&rsquo;re looking for a single heirloom piece or outfitting
             an entire corporate event — we&rsquo;re here to help.
           </p>
@@ -73,20 +68,27 @@ export default function Contact() {
             </button>
 
             <div
+              ref={sentinelRef}
               className={`rounded-2xl border border-gold/10 bg-white/80 shadow-sm ${
                 open ? "block" : "hidden lg:block"
               }`}
+              style={{ minHeight: 1100 }}
             >
-              <iframe
-                ref={iframeRef}
-                src={FORM_URL}
-                width="100%"
-                height={iframeHeight}
-                className="border-0"
-                title="Contact Form"
-              >
-                Loading…
-              </iframe>
+              {iframeLoaded ? (
+                <iframe
+                  src={FORM_URL}
+                  width="100%"
+                  height={1100}
+                  className="border-0"
+                  title="Contact Form"
+                >
+                  Loading…
+                </iframe>
+              ) : (
+                <div className="flex h-[1100px] items-center justify-center text-sm text-charcoal/40">
+                  Loading form…
+                </div>
+              )}
             </div>
           </div>
 

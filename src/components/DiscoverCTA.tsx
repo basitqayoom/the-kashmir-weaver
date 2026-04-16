@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import dynamic from "next/dynamic";
 import { DynamicErrorBoundary } from "./SafeDynamic";
 import { siteConfig, whatsappLink } from "@/config/site";
@@ -19,7 +20,27 @@ const ClientInstagramEmbed = dynamic(
 
 const stats = ["50+ Colours", "6 Craft Traditions", "100% Handmade", "GI Certified"];
 
+function useIframeTitles(ref: React.RefObject<HTMLDivElement | null>, title: string) {
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    const apply = () =>
+      el.querySelectorAll<HTMLIFrameElement>("iframe:not([title])").forEach(
+        (f) => f.setAttribute("title", title),
+      );
+
+    apply();
+    const mo = new MutationObserver(apply);
+    mo.observe(el, { childList: true, subtree: true });
+    return () => mo.disconnect();
+  }, [ref, title]);
+}
+
 export default function DiscoverCTA() {
+  const embedRef = useRef<HTMLDivElement>(null);
+  useIframeTitles(embedRef, "Instagram feed from @thekashmirweaver");
+
   return (
     <section className="relative overflow-hidden bg-charcoal py-20 sm:py-28">
       <DynamicErrorBoundary>
@@ -83,7 +104,7 @@ export default function DiscoverCTA() {
             </p>
             <span className="h-px flex-1 max-w-16 bg-gold/20" aria-hidden="true" />
           </div>
-          <div className="mx-auto max-w-lg overflow-hidden rounded-2xl border border-ivory/10">
+          <div ref={embedRef} className="mx-auto max-w-lg overflow-hidden rounded-2xl border border-ivory/10">
             <DynamicErrorBoundary>
               <ClientInstagramEmbed
                 url={siteConfig.social.instagram}

@@ -240,7 +240,7 @@ export default function PashminaTypesPage() {
 
               {/* Content */}
               <div className="reveal lg:[direction:ltr]">
-                <p className="font-accent text-[10px] font-light uppercase tracking-[0.35em] text-gold">
+                <p className="font-accent text-[10px] font-light uppercase tracking-[0.35em] text-gold-text">
                   {type.subtitle}
                 </p>
                 <h2 className="mt-3 font-heading text-3xl font-light text-charcoal sm:text-4xl lg:text-5xl">
@@ -260,7 +260,7 @@ export default function PashminaTypesPage() {
                 {/* At a glance */}
                 <div className="mt-6 grid grid-cols-2 gap-3">
                   <div className="rounded-lg border border-gold/10 bg-white/60 p-3">
-                    <p className="font-accent text-[9px] uppercase tracking-[0.2em] text-charcoal/60">
+                    <p className="font-accent text-[9px] uppercase tracking-[0.2em] text-charcoal/70">
                       Time to Make
                     </p>
                     <p className="mt-1 text-sm font-medium text-charcoal">
@@ -268,7 +268,7 @@ export default function PashminaTypesPage() {
                     </p>
                   </div>
                   <div className="rounded-lg border border-gold/10 bg-white/60 p-3">
-                    <p className="font-accent text-[9px] uppercase tracking-[0.2em] text-charcoal/60">
+                    <p className="font-accent text-[9px] uppercase tracking-[0.2em] text-charcoal/70">
                       Technique
                     </p>
                     <p className="mt-1 text-sm font-medium text-charcoal">
@@ -343,7 +343,7 @@ export default function PashminaTypesPage() {
       {/* What Is Genuine Pashmina */}
       <section className="mx-auto max-w-4xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
         <div className="reveal text-center">
-          <p className="font-accent text-[10px] font-light uppercase tracking-[0.35em] text-gold">
+          <p className="font-accent text-[10px] font-light uppercase tracking-[0.35em] text-gold-text">
             The Fibre &middot; The Truth
           </p>
           <h2 className="mt-4 font-heading text-3xl font-light text-charcoal sm:text-4xl">

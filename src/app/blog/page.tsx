@@ -60,7 +60,7 @@ export default function BlogPage() {
             </div>
             <div className="flex flex-col justify-center p-8 sm:p-10 lg:p-12">
               <span
-                className={`inline-block w-fit rounded-full px-3 py-1 text-xs font-bold text-white ${featured.categoryColor}`}
+                className={`inline-block w-fit rounded-full px-3 py-1 text-xs font-bold ${featured.categoryColor}`}
               >
                 {featured.category}
               </span>
@@ -71,10 +71,10 @@ export default function BlogPage() {
                 {featured.excerpt}
               </p>
               <div className="mt-6 flex items-center gap-4">
-                <span className="text-sm font-semibold text-gold">
+                <span className="text-sm font-semibold text-gold-text">
                   Read Article →
                 </span>
-                <span className="text-xs text-charcoal/60">
+                <span className="text-xs text-charcoal/70">
                   {featured.readTime}
                 </span>
               </div>
@@ -103,7 +103,7 @@ export default function BlogPage() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
                   <span
-                    className={`absolute left-3 top-3 rounded-full px-3 py-1 text-xs font-bold text-white ${article.categoryColor}`}
+                    className={`absolute left-3 top-3 rounded-full px-3 py-1 text-xs font-bold ${article.categoryColor}`}
                   >
                     {article.category}
                   </span>
@@ -111,7 +111,7 @@ export default function BlogPage() {
               ) : (
                 <div className="flex items-center justify-between bg-charcoal/5 px-5 pt-5">
                   <span
-                    className={`rounded-full px-3 py-1 text-xs font-bold text-white ${article.categoryColor}`}
+                    className={`rounded-full px-3 py-1 text-xs font-bold ${article.categoryColor}`}
                   >
                     {article.category}
                   </span>
@@ -125,10 +125,10 @@ export default function BlogPage() {
                   {article.excerpt}
                 </p>
                 <div className="mt-4 flex items-center justify-between">
-                  <span className="text-sm font-semibold text-gold">
+                  <span className="text-sm font-semibold text-gold-text">
                     Read Article →
                   </span>
-                    <span className="text-xs text-charcoal/60">
+                    <span className="text-xs text-charcoal/70">
                     {article.readTime}
                   </span>
                 </div>

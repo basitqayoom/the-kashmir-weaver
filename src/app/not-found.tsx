@@ -10,13 +10,13 @@ export const metadata: Metadata = {
 export default function NotFound() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-ivory px-4 text-center">
-      <p className="font-accent text-[10px] font-light uppercase tracking-[0.35em] text-gold">
+      <p className="font-accent text-[10px] font-light uppercase tracking-[0.35em] text-gold-text">
         404
       </p>
       <h1 className="mt-4 font-heading text-4xl font-bold text-charcoal sm:text-5xl">
         Page Not Found
       </h1>
-      <p className="mx-auto mt-4 max-w-md text-base text-charcoal/60">
+      <p className="mx-auto mt-4 max-w-md text-base text-charcoal/70">
         The page you&rsquo;re looking for doesn&rsquo;t exist or has been moved.
         Let us guide you back to our collection.
       </p>
@@ -29,7 +29,7 @@ export default function NotFound() {
         </Link>
         <Link
           href="/blog"
-          className="font-accent rounded-full border border-charcoal/20 px-8 py-3 text-[11px] font-light tracking-[0.2em] uppercase text-charcoal transition-all hover:border-gold hover:text-gold"
+          className="font-accent rounded-full border border-charcoal/20 px-8 py-3 text-[11px] font-light tracking-[0.2em] uppercase text-charcoal transition-all hover:border-gold-text hover:text-gold-text"
         >
           Read Our Stories
         </Link>

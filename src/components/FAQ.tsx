@@ -53,7 +53,7 @@ export default function FAQ() {
     <section id="faq" className="bg-ivory bg-linen py-20 sm:py-28">
       <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
         <div className="reveal text-center">
-          <p className="font-accent text-[10px] font-light uppercase tracking-[0.35em] text-gold">
+          <p className="font-accent text-[10px] font-light uppercase tracking-[0.35em] text-gold-text">
             FAQ
           </p>
           <h2 className="mt-4 font-heading text-3xl font-bold text-charcoal sm:text-4xl">

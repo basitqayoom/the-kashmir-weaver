@@ -241,7 +241,7 @@ export default async function BlogArticlePage({ params }: PageProps) {
           </Link>
           <div className="mt-8">
             <span
-              className={`inline-block rounded-full px-4 py-1.5 text-xs font-bold text-white ${article.categoryColor}`}
+              className={`inline-block rounded-full px-4 py-1.5 text-xs font-bold ${article.categoryColor}`}
             >
               {article.category}
             </span>
@@ -335,7 +335,7 @@ export default async function BlogArticlePage({ params }: PageProps) {
                   <h3 className="font-heading text-sm font-bold leading-snug text-charcoal transition-colors group-hover:text-burgundy">
                     {a.title}
                   </h3>
-                  <span className="mt-2 block text-xs text-charcoal/60">
+                  <span className="mt-2 block text-xs text-charcoal/70">
                     {a.readTime}
                   </span>
                 </div>

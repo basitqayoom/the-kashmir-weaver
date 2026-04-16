@@ -14,7 +14,7 @@ export default function Stories() {
     <section id="stories" className="bg-ivory bg-linen py-20 sm:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="reveal text-center">
-          <p className="font-accent text-[10px] font-light uppercase tracking-[0.35em] text-gold">
+          <p className="font-accent text-[10px] font-light uppercase tracking-[0.35em] text-gold-text">
             The Pure Kashmir Journal
           </p>
           <h2 className="mt-4 font-heading text-3xl font-bold text-charcoal sm:text-4xl lg:text-5xl">
@@ -48,7 +48,7 @@ export default function Stories() {
             </div>
             <div className="flex flex-col justify-center p-8 sm:p-10 lg:p-12">
               <span
-                className={`inline-block w-fit rounded-full px-3 py-1 text-xs font-bold text-white ${featured.categoryColor}`}
+                className={`inline-block w-fit rounded-full px-3 py-1 text-xs font-bold ${featured.categoryColor}`}
               >
                 {featured.category}
               </span>
@@ -59,10 +59,10 @@ export default function Stories() {
                 {featured.excerpt}
               </p>
               <div className="mt-6 flex items-center gap-4">
-                <span className="text-sm font-semibold text-gold">
+                <span className="text-sm font-semibold text-gold-text">
                   Read Article →
                 </span>
-                <span className="text-xs text-charcoal/60">
+                <span className="text-xs text-charcoal/70">
                   {featured.readTime}
                 </span>
               </div>
@@ -91,7 +91,7 @@ export default function Stories() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
                 <span
-                  className={`absolute left-3 top-3 rounded-full px-3 py-1 text-xs font-bold text-white ${article.categoryColor}`}
+                  className={`absolute left-3 top-3 rounded-full px-3 py-1 text-xs font-bold ${article.categoryColor}`}
                 >
                   {article.category}
                 </span>
@@ -104,10 +104,10 @@ export default function Stories() {
                   {article.excerpt}
                 </p>
                 <div className="mt-4 flex items-center justify-between">
-                  <span className="text-sm font-semibold text-gold">
+                  <span className="text-sm font-semibold text-gold-text">
                     Read Article →
                   </span>
-                    <span className="text-xs text-charcoal/60">
+                    <span className="text-xs text-charcoal/70">
                     {article.readTime}
                   </span>
                 </div>

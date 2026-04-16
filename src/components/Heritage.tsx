@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import LazyIframe from "./LazyIframe";
 import { useImageModal } from "./ImageModal";
 
 const CDN = "https://cdn.shopify.com/s/files/1/0175/0928/files";
@@ -13,7 +14,7 @@ export default function Heritage() {
         <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
           {/* Text */}
           <div className="reveal">
-            <p className="font-accent text-[10px] font-light uppercase tracking-[0.35em] text-gold">
+            <p className="font-accent text-[10px] font-light uppercase tracking-[0.35em] text-gold-text">
               Our Heritage
             </p>
             <h2 className="mt-4 font-heading text-3xl font-bold text-charcoal sm:text-4xl lg:text-5xl">
@@ -81,12 +82,12 @@ export default function Heritage() {
 
             {/* Video — How Pashmina is Made */}
             <div className="mt-10 pt-4">
-              <p className="font-accent mb-3 text-center text-[10px] font-light uppercase tracking-[0.35em] text-gold">
+              <p className="font-accent mb-3 text-center text-[10px] font-light uppercase tracking-[0.35em] text-gold-text">
                 Watch the Craft
               </p>
               <div className="overflow-hidden rounded-2xl border border-gold/10 shadow-lg">
                 <div className="relative aspect-video">
-                  <iframe
+                  <LazyIframe
                     src="https://www.youtube-nocookie.com/embed/0UOEyt4ViZA?si=9rVXQ_BcnxpYIJn-"
                     title="How Pashmina is Made — The Kashmir Weaver"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"

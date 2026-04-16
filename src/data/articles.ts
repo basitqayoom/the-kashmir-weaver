@@ -17,7 +17,7 @@ export const articles: Article[] = [
     slug: "the-pashmina-gift-guide",
     title: "A Thoughtful Guide to Gifting Pashmina",
     category: "Gift Guide",
-    categoryColor: "bg-burgundy",
+    categoryColor: "bg-burgundy text-white",
     excerpt:
       "There is a reason Pashmina has been gifted between royals, diplomats, and loved ones for six centuries. Here is how to choose the right one.",
     readTime: "5 min read",
@@ -55,7 +55,7 @@ Pashmina improves with age. The fibres grow softer with gentle wear and washing.
     slug: "where-pashmina-begins",
     title: "Where Pashmina Begins — The Changthang Plateau at 14,000 Feet",
     category: "Heritage",
-    categoryColor: "bg-forest-green",
+    categoryColor: "bg-forest-green text-white",
     excerpt:
       "Before there is a loom, before there is a thread, there is a goat standing in a snowfield at the edge of the world. This is where our story starts.",
     readTime: "7 min read",
@@ -145,7 +145,7 @@ These styling options work because of how handwoven Pashmina behaves. It drapes 
     slug: "the-weavers-loom",
     title: "What Happens at the Loom — A Day with a Kani Weaver",
     category: "The Craft",
-    categoryColor: "bg-burgundy",
+    categoryColor: "bg-burgundy text-white",
     excerpt:
       "We spent a day in a Kani weaving workshop in Srinagar. Here is what we learned about patience, precision, and the coded manuscripts that guide every thread.",
     readTime: "8 min read",
@@ -233,7 +233,7 @@ If you follow these guidelines, there is no reason your Pashmina should not last
     slug: "is-your-pashmina-genuine",
     title: "How We Think About Authenticity — And How You Can Verify Yours",
     category: "Authenticity",
-    categoryColor: "bg-forest-green",
+    categoryColor: "bg-forest-green text-white",
     excerpt:
       "The Pashmina market has a counterfeiting problem. Here is our honest assessment of every common test — and what actually proves a shawl is real.",
     readTime: "7 min read",
@@ -275,7 +275,7 @@ Every piece we sell comes with our unconditional authenticity guarantee. If any 
     slug: "understanding-the-fibre",
     title: "Pashmina, Cashmere, and Merino — Understanding the Differences",
     category: "Buyer's Guide",
-    categoryColor: "bg-burgundy",
+    categoryColor: "bg-burgundy text-white",
     excerpt:
       "These three words get used interchangeably in shops and online stores. They should not be. Here is what each one actually means.",
     readTime: "6 min read",
@@ -323,7 +323,7 @@ This is not snobbery. It is materials science. And it is the reason that genuine
     slug: "the-paisley-story",
     title: "The Pattern the World Borrowed — How Kashmir's Keri Became Paisley",
     category: "Heritage",
-    categoryColor: "bg-forest-green",
+    categoryColor: "bg-forest-green text-white",
     excerpt:
       "The most recognised textile motif in history is Kashmiri in origin. Here is the story of how a mango-shaped ornament travelled from Srinagar to Scotland.",
     readTime: "7 min read",

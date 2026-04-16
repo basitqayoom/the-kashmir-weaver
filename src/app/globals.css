@@ -8,9 +8,10 @@
   --color-gold: #D4AF37;
   --color-gold-muted: #C9A84C;
   --color-gold-dark: #A88A3A;
+  --color-gold-text: #8B7000;
   --color-forest-green: #1B4332;
   --color-forest-deep: #0A2E1C;
-  --color-whatsapp: #25D366;
+  --color-whatsapp: #1A8F4A;
 
   --font-heading: var(--font-cormorant);
   --font-body: var(--font-lora);
