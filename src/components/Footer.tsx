@@ -32,7 +32,7 @@ export default function Footer() {
               <AnimatedLogo size={44} variant="footer" />
               <div>
                 <p className="font-heading text-xl font-bold text-ivory">The Kashmir Weaver</p>
-                <p className="font-accent text-[9px] font-light tracking-[0.4em] text-gold/70">EST. IN THE VALLEY</p>
+                <p className="font-accent text-[9px] font-light tracking-[0.4em] text-gold">EST. IN THE VALLEY</p>
               </div>
             </div>
             <p className="mt-6 max-w-sm text-sm leading-relaxed text-ivory/50">
@@ -73,7 +73,7 @@ export default function Footer() {
             <ul className="mt-5 space-y-3">
               {quickLinks.map((l) => (
                 <li key={l.label}>
-                  <Link href={l.href} className="text-sm text-ivory/45 transition-colors hover:text-gold">
+                  <Link href={l.href} className="text-sm text-ivory/60 transition-colors hover:text-gold">
                     {l.label}
                   </Link>
                 </li>
@@ -93,7 +93,7 @@ export default function Footer() {
                     href={l.href}
                     target={l.href.startsWith("http") ? "_blank" : undefined}
                     rel={l.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                    className="text-sm text-ivory/45 transition-colors hover:text-gold"
+                    className="text-sm text-ivory/60 transition-colors hover:text-gold"
                   >
                     {l.label}
                   </a>
@@ -107,7 +107,7 @@ export default function Footer() {
             <h4 className="font-accent text-[10px] font-light uppercase tracking-[0.35em] text-gold">
               Visit Us
             </h4>
-            <div className="mt-5 space-y-4 text-sm text-ivory/45">
+            <div className="mt-5 space-y-4 text-sm text-ivory/60">
               <p className="leading-relaxed">
                 {siteConfig.name}<br />
                 {siteConfig.address.line1}<br />
@@ -117,7 +117,7 @@ export default function Footer() {
                 href={siteConfig.address.mapsUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-gold/70 transition-colors hover:text-gold"
+                className="inline-flex items-center gap-1.5 text-gold transition-colors hover:text-ivory"
               >
                 <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -145,10 +145,10 @@ export default function Footer() {
       {/* Bottom bar */}
       <div className="border-t border-ivory/8">
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-4 py-5 sm:flex-row sm:px-6 lg:px-8">
-          <p className="text-xs text-ivory/30">
+          <p className="text-xs text-ivory/50">
             &copy; {new Date().getFullYear()} The Kashmir Weaver. Handwoven in Kashmir.
           </p>
-          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-xs text-ivory/30">
+          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-xs text-ivory/50">
             <span>GI Tag No. 46</span>
             <span className="text-gold/30">◆</span>
             <span>MCA Registered</span>

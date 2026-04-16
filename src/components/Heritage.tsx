@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import LazyIframe from "./LazyIframe";
+import YouTubeFacade from "./YouTubeFacade";
 import { useImageModal } from "./ImageModal";
 
 const CDN = "https://cdn.shopify.com/s/files/1/0175/0928/files";
@@ -87,13 +87,9 @@ export default function Heritage() {
               </p>
               <div className="overflow-hidden rounded-2xl border border-gold/10 shadow-lg">
                 <div className="relative aspect-video">
-                  <LazyIframe
-                    src="https://www.youtube-nocookie.com/embed/0UOEyt4ViZA?si=9rVXQ_BcnxpYIJn-"
+                  <YouTubeFacade
+                    videoId="0UOEyt4ViZA"
                     title="How Pashmina is Made — The Kashmir Weaver"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    referrerPolicy="strict-origin-when-cross-origin"
-                    allowFullScreen
-                    className="absolute inset-0 h-full w-full"
                   />
                 </div>
               </div>
