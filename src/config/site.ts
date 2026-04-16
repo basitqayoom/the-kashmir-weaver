@@ -29,6 +29,7 @@ export const siteConfig = {
     instagram: "https://www.instagram.com/thekashmirweaver/",
     instagramHandle: "@thekashmirweaver",
     linkedin: "https://www.linkedin.com/company/thekashmirweaver",
+    googleBusiness: "https://share.google/pBDdfCXg1uR2psXSP",
     whatsapp: "https://wa.me/919796105623",
     whatsappNumber: "919796105623",
   },
