@@ -76,8 +76,8 @@ export default function Hero() {
         </span>
 
         <h1
-          className="animate-fade-in-up mt-8 font-heading text-5xl font-light leading-[1.1] sm:text-6xl lg:text-7xl xl:text-8xl"
-          style={{ color: theme.text, animationDelay: "150ms", letterSpacing: "0.04em" }}
+          className="animate-slide-up mt-8 font-heading text-5xl font-light leading-[1.1] sm:text-6xl lg:text-7xl xl:text-8xl"
+          style={{ color: theme.text, animationDelay: "0ms", letterSpacing: "0.04em" }}
         >
           From the Looms
           <br />

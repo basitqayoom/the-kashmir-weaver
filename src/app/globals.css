@@ -122,6 +122,22 @@ h2 {
   animation: fade-in-up 0.8s ease-out both;
 }
 
+/* Transform-only variant for LCP elements. Because the element is never
+   hidden (no opacity keyframe) and transform changes are ignored by the
+   LCP algorithm, the element is eligible for LCP at first paint. */
+@keyframes slide-up {
+  from {
+    transform: translateY(20px);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-up {
+  animation: slide-up 0.8s ease-out both;
+}
+
 /* Marquee animation */
 @keyframes marquee {
   0% { transform: translateX(0); }
@@ -323,7 +339,8 @@ h2 {
   .animate-pulse-fab {
     animation: none;
   }
-  .animate-fade-in-up {
+  .animate-fade-in-up,
+  .animate-slide-up {
     animation: none;
     opacity: 1;
     transform: none;
