@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { HERO_THEME, heroThemes } from "@/config/theme";
 import { siteConfig } from "@/config/site";
@@ -11,9 +12,33 @@ const FiberCanvas = dynamic(() => import("./FiberCanvas"), {
   ),
 });
 
+// Only mount the three.js hero background on larger, motion-friendly
+// viewports. On mobile and for users who prefer reduced motion the
+// decorative canvas (three.js + @react-three/fiber, ~230 KB) would be
+// downloaded but never perceptibly animated — a large unused-JS cost
+// that the Lighthouse mobile audit was flagging. The gradient fallback
+// below preserves the visual look.
+function useShouldRenderCanvas() {
+  const [enabled, setEnabled] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const mediaQuery = window.matchMedia(
+      "(min-width: 1024px) and (prefers-reduced-motion: no-preference)",
+    );
+    const sync = () => setEnabled(mediaQuery.matches);
+    sync();
+    mediaQuery.addEventListener("change", sync);
+    return () => mediaQuery.removeEventListener("change", sync);
+  }, []);
+
+  return enabled;
+}
+
 export default function Hero() {
   const theme = heroThemes[HERO_THEME];
   const isGradient = HERO_THEME === "gradient";
+  const shouldRenderCanvas = useShouldRenderCanvas();
 
   return (
     <section
@@ -23,7 +48,14 @@ export default function Hero() {
         backgroundColor: isGradient ? undefined : theme.background,
       }}
     >
-      <FiberCanvas />
+      {shouldRenderCanvas ? (
+        <FiberCanvas />
+      ) : (
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 z-0 bg-gradient-radial from-gold/5 to-transparent"
+        />
+      )}
 
       <div className="relative z-10 mx-auto max-w-4xl px-4 text-center sm:px-6">
         <p

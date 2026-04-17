@@ -63,7 +63,6 @@ export default function InstagramFacade({ url, handle }: Props) {
       onMouseEnter={warmConnections}
       onFocus={warmConnections}
       onTouchStart={warmConnections}
-      aria-label={`Load Instagram feed for ${handle}`}
       className="group relative flex aspect-[4/5] w-full flex-col items-center justify-center gap-4 bg-gradient-to-br from-[#833AB4]/80 via-[#C13584]/70 to-[#F77737]/70 text-ivory transition-all hover:brightness-110"
     >
       <svg

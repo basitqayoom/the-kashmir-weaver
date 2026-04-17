@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import { DynamicErrorBoundary } from "./SafeDynamic";
 import InstagramFacade from "./InstagramFacade";
@@ -10,6 +10,24 @@ const LoomCanvas = dynamic(
   () => import("./LoomCanvas").catch(() => ({ default: () => null })),
   { ssr: false, loading: () => null },
 );
+
+// Same gate as the hero canvas: only mount the decorative three.js
+// animation on larger, motion-friendly devices. Saves the three.js
+// download on mobile where it would be unused.
+function useShouldRenderCanvas() {
+  const [enabled, setEnabled] = useState(false);
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const mq = window.matchMedia(
+      "(min-width: 1024px) and (prefers-reduced-motion: no-preference)",
+    );
+    const sync = () => setEnabled(mq.matches);
+    sync();
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
+  }, []);
+  return enabled;
+}
 
 const stats = ["50+ Colours", "6 Craft Traditions", "100% Handmade", "GI Certified"];
 
@@ -33,12 +51,15 @@ function useIframeTitles(ref: React.RefObject<HTMLDivElement | null>, title: str
 export default function DiscoverCTA() {
   const embedRef = useRef<HTMLDivElement>(null);
   useIframeTitles(embedRef, "Instagram feed from @thekashmirweaver");
+  const shouldRenderCanvas = useShouldRenderCanvas();
 
   return (
     <section className="relative overflow-hidden bg-charcoal py-20 sm:py-28">
-      <DynamicErrorBoundary>
-        <LoomCanvas />
-      </DynamicErrorBoundary>
+      {shouldRenderCanvas && (
+        <DynamicErrorBoundary>
+          <LoomCanvas />
+        </DynamicErrorBoundary>
+      )}
 
       <div className="relative z-10 mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
         <div className="reveal">
