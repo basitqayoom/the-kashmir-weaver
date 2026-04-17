@@ -20,8 +20,7 @@ export const siteConfig = {
     stateShort: "J&K",
     postalCode: "190001",
     country: "IN",
-    mapsUrl:
-      "https://www.google.com/maps/search/Ali+Jan+Complex+Lal+Chowk+Srinagar",
+    mapsUrl: "https://maps.app.goo.gl/4bjkSoCjsdMyNVsf8",
     geo: { latitude: 34.0837, longitude: 74.7973 },
   },
 
