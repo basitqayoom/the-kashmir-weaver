@@ -27,11 +27,20 @@ body {
   color: var(--color-charcoal);
   font-family: var(--font-body), Georgia, serif;
   letter-spacing: 0.01em;
+  font-feature-settings: "kern", "liga", "onum";
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+p, li {
+  letter-spacing: 0;
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading), Georgia, serif;
   letter-spacing: 0.02em;
+  font-feature-settings: "kern", "liga", "dlig";
 }
 
 h1 {
@@ -45,6 +54,13 @@ h2 {
 
 .font-accent {
   font-family: var(--font-accent), sans-serif;
+  font-feature-settings: "kern", "ss01";
+}
+
+/* Eyebrow labels (.font-accent.font-light at ~10px) were too thin on tinted backgrounds —
+   raising to 400 keeps the elegance but clears the readability bar without touching components. */
+.font-accent.font-light {
+  font-weight: 400;
 }
 
 /* Linen texture overlay for light sections */
@@ -113,7 +129,7 @@ h2 {
 }
 
 .animate-marquee {
-  animation: marquee 18s linear infinite;
+  animation: marquee 8s linear infinite;
 }
 
 @media (min-width: 640px) {

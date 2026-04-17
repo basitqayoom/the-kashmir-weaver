@@ -58,12 +58,22 @@ export default function Hero() {
       )}
 
       <div className="relative z-10 mx-auto max-w-4xl px-4 text-center sm:px-6">
-        <p
-          className="font-accent animate-fade-in-up text-[10px] font-light uppercase tracking-[0.4em] sm:text-xs"
-          style={{ color: theme.accent, animationDelay: "0ms" }}
+        <span
+          className="font-accent animate-fade-in-up inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-[10px] font-semibold uppercase tracking-[0.3em] shadow-sm backdrop-blur-sm sm:text-xs"
+          style={{
+            color: theme.accent,
+            backgroundColor: `${theme.accent}1A`,
+            borderColor: `${theme.accent}66`,
+            animationDelay: "0ms",
+          }}
         >
+          <span
+            aria-hidden="true"
+            className="inline-block h-1.5 w-1.5 rounded-full"
+            style={{ backgroundColor: theme.accent }}
+          />
           GI-Certified Kashmiri Pashmina
-        </p>
+        </span>
 
         <h1
           className="animate-fade-in-up mt-8 font-heading text-5xl font-light leading-[1.1] sm:text-6xl lg:text-7xl xl:text-8xl"
