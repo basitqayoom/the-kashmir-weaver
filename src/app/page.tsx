@@ -14,6 +14,7 @@ import ImageModalProvider from "@/components/ImageModal";
 
 const CraftProcess = dynamic(() => import("@/components/CraftProcess"));
 const ShawlShowcase = dynamic(() => import("@/components/ShawlShowcase"));
+const FilmsTeaser = dynamic(() => import("@/components/FilmsTeaser"));
 const DiscoverCTA = dynamic(() => import("@/components/DiscoverCTA"));
 const Services = dynamic(() => import("@/components/Services"));
 const Testimonials = dynamic(() => import("@/components/Testimonials"));
@@ -156,6 +157,7 @@ export default function Home() {
         <Authenticity />
         <CraftProcess />
         <ShawlShowcase />
+        <FilmsTeaser />
         <DiscoverCTA />
         <Services />
         <Testimonials />

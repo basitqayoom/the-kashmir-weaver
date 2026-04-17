@@ -5,6 +5,7 @@ import { siteConfig, whatsappLink } from "@/config/site";
 const quickLinks = [
   { label: "Our Heritage", href: "#heritage" },
   { label: "Pashmina Types", href: "/pashmina-types" },
+  { label: "Films", href: "/films" },
   { label: "Stories", href: "/blog" },
   { label: "Contact Us", href: "#contact" },
   { label: "Privacy Policy", href: "/privacy" },
