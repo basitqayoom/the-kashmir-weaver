@@ -3,19 +3,12 @@
 import { useEffect, useRef } from "react";
 import dynamic from "next/dynamic";
 import { DynamicErrorBoundary } from "./SafeDynamic";
+import InstagramFacade from "./InstagramFacade";
 import { siteConfig, whatsappLink } from "@/config/site";
 
 const LoomCanvas = dynamic(
   () => import("./LoomCanvas").catch(() => ({ default: () => null })),
   { ssr: false, loading: () => null },
-);
-
-const ClientInstagramEmbed = dynamic(
-  () =>
-    import("react-social-media-embed")
-      .then((mod) => mod.InstagramEmbed)
-      .catch(() => (() => null) as never),
-  { ssr: false },
 );
 
 const stats = ["50+ Colours", "6 Craft Traditions", "100% Handmade", "GI Certified"];
@@ -95,7 +88,9 @@ export default function DiscoverCTA() {
           </div>
         </div>
 
-        {/* Instagram Profile Embed */}
+        {/* Instagram Profile Embed — loaded on demand to keep the
+            main-thread light and avoid third-party cookies until the
+            visitor opts in. */}
         <div className="mt-14">
           <div className="mb-8 flex items-center justify-center gap-3">
             <span className="h-px flex-1 max-w-16 bg-gold/20" aria-hidden="true" />
@@ -104,14 +99,14 @@ export default function DiscoverCTA() {
             </p>
             <span className="h-px flex-1 max-w-16 bg-gold/20" aria-hidden="true" />
           </div>
-          <div ref={embedRef} className="mx-auto max-w-lg overflow-hidden rounded-2xl border border-ivory/10">
-            <DynamicErrorBoundary>
-              <ClientInstagramEmbed
-                url={siteConfig.social.instagram}
-                width="100%"
-                placeholderDisabled
-              />
-            </DynamicErrorBoundary>
+          <div
+            ref={embedRef}
+            className="mx-auto max-w-lg overflow-hidden rounded-2xl border border-ivory/10"
+          >
+            <InstagramFacade
+              url={siteConfig.social.instagram}
+              handle={siteConfig.social.instagramHandle}
+            />
           </div>
         </div>
       </div>

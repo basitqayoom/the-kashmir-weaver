@@ -1,6 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Emit source maps for first-party production JS so that
+  // Lighthouse "valid-source-maps" audit passes and prod errors
+  // remain debuggable.
+  productionBrowserSourceMaps: true,
   images: {
     remotePatterns: [
       { protocol: "https", hostname: "images.unsplash.com" },
@@ -20,6 +24,28 @@ const nextConfig: NextConfig = {
           { key: "X-Frame-Options", value: "SAMEORIGIN" },
           { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
           { key: "X-DNS-Prefetch-Control", value: "on" },
+        ],
+      },
+      // Aggressive immutable caching for content-hashed build assets.
+      // Next.js already sets this for /_next/static but many CDNs strip
+      // or downgrade it; declaring it explicitly addresses the
+      // "Use efficient cache lifetimes" audit.
+      {
+        source: "/_next/static/:path*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+        ],
+      },
+      {
+        source: "/fonts/:path*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
         ],
       },
     ];
