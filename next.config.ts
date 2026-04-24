@@ -26,28 +26,6 @@ const nextConfig: NextConfig = {
           { key: "X-DNS-Prefetch-Control", value: "on" },
         ],
       },
-      // Aggressive immutable caching for content-hashed build assets.
-      // Next.js already sets this for /_next/static but many CDNs strip
-      // or downgrade it; declaring it explicitly addresses the
-      // "Use efficient cache lifetimes" audit.
-      {
-        source: "/_next/static/:path*",
-        headers: [
-          {
-            key: "Cache-Control",
-            value: "public, max-age=31536000, immutable",
-          },
-        ],
-      },
-      {
-        source: "/fonts/:path*",
-        headers: [
-          {
-            key: "Cache-Control",
-            value: "public, max-age=31536000, immutable",
-          },
-        ],
-      },
     ];
   },
 };
