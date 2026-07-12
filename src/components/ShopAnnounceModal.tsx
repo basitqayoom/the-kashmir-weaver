@@ -3,8 +3,47 @@
 import { useEffect, useId, useRef, useState } from "react";
 import { siteConfig } from "@/config/site";
 
-const STORAGE_KEY = "shop-announce-dismissed";
+const STORAGE_KEY = "shop-announce";
+const LEGACY_KEY = "shop-announce-dismissed";
+const SNOOZE_MS = 7 * 24 * 60 * 60 * 1000;
 const SHOW_DELAY_MS = 1200;
+
+function shouldShow(): boolean {
+  // Migrate permanent dismiss from the previous one-time flag into a 7-day snooze
+  const legacy = localStorage.getItem(LEGACY_KEY);
+  if (legacy) {
+    localStorage.removeItem(LEGACY_KEY);
+    localStorage.setItem(STORAGE_KEY, String(Date.now() + SNOOZE_MS));
+    return false;
+  }
+
+  const raw = localStorage.getItem(STORAGE_KEY);
+  if (!raw) return true;
+  if (raw === "forever") return false;
+
+  const until = Number(raw);
+  if (!Number.isFinite(until)) {
+    localStorage.removeItem(STORAGE_KEY);
+    return true;
+  }
+  return Date.now() >= until;
+}
+
+function snooze() {
+  localStorage.setItem(STORAGE_KEY, String(Date.now() + SNOOZE_MS));
+}
+
+function dismissForever() {
+  localStorage.setItem(STORAGE_KEY, "forever");
+}
+
+function closePanel(
+  setExpanded: (v: boolean) => void,
+  setOpen: (v: boolean) => void,
+) {
+  setExpanded(false);
+  window.setTimeout(() => setOpen(false), 320);
+}
 
 export default function ShopAnnounceModal() {
   const [open, setOpen] = useState(false);
@@ -14,11 +53,10 @@ export default function ShopAnnounceModal() {
   const closeRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
-    if (localStorage.getItem(STORAGE_KEY)) return;
+    if (!shouldShow()) return;
 
     const showTimer = window.setTimeout(() => {
       setOpen(true);
-      // Next frame: trigger height expand
       requestAnimationFrame(() => {
         requestAnimationFrame(() => setExpanded(true));
       });
@@ -36,9 +74,8 @@ export default function ShopAnnounceModal() {
 
     function onKey(e: KeyboardEvent) {
       if (e.key !== "Escape") return;
-      localStorage.setItem(STORAGE_KEY, "1");
-      setExpanded(false);
-      window.setTimeout(() => setOpen(false), 320);
+      snooze();
+      closePanel(setExpanded, setOpen);
     }
     window.addEventListener("keydown", onKey);
 
@@ -48,10 +85,14 @@ export default function ShopAnnounceModal() {
     };
   }, [open, expanded]);
 
-  function dismiss() {
-    localStorage.setItem(STORAGE_KEY, "1");
-    setExpanded(false);
-    window.setTimeout(() => setOpen(false), 320);
+  function dismissLater() {
+    snooze();
+    closePanel(setExpanded, setOpen);
+  }
+
+  function goShop() {
+    dismissForever();
+    closePanel(setExpanded, setOpen);
   }
 
   if (!open) return null;
@@ -67,7 +108,7 @@ export default function ShopAnnounceModal() {
           expanded ? "opacity-100" : "opacity-0"
         }`}
         aria-label="Dismiss shop announcement"
-        onClick={dismiss}
+        onClick={dismissLater}
       />
 
       <div
@@ -84,7 +125,7 @@ export default function ShopAnnounceModal() {
             <button
               ref={closeRef}
               type="button"
-              onClick={dismiss}
+              onClick={dismissLater}
               className="absolute right-3 top-3 rounded-full p-2 text-ivory/50 transition-colors hover:text-ivory"
               aria-label="Close"
             >
@@ -112,14 +153,14 @@ export default function ShopAnnounceModal() {
                 href={siteConfig.shop.all}
                 target="_blank"
                 rel="noopener noreferrer"
-                onClick={dismiss}
+                onClick={goShop}
                 className="font-accent inline-flex w-full items-center justify-center rounded-full bg-gold px-6 py-3.5 text-[11px] font-semibold tracking-[0.15em] uppercase text-charcoal transition-all hover:scale-[1.02] hover:bg-gold-muted"
               >
                 Shop Online
               </a>
               <button
                 type="button"
-                onClick={dismiss}
+                onClick={dismissLater}
                 className="font-accent inline-flex w-full items-center justify-center rounded-full border border-ivory/25 px-6 py-3 text-[11px] font-light tracking-[0.15em] uppercase text-ivory transition-colors hover:border-ivory/45"
               >
                 Maybe Later
