@@ -98,13 +98,13 @@ export default function Hero() {
           style={{ animationDelay: "450ms" }}
         >
           <a
-            href={siteConfig.social.instagram}
+            href={siteConfig.shop.all}
             target="_blank"
             rel="noopener noreferrer"
             className="font-accent rounded-full px-10 py-3.5 text-[11px] font-semibold tracking-[0.2em] uppercase transition-all hover:scale-105"
             style={{ backgroundColor: theme.accent, color: "#2D2A26" }}
           >
-            Explore on Instagram
+            Shop Online
           </a>
           <a
             href="#contact"

@@ -9,6 +9,9 @@ import StatsStrip from "@/components/StatsStrip";
 import Authenticity from "@/components/Authenticity";
 import Footer from "@/components/Footer";
 import WhatsAppFAB from "@/components/WhatsAppFAB";
+import ShopFAB from "@/components/ShopFAB";
+import ShopBanner from "@/components/ShopBanner";
+import ShopAnnounceModal from "@/components/ShopAnnounceModal";
 import ScrollReveal from "@/components/ScrollReveal";
 import ImageModalProvider from "@/components/ImageModal";
 
@@ -46,7 +49,11 @@ const localBusinessJsonLd = {
     latitude: siteConfig.address.geo.latitude,
     longitude: siteConfig.address.geo.longitude,
   },
-  sameAs: [siteConfig.social.instagram, siteConfig.social.linkedin],
+  sameAs: [
+    siteConfig.social.instagram,
+    siteConfig.social.linkedin,
+    siteConfig.shop.all,
+  ],
 };
 
 const faqJsonLd = {
@@ -130,7 +137,7 @@ const faqJsonLd = {
       name: "How do I place an order?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Three ways: browse our latest collection on Instagram (@thekashmirweaver), message us on WhatsApp (+91 979 610 5623), or fill out the inquiry form below. We'll guide you personally through selection, sizing, and customisation.",
+        text: "Shop our full collection online at thekashmirweaver.shop, message us on WhatsApp (+91 979 610 5623), or fill out the inquiry form below. We'll guide you personally through selection, sizing, and customisation.",
       },
     },
   ],
@@ -157,6 +164,14 @@ export default function Home() {
         <Authenticity />
         <CraftProcess />
         <ShawlShowcase />
+        <section className="bg-ivory px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
+          <div className="mx-auto max-w-3xl">
+            <ShopBanner
+              headline="Ready to find your shawl?"
+              description="Browse every handwoven piece online — from pure solids to intricate Kani weaves."
+            />
+          </div>
+        </section>
         <FilmsTeaser />
         <DiscoverCTA />
         <Services />
@@ -167,7 +182,9 @@ export default function Home() {
         <MarqueeStrip />
       </main>
       <Footer />
+      <ShopFAB />
       <WhatsAppFAB />
+      <ShopAnnounceModal />
       <CookieBanner />
       <ScrollReveal />
     </ImageModalProvider>

@@ -138,6 +138,17 @@ h2 {
   animation: slide-up 0.8s ease-out both;
 }
 
+/* Shop announce modal — height expand via grid-rows */
+.shop-announce-panel {
+  transition: grid-template-rows 0.32s ease-out, opacity 0.32s ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .shop-announce-panel {
+    transition: none;
+  }
+}
+
 /* Marquee animation */
 @keyframes marquee {
   0% { transform: translateX(0); }

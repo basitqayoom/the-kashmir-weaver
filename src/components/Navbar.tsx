@@ -70,12 +70,12 @@ export default function Navbar() {
               </svg>
             </a>
             <a
-              href={siteConfig.social.whatsapp}
+              href={siteConfig.shop.all}
               target="_blank"
               rel="noopener noreferrer"
               className="font-accent rounded-full bg-gold px-5 py-2 text-[11px] font-semibold tracking-[0.15em] uppercase text-charcoal transition-colors hover:bg-gold-muted"
             >
-              Chat on WhatsApp
+              Shop Online
             </a>
           </div>
 
@@ -126,12 +126,13 @@ export default function Navbar() {
                 </svg>
               </a>
               <a
-                href={siteConfig.social.whatsapp}
+                href={siteConfig.shop.all}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => setMenuOpen(false)}
                 className="font-accent rounded-full bg-gold px-5 py-2 text-[11px] font-semibold tracking-[0.15em] uppercase text-charcoal"
               >
-                Chat on WhatsApp
+                Shop Online
               </a>
             </div>
           </div>

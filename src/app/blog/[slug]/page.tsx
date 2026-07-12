@@ -3,7 +3,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { articles, getArticleBySlug } from "@/data/articles";
 import type { Metadata } from "next";
-import { siteConfig, whatsappLink } from "@/config/site";
+import { siteConfig } from "@/config/site";
+import ShopBanner from "@/components/ShopBanner";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -272,6 +273,13 @@ export default async function BlogArticlePage({ params }: PageProps) {
         </section>
       )}
 
+      <section className="mx-auto max-w-3xl px-4 pt-10 sm:px-6 lg:px-8">
+        <ShopBanner
+          headline="Shop the collection"
+          description="Every piece is available on our online store."
+        />
+      </section>
+
       {/* Article content */}
       <section className="mx-auto max-w-3xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
         <article className="prose-kashmir">
@@ -286,22 +294,14 @@ export default async function BlogArticlePage({ params }: PageProps) {
           <p className="mt-3 font-heading text-xl font-bold text-ivory sm:text-2xl">
             Ready to own a piece of this heritage?
           </p>
-          <div className="mt-6 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+          <div className="mt-6 flex justify-center">
             <a
-              href={siteConfig.social.instagram}
+              href={siteConfig.shop.all}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 rounded-full bg-gold px-6 py-2.5 text-sm font-semibold text-charcoal transition-all hover:scale-105"
             >
-              Browse on Instagram
-            </a>
-            <a
-              href={whatsappLink(siteConfig.whatsappMessages.blog)}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-full border border-ivory/30 px-6 py-2.5 text-sm font-semibold text-ivory transition-all hover:border-ivory/50"
-            >
-              Chat on WhatsApp
+              Shop Online
             </a>
           </div>
         </div>

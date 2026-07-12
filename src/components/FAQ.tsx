@@ -42,7 +42,7 @@ const faqs = [
   },
   {
     q: "How do I place an order?",
-    a: `Three ways: browse our latest collection on Instagram (${siteConfig.social.instagramHandle}), message us on WhatsApp (${siteConfig.contact.phoneDisplay}), or fill out the inquiry form below. We'll guide you personally through selection, sizing, and customisation.`,
+    a: `Shop our full collection online at thekashmirweaver.shop, message us on WhatsApp (${siteConfig.contact.phoneDisplay}), or fill out the inquiry form below. We'll guide you personally through selection, sizing, and customisation.`,
   },
 ];
 

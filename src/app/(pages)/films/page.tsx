@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import YouTubeFacade from "@/components/YouTubeFacade";
-import { siteConfig, whatsappLink } from "@/config/site";
+import { siteConfig } from "@/config/site";
 
 export const metadata: Metadata = {
   title: "Films — The Kashmir Weaver",
@@ -213,26 +213,17 @@ export default function FilmsPage() {
           <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-ivory/75">
             Films capture a fraction of the story. The shawl itself carries the
             rest — the weight of the weave, the depth of the dye, the warmth of
-            twenty pairs of hands. Browse the current collection or ask for a
-            personalised lookbook.
+            twenty pairs of hands. Shop the current collection online.
           </p>
 
-          <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
+          <div className="mt-10 flex justify-center">
             <a
-              href={whatsappLink(siteConfig.whatsappMessages.lookbook)}
+              href={siteConfig.shop.all}
               target="_blank"
               rel="noopener noreferrer"
               className="font-accent inline-flex items-center gap-2 rounded-full bg-gold px-8 py-3 text-[11px] font-semibold tracking-[0.2em] uppercase text-charcoal transition-all hover:scale-105 hover:bg-gold-muted"
             >
-              Request Lookbook on WhatsApp
-            </a>
-            <a
-              href={siteConfig.social.instagram}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-accent inline-flex items-center gap-2 rounded-full border border-ivory/20 px-8 py-3 text-[11px] font-light tracking-[0.2em] uppercase text-ivory transition-all hover:scale-105 hover:border-ivory/40"
-            >
-              Browse on Instagram
+              Shop Online
             </a>
           </div>
 

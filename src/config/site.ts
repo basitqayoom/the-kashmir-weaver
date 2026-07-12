@@ -33,6 +33,12 @@ export const siteConfig = {
     whatsappNumber: "919796105623",
   },
 
+  shop: {
+    all: "https://thekashmirweaver.shop/collections/all",
+    solids: "https://thekashmirweaver.shop/collections/solids",
+    kani: "https://thekashmirweaver.shop/collections/kani",
+  },
+
   whatsappMessages: {
     default: "Hi, I'm interested in your Pashmina collection",
     blog: "Hi, I just read your blog and I'm interested",
