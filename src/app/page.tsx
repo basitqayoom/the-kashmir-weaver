@@ -184,7 +184,7 @@ export default function Home() {
       <Footer />
       <ShopFAB />
       <WhatsAppFAB />
-      <ShopAnnounceModal />
+      {/* <ShopAnnounceModal /> */}
       <CookieBanner />
       <ScrollReveal />
     </ImageModalProvider>

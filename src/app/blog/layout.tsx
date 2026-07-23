@@ -17,7 +17,7 @@ export default function BlogLayout({
       <Footer />
       <ShopFAB />
       <WhatsAppFAB />
-      <ShopAnnounceModal />
+      {/* <ShopAnnounceModal /> */}
       <ScrollReveal />
     </>
   );

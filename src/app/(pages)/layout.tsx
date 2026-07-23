@@ -17,7 +17,7 @@ export default function PagesLayout({
       <Footer />
       <ShopFAB />
       <WhatsAppFAB />
-      <ShopAnnounceModal />
+      {/* <ShopAnnounceModal /> */}
       <ScrollReveal />
     </>
   );
