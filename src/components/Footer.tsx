@@ -1,6 +1,6 @@
 import Link from "next/link";
 import AnimatedLogo from "./AnimatedLogo";
-import { siteConfig } from "@/config/site";
+import { siteConfig, whatsappLink } from "@/config/site";
 
 const quickLinks = [
   { label: "Our Heritage", href: "#heritage" },
@@ -12,10 +12,11 @@ const quickLinks = [
 ];
 
 const shopLinks = [
-  { label: "Shop Online", href: siteConfig.shop.all, external: true },
-  { label: "Shop Solids", href: siteConfig.shop.solids, external: true },
-  { label: "Shop Kani", href: siteConfig.shop.kani, external: true },
-  { label: "Corporate Gifting", href: "#contact", external: false },
+  { label: "Plain Pashmina", href: whatsappLink(siteConfig.whatsappMessages.product("Plain Pashmina")) },
+  { label: "Kani Collection", href: whatsappLink(siteConfig.whatsappMessages.product("Kani Pashmina")) },
+  { label: "Sozni Embroidery", href: whatsappLink(siteConfig.whatsappMessages.product("Sozni Embroidery")) },
+  { label: "Jamawar", href: whatsappLink(siteConfig.whatsappMessages.product("Jamawar")) },
+  { label: "Corporate Gifting", href: "#contact" },
 ];
 
 export default function Footer() {
@@ -106,28 +107,22 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Shop Online */}
+          {/* Shop via WhatsApp */}
           <div className="lg:col-span-3">
             <h4 className="font-accent text-[10px] font-light uppercase tracking-[0.35em] text-gold">
-              Shop Online
+              Shop via WhatsApp
             </h4>
             <ul className="mt-5 space-y-3">
               {shopLinks.map((l) => (
                 <li key={l.label}>
-                  {l.external ? (
-                    <a
-                      href={l.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-sm text-ivory/60 transition-colors hover:text-gold"
-                    >
-                      {l.label}
-                    </a>
-                  ) : (
-                    <Link href={l.href} className="text-sm text-ivory/60 transition-colors hover:text-gold">
-                      {l.label}
-                    </Link>
-                  )}
+                  <a
+                    href={l.href}
+                    target={l.href.startsWith("http") ? "_blank" : undefined}
+                    rel={l.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                    className="text-sm text-ivory/60 transition-colors hover:text-gold"
+                  >
+                    {l.label}
+                  </a>
                 </li>
               ))}
             </ul>
