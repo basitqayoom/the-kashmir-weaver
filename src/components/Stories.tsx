@@ -15,7 +15,7 @@ export default function Stories() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="reveal text-center">
           <p className="font-accent text-[10px] font-light uppercase tracking-[0.35em] text-gold-text">
-            The Pure Kashmir Journal
+            The Kashmir Weaver
           </p>
           <h2 className="mt-4 font-heading text-3xl font-bold text-charcoal sm:text-4xl lg:text-5xl">
             Stories from the Valley

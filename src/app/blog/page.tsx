@@ -28,7 +28,7 @@ export default function BlogPage() {
       <section className="bg-charcoal pb-16 pt-28 sm:pt-32">
         <div className="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
           <p className="text-xs font-semibold uppercase tracking-[0.25em] text-gold">
-            The Pure Kashmir Journal
+            The Kashmir Weaver
           </p>
           <h1 className="mt-4 font-heading text-4xl font-bold text-ivory sm:text-5xl lg:text-6xl">
             Stories from the Valley
