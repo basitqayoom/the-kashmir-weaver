@@ -1,28 +1,35 @@
 import type { Metadata } from "next";
+import dynamic from "next/dynamic";
 import { Cormorant_Garamond, Lora, Josefin_Sans } from "next/font/google";
-import { Analytics } from "@vercel/analytics/react";
-import { SpeedInsights } from "@vercel/speed-insights/next";
 import { siteConfig } from "@/config/site";
+import { DisplayCurrencyProvider } from "@/lib/display-currency";
+import MotionReady from "@/components/MotionReady";
+import WebVitalsReporter from "@/components/WebVitalsReporter";
+import GoogleAnalytics from "@/components/GoogleAnalytics";
+import MetaPixel from "@/components/MetaPixel";
+import ConsentGatedAnalytics from "@/components/ConsentGatedAnalytics";
 import "./globals.css";
+
+const CookieBanner = dynamic(() => import("@/components/CookieBanner"));
 
 const cormorant = Cormorant_Garamond({
   variable: "--font-cormorant",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
+  weight: ["300", "400", "600", "700"],
   display: "swap",
 });
 
 const lora = Lora({
   variable: "--font-lora",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "500", "600"],
   display: "swap",
 });
 
 const josefin = Josefin_Sans({
   variable: "--font-josefin",
   subsets: ["latin"],
-  weight: ["300", "400", "600"],
+  weight: ["400", "600"],
   display: "swap",
 });
 
@@ -79,13 +86,22 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: "/",
-    languages: {
-      "x-default": "https://thekashmirweaver.com",
-      "en-IN": "https://thekashmirweaver.in",
+    types: {
+      "application/rss+xml": [
+        { url: "/blog/rss.xml", title: "The Kashmir Weaver Blog" },
+        { url: "/products/rss.xml", title: "The Kashmir Weaver Products" },
+      ],
+      "application/atom+xml": [
+        { url: "/blog/atom.xml", title: "The Kashmir Weaver Blog (Atom)" },
+        { url: "/products/atom.xml", title: "The Kashmir Weaver Products (Atom)" },
+      ],
     },
   },
   verification: {
-    google: "Z1IoiWticf5Ho_AAlEmWW1G-eA4niLGaphHfO3EOO10",
+    google: siteConfig.verification.google,
+    other: {
+      "p:domain_verify": siteConfig.verification.pinterest,
+    },
   },
 };
 
@@ -97,12 +113,18 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${cormorant.variable} ${lora.variable} ${josefin.variable}`}>
       <body className="antialiased">
-        <a href="#main-content" className="skip-to-content">
-          Skip to main content
-        </a>
-        {children}
-        <Analytics />
-        <SpeedInsights />
+        <MotionReady />
+        <WebVitalsReporter />
+        <DisplayCurrencyProvider>
+          <a href="#main-content" className="skip-to-content">
+            Skip to main content
+          </a>
+          {children}
+        </DisplayCurrencyProvider>
+        <ConsentGatedAnalytics />
+        <GoogleAnalytics />
+        <MetaPixel />
+        <CookieBanner />
       </body>
     </html>
   );

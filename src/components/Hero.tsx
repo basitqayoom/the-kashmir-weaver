@@ -38,11 +38,16 @@ function useShouldRenderCanvas() {
 export default function Hero() {
   const theme = heroThemes[HERO_THEME];
   const isGradient = HERO_THEME === "gradient";
+  // "snow"/"gradient" render on a white/near-white background where full-
+  // opacity accent gold fails AA text contrast; "teal"/"ink" are dark enough
+  // that full-opacity gold passes. Swap to the vetted --color-gold-text on
+  // light themes only.
+  const isLightTheme = HERO_THEME === "snow" || HERO_THEME === "gradient";
   const shouldRenderCanvas = useShouldRenderCanvas();
 
   return (
     <section
-      className="relative flex min-h-screen items-center justify-center overflow-hidden"
+      className="relative flex min-h-svh items-center justify-center overflow-hidden pt-19 pb-28 sm:pb-32 md:pt-20"
       style={{
         background: isGradient ? theme.background : theme.background,
         backgroundColor: isGradient ? undefined : theme.background,
@@ -59,9 +64,9 @@ export default function Hero() {
 
       <div className="relative z-10 mx-auto max-w-4xl px-4 text-center sm:px-6">
         <span
-          className="font-accent animate-fade-in-up inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-[10px] font-semibold uppercase tracking-[0.3em] shadow-sm backdrop-blur-sm sm:text-xs"
+          className="font-accent animate-fade-in-up inline-flex items-center gap-2 border px-4 py-1.5 text-[10px] font-semibold uppercase tracking-[0.3em] backdrop-blur-sm sm:text-xs"
           style={{
-            color: theme.accent,
+            color: isLightTheme ? "var(--color-gold-text)" : theme.accent,
             backgroundColor: `${theme.accent}1A`,
             borderColor: `${theme.accent}66`,
             animationDelay: "0ms",
@@ -76,8 +81,8 @@ export default function Hero() {
         </span>
 
         <h1
-          className="animate-slide-up mt-8 font-heading text-5xl font-light leading-[1.1] sm:text-6xl lg:text-7xl xl:text-8xl"
-          style={{ color: theme.text, animationDelay: "0ms", letterSpacing: "0.04em" }}
+          className="animate-slide-up mt-10 font-heading text-6xl font-light leading-[1.05] sm:text-7xl lg:text-8xl xl:text-9xl"
+          style={{ color: theme.text, animationDelay: "0ms", letterSpacing: "0.03em" }}
         >
           From the Looms
           <br />
@@ -85,7 +90,7 @@ export default function Hero() {
         </h1>
 
         <p
-          className="animate-fade-in-up mx-auto mt-8 max-w-xl text-base leading-[1.8] sm:text-lg"
+          className="animate-fade-in-up mx-auto mt-9 max-w-xl text-base leading-[1.8] sm:text-lg"
           style={{ color: `${theme.text}BB`, animationDelay: "300ms" }}
         >
           Authentic handwoven luxury for discerning individuals and businesses.
@@ -94,42 +99,56 @@ export default function Hero() {
         </p>
 
         <div
-          className="animate-fade-in-up mt-12 flex flex-col items-center gap-4 sm:flex-row sm:justify-center"
+          className="animate-fade-in-up mt-14 flex flex-col items-center gap-4 sm:flex-row sm:justify-center"
           style={{ animationDelay: "450ms" }}
         >
           <a
-            href={siteConfig.social.instagram}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-accent rounded-full px-10 py-3.5 text-[11px] font-semibold tracking-[0.2em] uppercase transition-all hover:scale-105"
-            style={{ backgroundColor: theme.accent, color: "#2D2A26" }}
+            href="/shop"
+            className="font-accent px-10 py-3.5 text-[11px] font-semibold tracking-[0.2em] uppercase transition-opacity hover:opacity-80"
+            style={{ backgroundColor: theme.accent, color: "#1C2321" }}
           >
-            Explore on Instagram
+            Shop the Collection
           </a>
           <a
-            href="#contact"
-            className="font-accent rounded-full border px-10 py-3.5 text-[11px] font-light tracking-[0.2em] uppercase transition-all hover:scale-105"
+            href="/concierge"
+            className="font-accent border px-10 py-3.5 text-[11px] font-light tracking-[0.2em] uppercase transition-colors hover:bg-charcoal/3"
             style={{
               borderColor: `${theme.text}30`,
               color: theme.text,
             }}
           >
-            Wholesale Inquiries
+            Concierge
+          </a>
+          <a
+            href={siteConfig.social.instagram}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-accent text-[11px] font-light tracking-[0.2em] uppercase underline-offset-4 transition-opacity hover:underline"
+            style={{ color: `${theme.text}B3` }}
+          >
+            Instagram
           </a>
         </div>
       </div>
 
-      {/* Scroll hint */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
-        <svg
-          className="h-6 w-6"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke={`${theme.text}80`}
-          strokeWidth={2}
+      {/* Scroll hint: hidden below sm, where the stacked CTA column can grow tall enough to collide with it.
+          The pulse animation lives on the decorative (aria-hidden) line only — keeping it off the
+          text avoids the "Scroll" label cycling through low-opacity, contrast-failing frames. */}
+      <div
+        className="absolute left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 sm:flex"
+        style={{ bottom: "calc(2rem + env(safe-area-inset-bottom))" }}
+      >
+        <span
+          className="font-accent text-[9px] uppercase tracking-[0.3em]"
+          style={{ color: `${theme.text}B3` }}
         >
-          <path strokeLinecap="round" strokeLinejoin="round" d="M19 14l-7 7m0 0l-7-7" />
-        </svg>
+          Scroll
+        </span>
+        <span
+          aria-hidden="true"
+          className="h-8 w-px animate-pulse"
+          style={{ backgroundColor: `${theme.text}40` }}
+        />
       </div>
     </section>
   );

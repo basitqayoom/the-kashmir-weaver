@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 
 interface Props {
   videoId: string;
@@ -30,11 +31,13 @@ export default function YouTubeFacade({ videoId, title }: Props) {
       onClick={() => setPlaying(true)}
       aria-label={`Play video: ${title}`}
     >
-      <img
+      <Image
         src={`https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`}
         alt={title}
+        fill
         loading="lazy"
-        className="absolute inset-0 h-full w-full object-cover transition-opacity duration-300 group-hover:opacity-80"
+        sizes="(max-width: 640px) 92vw, 770px"
+        className="object-cover transition-opacity duration-300 group-hover:opacity-80"
       />
       {/* Play button */}
       <div className="relative flex h-16 w-16 items-center justify-center rounded-full bg-red-600 transition-transform duration-200 group-hover:scale-110 sm:h-20 sm:w-20">

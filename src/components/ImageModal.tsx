@@ -5,9 +5,11 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useRef,
   useState,
   type ReactNode,
 } from "react";
+import { useFocusTrap } from "@/hooks/use-focus-trap";
 
 interface ImageModalContextValue {
   open: (src: string, alt: string) => void;
@@ -24,6 +26,8 @@ export function useImageModal() {
 export default function ImageModalProvider({ children }: { children: ReactNode }) {
   const [image, setImage] = useState<{ src: string; alt: string } | null>(null);
   const [visible, setVisible] = useState(false);
+  const panelRef = useRef<HTMLDivElement>(null);
+  useFocusTrap(Boolean(image), panelRef);
 
   const open = useCallback((src: string, alt: string) => {
     setImage({ src, alt });
@@ -54,17 +58,19 @@ export default function ImageModalProvider({ children }: { children: ReactNode }
 
       {image && (
         <div
-          className={`fixed inset-0 z-[9999] flex items-center justify-center transition-all duration-300 ${
-            visible ? "bg-black/90 backdrop-blur-sm" : "bg-black/0"
-          }`}
+          ref={panelRef}
+          tabIndex={-1}
+          className={`fixed inset-0 z-9999 flex items-center justify-center transition-all duration-300 ${visible ? "bg-black/90 backdrop-blur-sm" : "bg-black/0"
+            }`}
           onClick={close}
           role="dialog"
           aria-modal="true"
           aria-label={image.alt}
         >
           <button
+            type="button"
             onClick={close}
-            className="absolute right-4 top-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white/80 backdrop-blur transition-colors hover:bg-white/20 hover:text-white"
+            className="absolute right-4 top-4 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white/80 backdrop-blur transition-colors hover:bg-white/20 hover:text-white"
             aria-label="Close image"
           >
             <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -81,9 +87,8 @@ export default function ImageModalProvider({ children }: { children: ReactNode }
             src={image.src}
             alt={image.alt}
             onClick={(e) => e.stopPropagation()}
-            className={`max-h-[85vh] max-w-[90vw] rounded-lg object-contain shadow-2xl transition-all duration-300 ${
-              visible ? "scale-100 opacity-100" : "scale-90 opacity-0"
-            }`}
+            className={`max-h-[85vh] max-w-[90vw] object-contain shadow-2xl transition-all duration-300 ${visible ? "scale-100 opacity-100" : "scale-90 opacity-0"
+              }`}
           />
         </div>
       )}

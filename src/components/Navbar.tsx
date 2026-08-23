@@ -1,142 +1,500 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import AnimatedLogo from "./AnimatedLogo";
-import { siteConfig } from "@/config/site";
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+  useSyncExternalStore,
+} from "react";
+import { createPortal } from "react-dom";
+import dynamic from "next/dynamic";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import BrandLockup, { BrandMark } from "./BrandLockup";
+import CartDrawer from "./shop/CartDrawer";
+import CurrencyDropdown from "./CurrencyDropdown";
+import ShopifyAccount from "./ShopifyAccount";
+import {
+  openCartDrawer,
+  subscribeCartUi,
+  getCartUiSnapshot,
+  getCartUiServerSnapshot,
+} from "@/lib/cart-ui";
+import { lockScroll, unlockScroll } from "@/lib/scroll-lock";
+import { useFocusTrap } from "@/hooks/use-focus-trap";
+import type { Collection, ProductCard } from "@/lib/shopify/types";
+
+// Avoids a visible-then-reset flash from a same-tick setState in a plain effect.
+const useIsomorphicLayoutEffect = typeof window === "undefined" ? useEffect : useLayoutEffect;
+
+const SearchModal = dynamic(() => import("./SearchModal"));
+
+const MENU_CLOSE_MS = 300;
 
 const navLinks = [
-  { label: "Heritage", href: "#heritage" },
-  { label: "Pashmina Types", href: "/pashmina-types" },
-  { label: "Services", href: "#services" },
-  { label: "Stories", href: "/blog" },
-  { label: "Contact", href: "#contact" },
-];
+  { label: "Heritage", href: "/heritage" },
+  { label: "Craft", href: "/craft" },
+  { label: "Concierge", href: "/concierge" },
+] as const;
 
-export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
+function BagIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      strokeWidth={1}
+      aria-hidden="true"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m-.75 10.5h9a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"
+      />
+    </svg>
+  );
+}
 
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 50);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+function SearchIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      strokeWidth={1}
+      aria-hidden="true"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
+      />
+    </svg>
+  );
+}
+
+function MenuIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      strokeWidth={1}
+      aria-hidden="true"
+    >
+      <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+    </svg>
+  );
+}
+
+function CloseIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      strokeWidth={1}
+      aria-hidden="true"
+    >
+      <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
+    </svg>
+  );
+}
+
+function ArrowRightIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      strokeWidth={1.25}
+      aria-hidden="true"
+    >
+      <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+    </svg>
+  );
+}
+
+function useCartQuantity(): number {
+  const { cart } = useSyncExternalStore(subscribeCartUi, getCartUiSnapshot, getCartUiServerSnapshot);
+  return cart?.totalQuantity ?? 0;
+}
+
+function AnimatedHeaderBrand({
+  condensed,
+  overlay,
+}: {
+  condensed: boolean;
+  overlay?: boolean;
+}) {
+  const brandMotion =
+    "transition-[opacity,transform,max-width] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none";
 
   return (
-    <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? "bg-charcoal/95 backdrop-blur-md shadow-lg"
-          : menuOpen
-            ? "bg-charcoal/60 backdrop-blur-xl"
-            : "bg-transparent"
-      }`}
-    >
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 items-center justify-between lg:h-20">
-          {/* Logo */}
-          <a href="/" className="flex-shrink-0">
-            <AnimatedLogo
-              size={scrolled ? 36 : 44}
-              variant="navbar"
-              className="transition-all duration-300"
-            />
-          </a>
-
-          {/* Desktop Nav */}
-          <div className="hidden lg:flex lg:items-center lg:gap-8">
-            {navLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                className={`font-accent text-[11px] font-light tracking-[0.2em] uppercase transition-colors ${
-                  scrolled
-                    ? "text-ivory/80 hover:text-gold"
-                    : "text-ivory/80 hover:text-gold"
-                }`}
-              >
-                {link.label}
-              </a>
-            ))}
-            <a
-              href={siteConfig.social.instagram}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-ivory/80 hover:text-gold transition-colors"
-              aria-label="Instagram"
-            >
-              <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
-              </svg>
-            </a>
-            <a
-              href={siteConfig.social.whatsapp}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-accent rounded-full bg-gold px-5 py-2 text-[11px] font-semibold tracking-[0.15em] uppercase text-charcoal transition-colors hover:bg-gold-muted"
-            >
-              Chat on WhatsApp
-            </a>
-          </div>
-
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setMenuOpen(!menuOpen)}
-            className="lg:hidden text-ivory p-2"
-            aria-label="Toggle navigation menu"
-            aria-expanded={menuOpen}
-          >
-            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              {menuOpen ? (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              ) : (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              )}
-            </svg>
-          </button>
-        </div>
-
-        {/* Mobile Menu */}
-        <div
-          className={`lg:hidden overflow-hidden transition-all duration-300 ${
-            menuOpen ? "max-h-96 pb-4" : "max-h-0"
+    <>
+      <Link
+        href="/"
+        aria-label={condensed ? "The Kashmir Weaver — home" : undefined}
+        className={`relative flex shrink-0 items-center text-charcoal lg:hidden ${
+          condensed ? "h-8 w-8" : "min-h-[2.5rem] min-w-[8.25rem]"
+        }`}
+      >
+        <span
+          aria-hidden={condensed}
+          className={`absolute inset-0 flex items-center ${brandMotion} ${
+            condensed
+              ? "pointer-events-none scale-95 opacity-0 -translate-y-1"
+              : "scale-100 opacity-100 translate-y-0"
           }`}
         >
-          <div className="flex flex-col gap-3 pt-2">
-            {navLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                onClick={() => setMenuOpen(false)}
-                className="font-accent text-ivory/80 hover:text-gold text-[11px] font-light tracking-[0.2em] uppercase transition-colors"
+          <BrandLockup className="text-left text-[0.95rem] tracking-[0.1em] min-[420px]:text-[1.05rem] min-[420px]:tracking-[0.12em]" />
+        </span>
+        <span
+          aria-hidden={!condensed}
+          className={`absolute inset-0 flex items-center ${brandMotion} ${
+            condensed
+              ? "scale-100 opacity-100 translate-y-0"
+              : "pointer-events-none scale-90 opacity-0 translate-y-1"
+          }`}
+        >
+          <BrandMark className="h-8 w-8" />
+        </span>
+      </Link>
+
+      <Link href="/" className="hidden shrink-0 items-center text-charcoal lg:flex">
+        {!overlay && <BrandMark className="h-10 w-10" />}
+        <BrandLockup
+          className={`text-left text-[1.35rem] tracking-[0.12em] xl:text-[1.55rem] xl:tracking-[0.14em] ${overlay ? "" : "ml-2.5"}`}
+        />
+      </Link>
+    </>
+  );
+}
+
+export default function Navbar({
+  collections = [],
+  featuredProducts = [],
+  overlay = false,
+  isLoggedIn = false,
+}: {
+  collections?: Collection[];
+  featuredProducts?: ProductCard[];
+  /** Homepage hero overlay — fixed nav without marquee sibling. */
+  overlay?: boolean;
+  isLoggedIn?: boolean;
+}) {
+  const pathname = usePathname();
+  const [scrolled, setScrolled] = useState(false);
+  const [pastHero, setPastHero] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [menuVisible, setMenuVisible] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [portalReady, setPortalReady] = useState(false);
+  const cartQuantity = useCartQuantity();
+  const menuRef = useRef<HTMLDivElement>(null);
+  const menuTriggerRef = useRef<HTMLButtonElement>(null);
+  const menuClosingRef = useRef(false);
+
+  useFocusTrap(open, menuRef);
+
+  const requestMenuClose = useCallback(() => {
+    if (menuClosingRef.current) return;
+    menuClosingRef.current = true;
+    setMenuVisible(false);
+    window.setTimeout(() => setOpen(false), MENU_CLOSE_MS);
+  }, []);
+
+  useIsomorphicLayoutEffect(() => {
+    setPortalReady(true);
+  }, []);
+
+  useEffect(() => {
+    // Read directly in the listener rather than via requestAnimationFrame:
+    // rAF callbacks are paused on backgrounded tabs, which would leave the
+    // header stuck in its pre-scroll state when the tab is restored.
+    const update = () => {
+      const y = window.scrollY;
+      setScrolled(y > (overlay ? 50 : 24));
+      // Overlay pages sit on a full-viewport hero: the bar only pins once the
+      // hero has scrolled away, so it never covers the hero itself.
+      if (overlay) setPastHero(y > Math.max(160, window.innerHeight * 0.7));
+    };
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", update);
+      window.removeEventListener("resize", update);
+    };
+  }, [pathname, overlay]);
+
+  useIsomorphicLayoutEffect(() => {
+    if (!open) return;
+    menuClosingRef.current = false;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        requestMenuClose();
+        menuTriggerRef.current?.focus();
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    lockScroll();
+    const raf = requestAnimationFrame(() => setMenuVisible(true));
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      unlockScroll();
+      cancelAnimationFrame(raf);
+    };
+  }, [open, requestMenuClose]);
+
+  useIsomorphicLayoutEffect(() => {
+    if (open) return;
+    setMenuVisible(false);
+    menuClosingRef.current = false;
+  }, [open]);
+
+  useIsomorphicLayoutEffect(() => {
+    setOpen(false);
+    setSearchOpen(false);
+  }, [pathname]);
+
+  const condensed = overlay ? pastHero : scrolled;
+
+  const inkClass = "text-charcoal/80 transition hover:text-gold";
+  const navInkClass =
+    "group relative inline-block whitespace-nowrap py-1 font-accent text-[11px] font-light tracking-[0.2em] uppercase text-charcoal/80 transition-colors hover:text-charcoal";
+  const shopCtaClass =
+    "animate-shimmer font-accent relative inline-flex items-center gap-2 whitespace-nowrap bg-gold px-5 py-3 text-[11px] font-semibold uppercase tracking-[0.18em] text-charcoal transition-colors hover:bg-gold-dark";
+
+  // Overlay pages: absolute + transparent over the hero, then pinned once past it.
+  const headerPosition = overlay
+    ? pastHero
+      ? "fixed top-0 left-0 right-0 animate-header-drop"
+      : "absolute top-0 left-0 right-0"
+    : "sticky top-0";
+  const headerBg = overlay
+    ? pastHero || open
+      ? "bg-ivory/95 backdrop-blur-md shadow-sm"
+      : "bg-transparent"
+    // Opaque below md: no backdrop-blur is applied there, so a translucent
+    // background would let scrolled-under content show through unblurred.
+    : "bg-ivory border-b border-charcoal/10 md:bg-[color:var(--header-glass)] md:backdrop-blur-md";
+  const headerStyle = overlay
+    ? { paddingTop: pastHero ? "env(safe-area-inset-top)" : "0px" }
+    : {
+        paddingTop: scrolled ? "env(safe-area-inset-top)" : "0px",
+      };
+
+  const mobileDrawer =
+    open && portalReady
+      ? createPortal(
+          <div
+            ref={menuRef}
+            tabIndex={-1}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Menu"
+            className="fixed inset-x-0 top-0 z-[60] flex h-[100dvh] flex-col bg-ivory outline-none transition-[opacity,transform] duration-300 ease-out motion-reduce:transition-none lg:hidden"
+            style={{
+              paddingTop: "env(safe-area-inset-top)",
+              paddingBottom: "env(safe-area-inset-bottom)",
+              opacity: menuVisible ? 1 : 0,
+              transform: menuVisible ? "none" : "translateY(-12px)",
+            }}
+          >
+            <div
+              className="flex h-[4.75rem] shrink-0 items-center justify-between gap-4 border-b border-charcoal/10 px-5 min-[420px]:px-6"
+            >
+              <Link
+                href="/"
+                onClick={requestMenuClose}
+                className="group flex min-w-0 items-center gap-3"
               >
-                {link.label}
-              </a>
-            ))}
-            <div className="flex items-center gap-4 pt-2">
-              <a
-                href={siteConfig.social.instagram}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-ivory/80 hover:text-gold transition-colors"
-                aria-label="Instagram"
+                <BrandMark className="h-8 w-8 shrink-0" />
+                <BrandLockup className="text-left text-[1.05rem] tracking-[0.1em]" />
+              </Link>
+              <button
+                type="button"
+                onClick={requestMenuClose}
+                aria-label="Close menu"
+                className="flex h-11 w-11 shrink-0 items-center justify-center touch-manipulation text-charcoal/80 transition hover:text-gold active:opacity-80"
               >
-                <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
-                </svg>
-              </a>
-              <a
-                href={siteConfig.social.whatsapp}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="font-accent rounded-full bg-gold px-5 py-2 text-[11px] font-semibold tracking-[0.15em] uppercase text-charcoal"
+                <CloseIcon className="h-[18px] w-[18px]" />
+              </button>
+            </div>
+
+            <div className="flex min-h-0 flex-1 flex-col overflow-y-auto">
+              <nav className="flex flex-col px-5 pt-6 pb-4 min-[420px]:px-6" aria-label="Mobile menu">
+                <p className="eyebrow mb-5 text-charcoal/70">Explore</p>
+                <ul className="flex flex-col">
+                  {/* Shop — shimmer CTA */}
+                  <li>
+                    <Link
+                      href="/shop"
+                      onClick={requestMenuClose}
+                      aria-current={pathname === "/shop" ? "page" : undefined}
+                      className="animate-shimmer font-heading relative flex min-h-14 items-center justify-between gap-4 rounded-full px-5 py-4 text-[1.75rem] leading-none tracking-wide text-charcoal transition active:opacity-80"
+                      style={{ background: "var(--color-gold)" }}
+                    >
+                      <span className="relative z-20 font-accent text-sm font-semibold uppercase tracking-[0.15em]">
+                        Shop
+                      </span>
+                      <ArrowRightIcon className="relative z-20 h-4 w-4 shrink-0 opacity-60" />
+                    </Link>
+                  </li>
+
+                  {navLinks.map((link) => {
+                    const isActive = pathname === link.href;
+                    return (
+                      <li key={link.href}>
+                        <div className="h-px w-full bg-charcoal/8" aria-hidden />
+                        <Link
+                          href={link.href}
+                          onClick={requestMenuClose}
+                          aria-current={isActive ? "page" : undefined}
+                          className="font-heading flex min-h-14 items-center justify-between gap-4 py-4 text-[1.75rem] leading-none tracking-wide text-charcoal transition hover:text-gold-text active:opacity-80"
+                          style={isActive ? { color: "var(--color-gold-text)" } : undefined}
+                        >
+                          <span>{link.label}</span>
+                          <ArrowRightIcon className="h-4 w-4 shrink-0 opacity-40" />
+                        </Link>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </nav>
+
+              <div className="mt-auto border-t border-charcoal/10 px-5 pt-6 pb-8 min-[420px]:px-6">
+                <p className="eyebrow mb-4 text-charcoal/70">Preferences</p>
+                <div className="grid grid-cols-2 gap-3">
+                  <CurrencyDropdown variant="tile" />
+                  <ShopifyAccount variant="tile" isLoggedIn={isLoggedIn} onNavigate={requestMenuClose} />
+                </div>
+              </div>
+            </div>
+          </div>,
+          document.body,
+        )
+      : null;
+
+  return (
+    <>
+      <header
+        className={`${headerPosition} z-50 w-full transition-[padding,background-color,box-shadow] duration-500 ${headerBg}`}
+        style={headerStyle}
+      >
+        <div className="mx-auto flex h-[4.75rem] max-w-[1600px] items-center justify-between gap-4 px-5 min-[420px]:gap-5 min-[420px]:px-6 md:h-20 md:px-6 lg:gap-6 lg:px-8 xl:px-10">
+          <div className="min-w-0 flex-1 lg:mr-2 lg:flex-none lg:shrink-0">
+            <AnimatedHeaderBrand condensed={condensed} overlay={overlay} />
+          </div>
+
+          <div className="flex shrink-0 items-center justify-end gap-1 lg:gap-4 xl:gap-6">
+            <nav className="hidden items-center gap-3 xl:gap-6 lg:flex" aria-label="Main">
+              {navLinks.map((link) => (
+                <Link key={link.href} href={link.href} className={navInkClass}>
+                  {link.label}
+                  <span
+                    className="absolute -bottom-0.5 left-0 h-px w-0 bg-gold transition-all duration-300 ease-out group-hover:w-full"
+                    aria-hidden="true"
+                  />
+                </Link>
+              ))}
+            </nav>
+
+            <div className="flex shrink-0 items-center gap-0.5 lg:hidden">
+              <button
+                type="button"
+                aria-label="Search"
+                className={`flex h-11 w-11 min-h-11 min-w-11 items-center justify-center touch-manipulation active:opacity-80 ${inkClass}`}
+                onClick={() => setSearchOpen(true)}
               >
-                Chat on WhatsApp
-              </a>
+                <SearchIcon className="h-[18px] w-[18px]" />
+              </button>
+              <button
+                type="button"
+                onClick={openCartDrawer}
+                aria-label={
+                  cartQuantity > 0
+                    ? `Bag, ${cartQuantity} item${cartQuantity === 1 ? "" : "s"}`
+                    : "Bag"
+                }
+                className={`relative flex h-11 w-11 min-h-11 min-w-11 items-center justify-center touch-manipulation active:opacity-80 ${inkClass}`}
+              >
+                <BagIcon className="h-[18px] w-[18px]" />
+                {cartQuantity > 0 && (
+                  <span className="absolute right-1.5 top-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-gold text-[9px] font-medium text-charcoal">
+                    {cartQuantity > 9 ? "9+" : cartQuantity}
+                  </span>
+                )}
+              </button>
+              <button
+                ref={menuTriggerRef}
+                type="button"
+                className={`flex h-11 w-11 min-h-11 min-w-11 items-center justify-center touch-manipulation active:opacity-80 ${inkClass}`}
+                aria-label="Open menu"
+                aria-expanded={open}
+                onClick={() => setOpen(true)}
+              >
+                <MenuIcon className="h-[18px] w-[18px]" />
+              </button>
+            </div>
+
+            <div className="hidden items-center gap-1 lg:flex xl:gap-2">
+              <button
+                type="button"
+                aria-label="Search"
+                className={`flex h-11 w-11 items-center justify-center active:opacity-80 ${inkClass}`}
+                onClick={() => setSearchOpen(true)}
+              >
+                <SearchIcon className="h-[18px] w-[18px]" />
+              </button>
+              <CurrencyDropdown className="h-11 px-2" />
+              <ShopifyAccount isLoggedIn={isLoggedIn} />
+              <button
+                type="button"
+                onClick={openCartDrawer}
+                aria-label={
+                  cartQuantity > 0
+                    ? `Bag, ${cartQuantity} item${cartQuantity === 1 ? "" : "s"}`
+                    : "Bag"
+                }
+                className={`relative flex h-11 w-11 items-center justify-center active:opacity-80 ${inkClass}`}
+              >
+                <BagIcon className="h-[18px] w-[18px]" />
+                {cartQuantity > 0 && (
+                  <span className="absolute right-1 top-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-gold text-[9px] font-medium text-charcoal">
+                    {cartQuantity > 9 ? "9+" : cartQuantity}
+                  </span>
+                )}
+              </button>
+
+              <Link href="/shop" className={`${shopCtaClass} ml-2 xl:ml-3`}>
+                <span className="relative z-20">Shop</span>
+                <ArrowRightIcon className="relative z-20 h-3.5 w-3.5 shrink-0 opacity-60" />
+              </Link>
             </div>
           </div>
         </div>
-      </div>
-    </nav>
+      </header>
+
+      {mobileDrawer}
+
+      <CartDrawer />
+      {searchOpen && (
+        <SearchModal
+          open={searchOpen}
+          onClose={() => setSearchOpen(false)}
+          collections={collections}
+          featuredProducts={featuredProducts}
+        />
+      )}
+    </>
   );
 }

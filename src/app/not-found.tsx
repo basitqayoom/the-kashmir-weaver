@@ -5,11 +5,13 @@ export const metadata: Metadata = {
   title: "Page Not Found",
   description: "The page you are looking for does not exist.",
   robots: { index: false, follow: false },
+  // Clears the root layout's canonical ("/") — a 404 has no canonical URL of its own.
+  alternates: { canonical: undefined },
 };
 
 export default function NotFound() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-ivory px-4 text-center">
+    <main id="main-content" className="flex min-h-screen flex-col items-center justify-center bg-ivory px-4 text-center">
       <p className="font-accent text-[10px] font-light uppercase tracking-[0.35em] text-gold-text">
         404
       </p>

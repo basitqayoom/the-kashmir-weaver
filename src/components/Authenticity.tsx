@@ -84,7 +84,7 @@ function FloatingFiber({ x, y, length, angle, delay }: { x: number; y: number; l
       y1={y}
       x2={x + Math.cos((angle * Math.PI) / 180) * length}
       y2={y + Math.sin((angle * Math.PI) / 180) * length}
-      stroke="#D4AF37"
+      stroke="#CE7A21"
       strokeWidth={1.2}
       strokeLinecap="round"
       opacity={0.35}
@@ -130,13 +130,13 @@ export default function Authenticity() {
   }, []);
 
   return (
-    <section id="authenticity" className="relative overflow-hidden bg-burgundy py-20 sm:py-28">
+    <section id="authenticity" className="relative overflow-hidden bg-paper-alt py-20 sm:py-28">
       {/* Woven texture overlay */}
       <div
-        className="pointer-events-none absolute inset-0 opacity-[0.03]"
+        className="pointer-events-none absolute inset-0 opacity-[0.04]"
         style={{
-          backgroundImage: `repeating-linear-gradient(0deg, transparent, transparent 8px, #D4AF37 8px, #D4AF37 9px),
-            repeating-linear-gradient(90deg, transparent, transparent 8px, #D4AF37 8px, #D4AF37 9px)`,
+          backgroundImage: `repeating-linear-gradient(0deg, transparent, transparent 8px, #CE7A21 8px, #CE7A21 9px),
+            repeating-linear-gradient(90deg, transparent, transparent 8px, #CE7A21 8px, #CE7A21 9px)`,
         }}
       />
 
@@ -152,17 +152,17 @@ export default function Authenticity() {
               >
                 <defs>
                   <linearGradient id="threadGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#D4AF37" stopOpacity="0.9" />
-                    <stop offset="50%" stopColor="#F5E6A3" stopOpacity="0.7" />
-                    <stop offset="100%" stopColor="#D4AF37" stopOpacity="0.9" />
+                    <stop offset="0%" stopColor="#CE7A21" stopOpacity="0.9" />
+                    <stop offset="50%" stopColor="#E8B073" stopOpacity="0.7" />
+                    <stop offset="100%" stopColor="#CE7A21" stopOpacity="0.9" />
                   </linearGradient>
                   <linearGradient id="threadGradient2" x1="100%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" stopColor="#C9A84C" stopOpacity="0.5" />
-                    <stop offset="100%" stopColor="#D4AF37" stopOpacity="0.8" />
+                    <stop offset="0%" stopColor="#A5601A" stopOpacity="0.5" />
+                    <stop offset="100%" stopColor="#CE7A21" stopOpacity="0.8" />
                   </linearGradient>
                   <radialGradient id="glowCenter" cx="50%" cy="50%" r="50%">
-                    <stop offset="0%" stopColor="#D4AF37" stopOpacity="0.08" />
-                    <stop offset="100%" stopColor="#D4AF37" stopOpacity="0" />
+                    <stop offset="0%" stopColor="#CE7A21" stopOpacity="0.08" />
+                    <stop offset="100%" stopColor="#CE7A21" stopOpacity="0" />
                   </radialGradient>
                 </defs>
 
@@ -234,7 +234,7 @@ export default function Authenticity() {
                   <p className="mt-4 font-heading text-2xl font-bold text-gold sm:text-3xl">
                     GI Certified
                   </p>
-                  <p className="mt-1 text-xs tracking-widest text-ivory/50">
+                  <p className="mt-1 text-xs tracking-widest text-charcoal/70">
                     GEOGRAPHICAL INDICATION
                   </p>
                   <p className="mt-0.5 font-heading text-lg font-semibold text-gold/70">
@@ -247,15 +247,15 @@ export default function Authenticity() {
 
           {/* Text */}
           <div className="reveal">
-            <p className="font-accent text-[10px] font-light uppercase tracking-[0.35em] text-gold">
+            <p className="font-accent text-[10px] font-light uppercase tracking-[0.35em] text-gold-text">
               Authenticity Guaranteed
             </p>
-            <h2 className="mt-4 font-heading text-3xl font-bold text-ivory sm:text-4xl lg:text-5xl">
+            <h2 className="mt-4 font-heading text-4xl font-bold text-charcoal sm:text-5xl lg:text-6xl">
               The GI Mark — Your Shield
               <br />
               Against Counterfeits
             </h2>
-            <p className="mt-4 text-sm leading-relaxed text-ivory/60 sm:text-base">
+            <p className="mt-4 text-sm leading-relaxed text-charcoal/70 sm:text-base">
               In a market flooded with imitations, the Geographical Indication tag
               is your guarantee that you&rsquo;re holding a piece of living heritage —
               not a factory-made replica.
@@ -265,14 +265,14 @@ export default function Authenticity() {
               {trustPoints.map((point, i) => (
                 <div
                   key={i}
-                  className="group flex gap-4 rounded-xl border border-ivory/5 bg-ivory/[0.03] p-4 transition-all duration-300 hover:border-gold/20 hover:bg-gold/[0.04]"
+                  className="group flex gap-4 border border-charcoal/10 bg-ivory p-4 transition-all duration-300 hover:border-gold/30 hover:bg-gold/4"
                 >
-                  <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg border border-gold/20 bg-gold/10 text-gold transition-colors group-hover:bg-gold/20">
+                  <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center border border-gold/20 bg-gold/10 text-gold transition-colors group-hover:bg-gold/20">
                     {point.icon}
                   </div>
                   <div>
-                    <p className="font-semibold text-ivory">{point.title}</p>
-                    <p className="mt-1 text-sm leading-relaxed text-ivory/60">
+                    <p className="font-semibold text-charcoal">{point.title}</p>
+                    <p className="mt-1 text-sm leading-relaxed text-charcoal/70">
                       {point.description}
                     </p>
                   </div>
@@ -295,13 +295,13 @@ export default function Authenticity() {
           ].map((stat, i) => (
             <div
               key={i}
-              className="gi-stat-card rounded-xl border border-gold/10 bg-ivory/[0.03] p-5 text-center backdrop-blur-sm"
+              className="gi-stat-card border border-gold/15 bg-ivory p-5 text-center"
               style={{ animationDelay: `${i * 150}ms` }}
             >
               <p className="font-heading text-2xl font-bold text-gold sm:text-3xl">
                 {stat.value}
               </p>
-              <p className="mt-2 text-xs leading-snug text-ivory/50">
+              <p className="mt-2 text-xs leading-snug text-charcoal/70">
                 {stat.label}
               </p>
             </div>
@@ -313,7 +313,7 @@ export default function Authenticity() {
           <span className="font-heading text-5xl leading-none text-gold/25">
             &ldquo;
           </span>
-          <p className="mt-1 font-heading text-lg italic leading-relaxed text-ivory/85 sm:text-xl">
+          <p className="mt-1 font-heading text-lg italic leading-relaxed text-charcoal/80 sm:text-xl">
             In a world where 90% of what is sold as Pashmina is fake,
             the GI mark is the only truth.
           </p>

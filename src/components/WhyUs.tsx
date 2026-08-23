@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { DynamicErrorBoundary } from "./SafeDynamic";
 
@@ -7,6 +8,21 @@ const LoomCanvas = dynamic(
   () => import("./LoomCanvas").catch(() => ({ default: () => null })),
   { ssr: false, loading: () => null },
 );
+
+function useShouldRenderCanvas() {
+  const [enabled, setEnabled] = useState(false);
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const mq = window.matchMedia(
+      "(min-width: 1024px) and (prefers-reduced-motion: no-preference)",
+    );
+    const sync = () => setEnabled(mq.matches);
+    sync();
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
+  }, []);
+  return enabled;
+}
 
 const propositions = [
   {
@@ -48,51 +64,42 @@ const propositions = [
 ];
 
 export default function WhyUs() {
-  return (
-    <section className="relative overflow-hidden bg-burgundy py-20 sm:py-28">
-      {/* 3D loom background */}
-      <DynamicErrorBoundary>
-        <LoomCanvas />
-      </DynamicErrorBoundary>
-      {/* Subtle texture overlay */}
-      <div className="absolute inset-0 opacity-[0.03]" aria-hidden="true">
-        <div
-          className="h-full w-full"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M0 0h40v40H0V0zm40 40h40v40H40V40zm0-40h2l-2 2V0zm0 4l4-4h2l-6 6V4zm0 4l8-8h2L40 10V8zm0 4L52 0h2L40 14v-2zm0 4L56 0h2L40 18v-2zm0 4L60 0h2L40 22v-2zm0 4L64 0h2L40 26v-2zm0 4L68 0h2L40 30v-2zm0 4L72 0h2L40 34v-2zm0 4L76 0h2L40 38v-2zm0 4L80 0v2L42 40h-2zm4 0L80 4v2L46 40h-2zm4 0L80 8v2L50 40h-2zm4 0l28-28v2L54 40h-2zm4 0l24-24v2L58 40h-2zm4 0l20-20v2L62 40h-2zm4 0l16-16v2L66 40h-2zm4 0l12-12v2L70 40h-2zm4 0l8-8v2l-6 6h-2zm4 0l4-4v2l-2 2h-2z'/%3E%3C/g%3E%3C/svg%3E")`,
-          }}
-        />
-      </div>
+  const showCanvas = useShouldRenderCanvas();
 
+  return (
+    <section className="relative overflow-hidden bg-paper-alt py-20 sm:py-28">
+      {showCanvas ? (
+        <DynamicErrorBoundary>
+          <LoomCanvas />
+        </DynamicErrorBoundary>
+      ) : null}
+      {/* Subtle texture overlay */}
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="reveal text-center">
-          <p className="font-accent text-[10px] font-light uppercase tracking-[0.35em] text-gold">
+          <p className="font-accent text-[10px] font-light uppercase tracking-[0.35em] text-gold-text">
             Why Us
           </p>
-          <h2 className="mt-4 font-heading text-3xl font-bold text-ivory sm:text-4xl lg:text-5xl">
+          <h2 className="mt-4 font-heading text-4xl font-bold text-charcoal sm:text-5xl lg:text-6xl">
             Why The Kashmir Weaver
           </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-base text-ivory/70">
+          <p className="mx-auto mt-4 max-w-2xl text-base text-charcoal/70">
             In a market where 90% of &ldquo;Pashmina&rdquo; is counterfeit, we are your direct bridge to the real thing.
           </p>
         </div>
 
-        <div className="mt-14 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-16 grid gap-x-10 gap-y-12 sm:grid-cols-2 lg:grid-cols-4 lg:divide-x lg:divide-charcoal/10">
           {propositions.map((prop, i) => (
-            <div
-              key={i}
-              className="reveal group relative overflow-hidden rounded-2xl border border-ivory/10 bg-ivory/5 p-8 text-center backdrop-blur-sm transition-all duration-300 hover:border-gold/30 hover:bg-ivory/10"
-            >
-              {/* Gold accent line at top */}
-              <div className="absolute left-0 right-0 top-0 h-0.5 bg-gradient-to-r from-transparent via-gold/50 to-transparent opacity-0 transition-opacity group-hover:opacity-100" aria-hidden="true" />
-
-              <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full border border-gold/25 text-gold">
+            <div key={i} className="reveal lg:px-10 lg:first:pl-0 lg:last:pr-0">
+              <div className="flex items-center gap-4 text-gold">
                 {prop.icon}
+                <span className="font-heading text-base text-charcoal/70">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
               </div>
-              <h3 className="mt-5 font-heading text-xl font-bold text-ivory">
+              <h3 className="mt-6 font-heading text-xl font-bold text-charcoal">
                 {prop.heading}
               </h3>
-              <p className="mt-3 text-sm leading-relaxed text-ivory/70">{prop.description}</p>
+              <p className="mt-3 text-sm leading-relaxed text-charcoal/70">{prop.description}</p>
             </div>
           ))}
         </div>
@@ -100,7 +107,7 @@ export default function WhyUs() {
 
       <div className="divider-gold mt-20" aria-hidden="true">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z" fill="#D4AF37" opacity="0.6" />
+          <path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z" fill="#CE7A21" opacity="0.6" />
         </svg>
       </div>
     </section>

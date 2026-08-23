@@ -1,21 +1,15 @@
 import Image from "next/image";
 import type { Metadata } from "next";
+import EditorialCTA from "@/components/EditorialCTA";
 import { siteConfig, whatsappLink } from "@/config/site";
+import { seoBundle, itemListLd, jsonLdScript } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = seoBundle({
   title: "Types of Pashmina Shawls — A Complete Guide",
   description:
     "Discover the seven distinct styles of handwoven Kashmiri Pashmina — Jamawar, Kani, Sozni Border, Jali, Tilla, Reversible, and Pure Plain. Each one a living tradition.",
-  openGraph: {
-    title: "Types of Pashmina Shawls — A Complete Guide",
-    description:
-      "Discover the seven distinct styles of handwoven Kashmiri Pashmina — Jamawar, Kani, Sozni Border, Jali, Tilla, Reversible, and Pure Plain.",
-    type: "website",
-  },
-  alternates: {
-    canonical: "/pashmina-types",
-  },
-};
+  pathname: "/pashmina-types",
+});
 
 const PK = "https://purekashmir.com/cdn/shop/files";
 
@@ -158,30 +152,43 @@ export default function PashminaTypesPage() {
     ],
   };
 
+  const typesListJsonLd = itemListLd({
+    name: "Types of Pashmina Shawls",
+    url: "/pashmina-types",
+    items: types.map((type) => ({
+      name: `${type.title} Pashmina Shawl`,
+      url: `/pashmina-types#${type.id}`,
+    })),
+  });
+
   return (
-    <main className="bg-ivory bg-linen">
+    <main id="main-content" className="bg-ivory bg-linen">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(breadcrumbJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(typesListJsonLd) }}
       />
       {/* Hero */}
-      <section className="relative bg-forest-green pb-16 pt-28 sm:pb-20 sm:pt-32">
+      <section className="relative bg-paper-alt pb-16 pt-28 sm:pb-20 sm:pt-32">
         <div
-          className="pointer-events-none absolute inset-0 opacity-[0.04]"
+          className="pointer-events-none absolute inset-0 opacity-[0.05]"
           style={{
             backgroundImage:
-              "repeating-linear-gradient(0deg, transparent, transparent 6px, #D4AF37 6px, #D4AF37 7px), repeating-linear-gradient(90deg, transparent, transparent 6px, #D4AF37 6px, #D4AF37 7px)",
+              "repeating-linear-gradient(0deg, transparent, transparent 6px, #CE7A21 6px, #CE7A21 7px), repeating-linear-gradient(90deg, transparent, transparent 6px, #CE7A21 6px, #CE7A21 7px)",
           }}
         />
         <div className="relative mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
-          <p className="font-accent text-[10px] font-light uppercase tracking-[0.35em] text-gold">
+          <p className="font-accent text-[10px] font-light uppercase tracking-[0.35em] text-gold-text">
             The Kashmir Weaver &middot; Shawl Guide
           </p>
-          <h1 className="mt-6 font-heading text-4xl font-light leading-[1.1] text-ivory sm:text-5xl lg:text-6xl">
+          <h1 className="mt-6 font-heading text-4xl font-light leading-[1.1] text-charcoal sm:text-5xl lg:text-6xl">
             Seven Styles of{" "}
             <span className="italic">Pashmina</span>
           </h1>
-          <p className="mx-auto mt-6 max-w-xl text-base leading-[1.8] text-ivory/70">
+          <p className="mx-auto mt-6 max-w-xl text-base leading-[1.8] text-charcoal/70">
             Each tradition carries centuries of meaning. From the dense
             needlework of a Jamawar to the quiet elegance of a plain shawl —
             here is every style we weave, and the story behind it.
@@ -192,7 +199,7 @@ export default function PashminaTypesPage() {
               <a
                 key={t.id}
                 href={`#${t.id}`}
-                className="font-accent rounded-full border border-ivory/15 px-4 py-1.5 text-[10px] tracking-[0.15em] uppercase text-ivory/70 transition-all hover:border-gold/40 hover:text-gold"
+                className="font-accent rounded-full border border-charcoal/15 px-4 py-1.5 text-[10px] tracking-[0.15em] uppercase text-charcoal/70 transition-all hover:border-gold/40 hover:text-gold-text"
               >
                 {t.title}
               </a>
@@ -206,15 +213,13 @@ export default function PashminaTypesPage() {
         <section
           key={type.id}
           id={type.id}
-          className={`py-16 sm:py-24 ${
-            i % 2 === 0 ? "bg-ivory bg-linen" : "bg-white/50"
-          }`}
+          className={`py-16 sm:py-24 ${i % 2 === 0 ? "bg-ivory bg-linen" : "bg-white/50"
+            }`}
         >
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div
-              className={`grid items-center gap-10 lg:grid-cols-2 lg:gap-16 ${
-                i % 2 !== 0 ? "lg:[direction:rtl]" : ""
-              }`}
+              className={`grid items-center gap-10 lg:grid-cols-2 lg:gap-16 ${i % 2 !== 0 ? "lg:[direction:rtl]" : ""
+                }`}
             >
               {/* Image */}
               <div className="reveal lg:[direction:ltr]">
@@ -321,12 +326,12 @@ export default function PashminaTypesPage() {
             {sizeGuide.map((size) => (
               <div
                 key={size.name}
-                className="reveal rounded-xl border border-ivory/5 bg-ivory/[0.03] p-6 text-center"
+                className="reveal rounded-xl border border-ivory/5 p-6 text-center"
               >
                 <h3 className="font-heading text-xl font-semibold text-ivory">
                   {size.name}
                 </h3>
-                <p className="font-accent mt-2 text-[10px] tracking-[0.2em] text-gold/70">
+                <p className="font-accent mt-2 text-[10px] tracking-[0.2em] text-gold">
                   {size.dimensions}
                 </p>
                 <p className="mt-1 text-xs text-ivory/60">{size.weight}</p>
@@ -461,6 +466,13 @@ export default function PashminaTypesPage() {
           </div>
         </div>
       </section>
+      <EditorialCTA
+        eyebrow="Ready to choose"
+        title="Find your weave in the shop"
+        description="Every style in this guide is available to order — handwoven, lab-verified, and shipped with a Certificate of Authenticity."
+        href="/shop"
+        ctaLabel="Browse the Collection"
+      />
     </main>
   );
 }

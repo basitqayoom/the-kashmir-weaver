@@ -17,7 +17,7 @@ export default function Heritage() {
             <p className="font-accent text-[10px] font-light uppercase tracking-[0.35em] text-gold-text">
               Our Heritage
             </p>
-            <h2 className="mt-4 font-heading text-3xl font-bold text-charcoal sm:text-4xl lg:text-5xl">
+            <h2 className="mt-4 font-heading text-4xl font-bold text-charcoal sm:text-5xl lg:text-6xl">
               Centuries of Craft,
               <br />
               Woven by Hand
@@ -53,7 +53,7 @@ export default function Heritage() {
           <div className="reveal space-y-8">
             <div className="relative">
               <div
-                className="relative aspect-[4/5] cursor-pointer overflow-hidden rounded-2xl shadow-2xl"
+                className="relative aspect-4/5 cursor-pointer overflow-hidden"
                 onClick={() => open(`${CDN}/pashmina-handloom-weaving-artisan.webp`, "Kashmiri artisan weaving Pashmina on a traditional Saaz handloom")}
               >
                 <Image
@@ -63,7 +63,7 @@ export default function Heritage() {
                   className="object-cover"
                   sizes="(max-width: 1024px) 100vw, 50vw"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-charcoal/60 via-transparent to-transparent" />
+                <div className="absolute inset-0 bg-linear-to-t from-charcoal/60 via-transparent to-transparent" />
               </div>
               {/* Floating stat cards */}
               <div className="absolute -bottom-6 left-4 right-4 flex gap-3 sm:left-6 sm:right-6">
@@ -72,7 +72,7 @@ export default function Heritage() {
                   { value: "12km", label: "Walking per Warp" },
                   { value: "1,200", label: "Threads per Warp" },
                 ].map((s, i) => (
-                  <div key={i} className="flex-1 rounded-xl border border-gold/20 bg-white/95 p-3 text-center shadow-lg backdrop-blur">
+                  <div key={i} className="flex-1 border border-gold/20 bg-white/95 p-3 text-center backdrop-blur">
                     <p className="font-heading text-lg font-bold text-burgundy sm:text-xl">{s.value}</p>
                     <p className="text-[10px] uppercase tracking-wider text-charcoal/70">{s.label}</p>
                   </div>
@@ -85,7 +85,7 @@ export default function Heritage() {
               <p className="font-accent mb-3 text-center text-[10px] font-light uppercase tracking-[0.35em] text-gold-text">
                 Watch the Craft
               </p>
-              <div className="overflow-hidden rounded-2xl border border-gold/10 shadow-lg">
+              <div className="overflow-hidden border border-gold/10">
                 <div className="relative aspect-video">
                   <YouTubeFacade
                     videoId="0UOEyt4ViZA"

@@ -43,6 +43,11 @@ export const siteConfig = {
     product: (name: string) => `Hi, I'm interested in ${name}`,
   },
 
+  verification: {
+    google: "Z1IoiWticf5Ho_AAlEmWW1G-eA4niLGaphHfO3EOO10",
+    pinterest: "cd185cc54ba7583aaa8909b821744b15",
+  },
+
   films: [
     {
       slug: "anatomy-of-an-artwork",
@@ -51,7 +56,8 @@ export const siteConfig = {
       youtubeId: "0W-s9iv9F6c",
       description:
         "A close study of a single shawl — the weave, the borders, the motifs — and the generations of knowledge encoded in every thread. A quiet meditation on what the hand can do that the machine cannot.",
-      teaser: "A close study of a single shawl — and the generations of knowledge in every thread.",
+      teaser:
+        "A close study of a single shawl — and the generations of knowledge in every thread.",
       runtime: "6:35",
       hoverImage:
         "https://cdn.shopify.com/s/files/1/0175/0928/files/jamawar-embroidery-artisan.jpg",
@@ -64,16 +70,21 @@ export const siteConfig = {
       youtubeId: "IzcAQPb2Fqw",
       description:
         "From the Changthangi goat at 4,500 metres to the Srinagar loom — a passage through the twenty hand processes that transform Himalayan fleece into Kashmiri Pashmina.",
-      teaser: "From the Himalayan goat to the Srinagar loom — the twenty hands that make a shawl.",
+      teaser:
+        "From the Himalayan goat to the Srinagar loom — the twenty hands that make a shawl.",
       runtime: "6:42",
       hoverImage:
         "https://cdn.shopify.com/s/files/1/0175/0928/files/dal-lake.jpg",
-      hoverImageAlt: "Dal Lake in Srinagar, the valley where Pashmina is handwoven",
+      hoverImageAlt:
+        "Dal Lake in Srinagar, the valley where Pashmina is handwoven",
     },
   ],
 } as const;
 
-export function whatsappLink(message?: string) {
+export function whatsappLink(message?: string, phoneDigits?: string) {
   const msg = message ?? siteConfig.whatsappMessages.default;
-  return `${siteConfig.social.whatsapp}?text=${encodeURIComponent(msg)}`;
+  const base = phoneDigits
+    ? `https://wa.me/${phoneDigits.replace(/[^\d]/g, "")}`
+    : siteConfig.social.whatsapp;
+  return `${base}?text=${encodeURIComponent(msg)}`;
 }

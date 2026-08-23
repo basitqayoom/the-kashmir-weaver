@@ -64,7 +64,7 @@ export default function FilmsTeaser() {
           </p>
           <h2
             id="films-teaser-heading"
-            className="mt-4 font-heading text-3xl font-bold text-charcoal sm:text-4xl lg:text-5xl"
+            className="mt-4 font-heading text-4xl font-bold text-charcoal sm:text-5xl lg:text-6xl"
           >
             Pashmina in Moving Picture
           </h2>
@@ -72,7 +72,7 @@ export default function FilmsTeaser() {
             Two short films — an anatomy of a single shawl, and the full
             journey from Himalayan fleece to finished weave.
           </p>
-          <p className="mt-3 text-xs italic tracking-wide text-charcoal/50 sm:text-sm">
+          <p className="mt-3 text-xs italic tracking-wide text-charcoal/70 sm:text-sm">
             Creative films &middot; Some AI-assisted
           </p>
         </div>
@@ -84,7 +84,7 @@ export default function FilmsTeaser() {
               key={film.slug}
               href={`/films#${film.slug}`}
               aria-label={`Watch ${film.title} (${film.runtime})`}
-              className="group relative block overflow-hidden rounded-2xl border border-gold/15 shadow-lg transition-[box-shadow,border-color] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-gold/40 hover:shadow-2xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold"
+              className="group relative block overflow-hidden border border-gold/15 transition-colors duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-gold/40 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold"
             >
               <div className="relative aspect-[4/3] overflow-hidden bg-charcoal">
                 {/* Layer 1 — heritage image, always at full opacity. The

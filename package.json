@@ -6,7 +6,16 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit",
+    "lighthouse": "lhci autorun",
+    "merchant:fix-links": "cd ../hydrogen-the-kashmir-weaver && npx tsx scripts/fix-merchant-product-links.ts",
+    "merchant:fix-stragglers": "cd ../hydrogen-the-kashmir-weaver && npx tsx scripts/fix-merchant-link-stragglers.ts",
+    "shopify:install-ga4-pixel": "tsx scripts/install-ga4-custom-pixel-admin.ts",
+    "shopify:install-meta-pixel": "tsx scripts/install-meta-custom-pixel-admin.ts",
+    "shopify:install-checkout-pixels": "tsx scripts/install-checkout-pixels-admin.ts",
+    "gsc:submit-sitemap": "tsx scripts/submit-gsc-sitemap.ts",
+    "integrations:verify": "tsx scripts/verify-integrations.ts"
   },
   "dependencies": {
     "@react-three/fiber": "^9.6.0",
@@ -17,9 +26,11 @@
     "react-dom": "19.2.4",
     "react-social-media-embed": "^2.5.18",
     "three": "~0.182.0",
-    "vercel": "^51.4.0"
+    "vercel": "^51.4.0",
+    "web-vitals": "^5.3.0"
   },
   "devDependencies": {
+    "@lhci/cli": "^0.15.1",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
@@ -27,7 +38,9 @@
     "@types/three": "~0.182.0",
     "eslint": "^9",
     "eslint-config-next": "16.2.3",
+    "playwright": "^1.62.1",
     "tailwindcss": "^4",
+    "tsx": "^4.23.12",
     "typescript": "^5"
   },
   "browserslist": [

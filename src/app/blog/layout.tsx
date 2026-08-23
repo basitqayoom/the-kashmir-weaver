@@ -1,6 +1,6 @@
-import Navbar from "@/components/Navbar";
+import SiteHeader from "@/components/SiteHeader";
 import Footer from "@/components/Footer";
-import WhatsAppFAB from "@/components/WhatsAppFAB";
+import FabSpeedDial from "@/components/FabSpeedDial";
 import ScrollReveal from "@/components/ScrollReveal";
 
 export default function BlogLayout({
@@ -10,10 +10,10 @@ export default function BlogLayout({
 }) {
   return (
     <>
-      <Navbar />
+      <SiteHeader />
       {children}
       <Footer />
-      <WhatsAppFAB />
+      <FabSpeedDial />
       <ScrollReveal />
     </>
   );

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useMemo } from "react";
+import { useRef, useMemo, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
@@ -8,7 +8,7 @@ function WarpThread({ index, total }: { index: number; total: number }) {
   const meshRef = useRef<THREE.Mesh>(null);
   const xPos = useMemo(() => ((index / (total - 1)) - 0.5) * 6, [index, total]);
   const phase = useMemo(() => (index / total) * Math.PI * 4, [index, total]);
-  const speed = useMemo(() => 0.3 + Math.random() * 0.2, []);
+  const [speed] = useState(() => 0.3 + Math.random() * 0.2);
 
   const geometry = useMemo(() => {
     const points = [];
@@ -27,12 +27,12 @@ function WarpThread({ index, total }: { index: number; total: number }) {
     meshRef.current.position.x = xPos + Math.sin(t * 0.3) * 0.02;
   });
 
-  const opacity = useMemo(() => 0.06 + Math.random() * 0.08, []);
-  const color = useMemo(() => {
-    const c = new THREE.Color("#D4AF37");
+  const [opacity] = useState(() => 0.1 + Math.random() * 0.1);
+  const [color] = useState(() => {
+    const c = new THREE.Color("#A5601A");
     c.offsetHSL(Math.random() * 0.03 - 0.015, 0, Math.random() * 0.15 - 0.05);
     return c;
-  }, []);
+  });
 
   return (
     <mesh ref={meshRef} geometry={geometry} position={[xPos, 0, 0]}>
@@ -44,7 +44,7 @@ function WarpThread({ index, total }: { index: number; total: number }) {
 function WeftThread({ index, total }: { index: number; total: number }) {
   const meshRef = useRef<THREE.Mesh>(null);
   const yPos = useMemo(() => ((index / (total - 1)) - 0.5) * 8, [index, total]);
-  const phase = useMemo(() => Math.random() * Math.PI * 2, []);
+  const [phase] = useState(() => Math.random() * Math.PI * 2);
 
   const geometry = useMemo(() => {
     const points = [];
@@ -62,11 +62,11 @@ function WeftThread({ index, total }: { index: number; total: number }) {
     meshRef.current.position.z = Math.sin(t) * 0.1;
   });
 
-  const opacity = useMemo(() => 0.04 + Math.random() * 0.06, []);
+  const [opacity] = useState(() => 0.04 + Math.random() * 0.06);
 
   return (
     <mesh ref={meshRef} geometry={geometry} position={[0, yPos, 0]}>
-      <meshBasicMaterial color="#D4AF37" transparent opacity={opacity} depthWrite={false} />
+      <meshBasicMaterial color="#A5601A" transparent opacity={opacity} depthWrite={false} />
     </mesh>
   );
 }
@@ -105,13 +105,13 @@ function Needle() {
   return (
     <group ref={groupRef}>
       <mesh geometry={bodyGeom}>
-        <meshBasicMaterial color="#C0C0C0" transparent opacity={0.2} depthWrite={false} />
+        <meshBasicMaterial color="#C9A084" transparent opacity={0.25} depthWrite={false} />
       </mesh>
       <mesh geometry={eyeGeom} position={[-1.4, 0, 0.02]}>
-        <meshBasicMaterial color="#D4AF37" transparent opacity={0.25} depthWrite={false} />
+        <meshBasicMaterial color="#A5601A" transparent opacity={0.35} depthWrite={false} />
       </mesh>
       <mesh geometry={threadGeom}>
-        <meshBasicMaterial color="#D4AF37" transparent opacity={0.15} depthWrite={false} />
+        <meshBasicMaterial color="#A5601A" transparent opacity={0.22} depthWrite={false} />
       </mesh>
     </group>
   );

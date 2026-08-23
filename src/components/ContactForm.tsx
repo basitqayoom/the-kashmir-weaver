@@ -1,6 +1,9 @@
 "use client";
 
-import { useState, FormEvent } from "react";
+import { useActionState, useState } from "react";
+import { useFormStatus } from "react-dom";
+import { submitContactInquiry, type ContactFormState } from "@/app/actions/contact";
+import Spinner from "./Spinner";
 
 const inquiryTypes = [
   "Individual Purchase",
@@ -22,39 +25,41 @@ const volumeOptions = [
   "200+ pieces",
 ];
 
-export default function ContactForm() {
-  const [inquiryType, setInquiryType] = useState("");
-  const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+const initialState: ContactFormState = { success: false, errors: {} };
+
+function SubmitButton() {
+  const { pending } = useFormStatus();
+  return (
+    <button
+      type="submit"
+      disabled={pending}
+      className="font-accent flex w-full items-center justify-center gap-2 bg-gold py-3.5 text-[11px] font-semibold uppercase tracking-[0.2em] text-charcoal transition-colors hover:bg-gold-dark disabled:opacity-60"
+    >
+      {pending && <Spinner size="sm" label="Sending inquiry" />}
+      {pending ? "Sending…" : "Send Inquiry"}
+    </button>
+  );
+}
+
+export default function ContactForm({ defaultInquiryType = "" }: { defaultInquiryType?: string }) {
+  const [inquiryType, setInquiryType] = useState(defaultInquiryType);
+  const [state, formAction] = useActionState(submitContactInquiry, initialState);
 
   const isB2B = b2bTypes.includes(inquiryType);
 
-  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    setStatus("sending");
-
-    const form = e.currentTarget;
-    const data = new FormData(form);
-
-    try {
-      const res = await fetch("https://formspree.io/f/{FORM_ID}", {
-        method: "POST",
-        body: data,
-        headers: { Accept: "application/json" },
-      });
-      if (res.ok) {
-        setStatus("success");
-        form.reset();
-        setInquiryType("");
-      } else {
-        setStatus("error");
-      }
-    } catch {
-      setStatus("error");
-    }
+  if (state.success) {
+    return (
+      <div className="border border-gold/30 bg-gold/5 p-8 text-center">
+        <p className="font-heading text-lg font-semibold text-charcoal">Thank you.</p>
+        <p className="mt-2 text-sm text-charcoal/70">
+          We&rsquo;ll be in touch within 24 hours.
+        </p>
+      </div>
+    );
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-5">
+    <form action={formAction} className="space-y-5">
       {/* Name */}
       <div>
         <label htmlFor="name" className="mb-1.5 block text-sm font-medium text-charcoal">
@@ -65,8 +70,9 @@ export default function ContactForm() {
           name="name"
           type="text"
           required
-          className="w-full rounded-lg border border-charcoal/15 bg-white px-4 py-3 text-sm text-charcoal outline-none transition-colors focus:border-gold focus:ring-1 focus:ring-gold"
+          className="w-full border border-charcoal/15 bg-white px-4 py-3 text-sm text-charcoal outline-none transition-colors focus:border-gold focus:ring-1 focus:ring-gold"
         />
+        {state.errors.name && <p className="mt-1 text-xs text-burgundy">{state.errors.name}</p>}
       </div>
 
       {/* Email */}
@@ -79,8 +85,9 @@ export default function ContactForm() {
           name="email"
           type="email"
           required
-          className="w-full rounded-lg border border-charcoal/15 bg-white px-4 py-3 text-sm text-charcoal outline-none transition-colors focus:border-gold focus:ring-1 focus:ring-gold"
+          className="w-full border border-charcoal/15 bg-white px-4 py-3 text-sm text-charcoal outline-none transition-colors focus:border-gold focus:ring-1 focus:ring-gold"
         />
+        {state.errors.email && <p className="mt-1 text-xs text-burgundy">{state.errors.email}</p>}
       </div>
 
       {/* Phone */}
@@ -93,7 +100,7 @@ export default function ContactForm() {
           name="phone"
           type="tel"
           placeholder="+91 XXXXX XXXXX"
-          className="w-full rounded-lg border border-charcoal/15 bg-white px-4 py-3 text-sm text-charcoal outline-none transition-colors focus:border-gold focus:ring-1 focus:ring-gold"
+          className="w-full border border-charcoal/15 bg-white px-4 py-3 text-sm text-charcoal outline-none transition-colors focus:border-gold focus:ring-1 focus:ring-gold"
         />
       </div>
 
@@ -108,13 +115,16 @@ export default function ContactForm() {
           required
           value={inquiryType}
           onChange={(e) => setInquiryType(e.target.value)}
-          className="w-full rounded-lg border border-charcoal/15 bg-white px-4 py-3 text-sm text-charcoal outline-none transition-colors focus:border-gold focus:ring-1 focus:ring-gold"
+          className="w-full border border-charcoal/15 bg-white px-4 py-3 text-sm text-charcoal outline-none transition-colors focus:border-gold focus:ring-1 focus:ring-gold"
         >
           <option value="">Select...</option>
           {inquiryTypes.map((t) => (
             <option key={t} value={t}>{t}</option>
           ))}
         </select>
+        {state.errors.inquiry_type && (
+          <p className="mt-1 text-xs text-burgundy">{state.errors.inquiry_type}</p>
+        )}
       </div>
 
       {/* Company Name */}
@@ -127,12 +137,12 @@ export default function ContactForm() {
           name="company"
           type="text"
           required={isB2B}
-          className={`w-full rounded-lg border bg-white px-4 py-3 text-sm text-charcoal outline-none transition-colors focus:ring-1 ${
-            isB2B
+          className={`w-full border bg-white px-4 py-3 text-sm text-charcoal outline-none transition-colors focus:ring-1 ${isB2B
               ? "border-gold focus:border-gold focus:ring-gold"
               : "border-charcoal/15 focus:border-gold focus:ring-gold"
-          }`}
+            }`}
         />
+        {state.errors.company && <p className="mt-1 text-xs text-burgundy">{state.errors.company}</p>}
       </div>
 
       {/* Volume */}
@@ -143,7 +153,7 @@ export default function ContactForm() {
         <select
           id="volume"
           name="volume"
-          className="w-full rounded-lg border border-charcoal/15 bg-white px-4 py-3 text-sm text-charcoal outline-none transition-colors focus:border-gold focus:ring-1 focus:ring-gold"
+          className="w-full border border-charcoal/15 bg-white px-4 py-3 text-sm text-charcoal outline-none transition-colors focus:border-gold focus:ring-1 focus:ring-gold"
         >
           <option value="">Select...</option>
           {volumeOptions.map((v) => (
@@ -162,27 +172,15 @@ export default function ContactForm() {
           name="message"
           rows={4}
           placeholder="Tell us about your requirements..."
-          className="w-full rounded-lg border border-charcoal/15 bg-white px-4 py-3 text-sm text-charcoal outline-none transition-colors focus:border-gold focus:ring-1 focus:ring-gold"
+          className="w-full border border-charcoal/15 bg-white px-4 py-3 text-sm text-charcoal outline-none transition-colors focus:border-gold focus:ring-1 focus:ring-gold"
         />
       </div>
 
-      {/* Submit */}
-      <button
-        type="submit"
-        disabled={status === "sending"}
-        className="w-full rounded-lg bg-gold py-3.5 text-sm font-semibold text-charcoal transition-all hover:bg-gold-muted disabled:opacity-60"
-      >
-        {status === "sending" ? "Sending..." : "Send Inquiry"}
-      </button>
+      <SubmitButton />
 
-      {status === "success" && (
-        <p className="text-center text-sm font-medium text-green-700">
-          Thank you! We&rsquo;ll be in touch within 24 hours.
-        </p>
-      )}
-      {status === "error" && (
-        <p className="text-center text-sm font-medium text-red-600">
-          Something went wrong. Please try again or message us on WhatsApp.
+      {state.errors.form && (
+        <p className="text-center text-sm font-medium text-burgundy">
+          {state.errors.form} Please try again or message us on WhatsApp.
         </p>
       )}
     </form>

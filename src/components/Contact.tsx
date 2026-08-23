@@ -1,41 +1,17 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import ContactForm from "@/components/ContactForm";
 import { siteConfig } from "@/config/site";
 
-const FORM_URL =
-  "https://docs.google.com/forms/d/e/1FAIpQLScSAI8Cq_8eH7PgAN5geCHHxLcQ4KUW4eS48SDllRBTn5fzSg/viewform?embedded=true";
-
 export default function Contact() {
-  const [open, setOpen] = useState(false);
-  const [iframeLoaded, setIframeLoaded] = useState(false);
-  const sentinelRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const el = sentinelRef.current;
-    if (!el) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIframeLoaded(true);
-          observer.disconnect();
-        }
-      },
-      { rootMargin: "200px" },
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
   return (
-    <section id="contact" className="bg-ivory bg-linen py-20 sm:py-28">
+    <section id="contact" className="bg-ivory py-20 sm:py-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="reveal text-center">
           <p className="font-accent text-[10px] font-light uppercase tracking-[0.35em] text-gold-text">
             Get in Touch
           </p>
-          <h2 className="mt-4 font-heading text-3xl font-bold text-charcoal sm:text-4xl">
+          <h2 className="mt-4 font-heading text-4xl font-bold text-charcoal sm:text-5xl">
             Let&rsquo;s Start a Conversation
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-base text-charcoal/70">
@@ -45,56 +21,15 @@ export default function Contact() {
         </div>
 
         <div className="mt-12 grid gap-10 lg:grid-cols-5">
-          {/* Form */}
           <div className="reveal lg:col-span-3">
-            {/* Mobile collapse toggle */}
-            <button
-              type="button"
-              onClick={() => setOpen((v) => !v)}
-              className="mb-4 flex w-full items-center justify-between rounded-xl border border-gold/20 bg-white px-5 py-4 text-left shadow-sm transition-colors hover:border-gold/40 lg:hidden"
-            >
-              <span className="font-heading text-base font-bold text-charcoal">
-                {open ? "Hide Inquiry Form" : "Open Inquiry Form"}
-              </span>
-              <svg
-                className={`h-5 w-5 text-gold transition-transform duration-300 ${open ? "rotate-180" : ""}`}
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2}
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-              </svg>
-            </button>
-
-            <div
-              ref={sentinelRef}
-              className={`rounded-2xl border border-gold/10 bg-white/80 shadow-sm ${
-                open ? "block" : "hidden lg:block"
-              }`}
-              style={{ minHeight: 1100 }}
-            >
-              {iframeLoaded ? (
-                <iframe
-                  src={FORM_URL}
-                  width="100%"
-                  height={1100}
-                  className="border-0"
-                  title="Contact Form"
-                >
-                  Loading…
-                </iframe>
-              ) : (
-                <div className="flex h-[1100px] items-center justify-center text-sm text-charcoal/40">
-                  Loading form…
-                </div>
-              )}
+            <div className="border border-gold/10 bg-white/80 p-6 sm:p-8">
+              <ContactForm />
             </div>
           </div>
 
           {/* Contact Card */}
           <div className="reveal lg:col-span-2">
-            <div className="rounded-2xl bg-charcoal p-6 text-ivory sm:p-8">
+            <div className="bg-charcoal p-6 text-ivory sm:p-8">
               <h3 className="font-heading text-xl font-bold">Contact Details</h3>
 
               <div className="mt-6 space-y-5">

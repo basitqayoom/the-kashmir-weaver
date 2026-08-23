@@ -1,40 +1,46 @@
-export type HeroTheme = "burgundy" | "forest-green" | "charcoal" | "gradient";
+// "Snow & Saffron" — original palette, deliberately distinct from the
+// Hydrogen storefront's warm walnut/bronze theme. Cool white/stone base,
+// Pampore-saffron primary accent, Dal Lake teal secondary accent.
+export type HeroTheme = "snow" | "teal" | "ink" | "gradient";
 
-export const HERO_THEME: HeroTheme = "burgundy";
+export const HERO_THEME: HeroTheme = "snow";
 
 export const heroThemes = {
-  burgundy: {
-    background: "#6B1D2A",
-    text: "#FAF7F2",
-    accent: "#D4AF37",
-    logo: "/images/logo/logo-burgundy-bg.png",
+  snow: {
+    background: "#FFFFFF",
+    text: "#1C2321",
+    accent: "#CE7A21",
+    logo: "/images/logo/logo-ivory-bg.png",
   },
-  "forest-green": {
-    background: "#0A2E1C",
-    text: "#FAF7F2",
-    accent: "#D4AF37",
+  teal: {
+    background: "#103B3A",
+    text: "#F5F6F3",
+    accent: "#CE7A21",
     logo: "/images/logo/logo-green-bg.png",
   },
-  charcoal: {
-    background: "#1A1A1A",
-    text: "#FAF7F2",
-    accent: "#D4AF37",
+  ink: {
+    background: "#1C2321",
+    text: "#F5F6F3",
+    accent: "#CE7A21",
     logo: "/images/logo/logo-white-bg.png",
   },
   gradient: {
-    background: "linear-gradient(135deg, #6B1D2A 0%, #0A2E1C 100%)",
-    text: "#FAF7F2",
-    accent: "#D4AF37",
-    logo: "/images/logo/logo-burgundy-bg.png",
+    background: "linear-gradient(135deg, #FFFFFF 0%, #F5F6F3 100%)",
+    text: "#1C2321",
+    accent: "#CE7A21",
+    logo: "/images/logo/logo-ivory-bg.png",
   },
 } as const;
 
 export const colors = {
-  burgundy: "#6B1D2A",
-  gold: "#D4AF37",
-  goldMuted: "#C9A84C",
-  forestGreen: "#1B4332",
-  ivory: "#FAF7F2",
-  charcoal: "#2D2A26",
+  paper: "#FFFFFF",
+  paperAlt: "#F5F6F3",
+  ink: "#1C2321",
+  inkMuted: "#5B655F",
+  border: "#E2E6E0",
+  saffron: "#CE7A21",
+  saffronDeep: "#A5601A",
+  dalTeal: "#103B3A",
+  chinar: "#8C3B2E",
   whatsapp: "#25D366",
 } as const;

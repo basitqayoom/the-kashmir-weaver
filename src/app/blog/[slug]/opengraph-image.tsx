@@ -1,5 +1,6 @@
 import { ImageResponse } from "next/og";
-import { getArticleBySlug } from "@/data/articles";
+import { getJournalArticleByHandle } from "@/lib/shopify/journal";
+import { articleCategory } from "@/lib/journal-display";
 
 export const alt = "The Kashmir Weaver Blog";
 export const size = { width: 1200, height: 630 };
@@ -11,10 +12,10 @@ export default async function OGImage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const article = getArticleBySlug(slug);
+  const article = await getJournalArticleByHandle(slug);
 
   const title = article?.title ?? "Article Not Found";
-  const category = article?.category ?? "";
+  const category = article ? articleCategory(article.tags) : "";
 
   return new ImageResponse(
     (

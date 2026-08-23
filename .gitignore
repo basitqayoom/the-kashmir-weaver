@@ -33,6 +33,9 @@ yarn-error.log*
 # env files (can opt-in for committing if needed)
 .env*
 
+# local secrets — never commit raw tokens
+/tokens
+
 # vercel
 .vercel
 
@@ -40,3 +43,5 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 .env*.local
+.shopify-admin-state.json
+/tmp/

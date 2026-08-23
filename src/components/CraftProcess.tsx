@@ -89,7 +89,7 @@ export default function CraftProcess() {
           <p className="font-accent text-[10px] font-light uppercase tracking-[0.35em] text-gold-text">
             The Craft
           </p>
-          <h2 className="mt-4 font-heading text-3xl font-bold text-charcoal sm:text-4xl lg:text-5xl">
+          <h2 className="mt-4 font-heading text-4xl font-bold text-charcoal sm:text-5xl lg:text-6xl">
             The Art of Pashmina
           </h2>
           <p className="mx-auto mt-4 max-w-2xl font-heading text-base italic text-charcoal/70 sm:text-lg">
@@ -117,7 +117,7 @@ export default function CraftProcess() {
           {craftImages.map((img, i) => (
             <div
               key={i}
-              className="relative aspect-[4/3] cursor-pointer overflow-hidden rounded-xl"
+              className="relative aspect-[4/3] cursor-pointer overflow-hidden"
               onClick={() => open(img.src, img.alt)}
             >
               <Image
@@ -140,7 +140,7 @@ export default function CraftProcess() {
             >
               {/* Timeline */}
               <div className="flex flex-col items-center">
-                <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-burgundy font-heading text-base font-bold text-gold">
+                <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-burgundy font-heading text-base font-bold text-ivory">
                   {String(step.num).padStart(2, "0")}
                 </div>
                 {i < steps.length - 1 && (
@@ -182,7 +182,7 @@ export default function CraftProcess() {
           <p className="mx-auto mb-6 max-w-xl text-center text-sm text-charcoal/70">
             From raw Changthangi fleece to finished Pashmina — every hand process captured in a single film.
           </p>
-          <div className="mx-auto max-w-3xl overflow-hidden rounded-2xl border border-gold/10 shadow-lg">
+          <div className="mx-auto max-w-3xl overflow-hidden border border-gold/10">
             <div className="relative aspect-video">
               <YouTubeFacade
                 videoId="yT-aXywFA0I"

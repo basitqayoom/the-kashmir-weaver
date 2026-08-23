@@ -1,25 +1,57 @@
 import Link from "next/link";
-import AnimatedLogo from "./AnimatedLogo";
+import BrandLockup, { BrandMark } from "./BrandLockup";
+import PaymentMethods from "./PaymentMethods";
 import { siteConfig, whatsappLink } from "@/config/site";
+import { getShopSettings } from "@/lib/shopify/shop-settings";
+import { getCachedCollections } from "@/lib/shopify/cached-catalog";
 
 const quickLinks = [
-  { label: "Our Heritage", href: "#heritage" },
+  { label: "About Us", href: "/about" },
+  { label: "Our Heritage", href: "/heritage" },
+  { label: "The Craft", href: "/craft" },
+  { label: "The Book", href: "/book" },
+  { label: "Shade Cards", href: "/shade-cards" },
   { label: "Pashmina Types", href: "/pashmina-types" },
   { label: "Films", href: "/films" },
   { label: "Stories", href: "/blog" },
-  { label: "Contact Us", href: "#contact" },
-  { label: "Privacy Policy", href: "/privacy" },
+];
+
+const careLinks = [
+  { label: "Concierge", href: "/concierge" },
+  { label: "FAQ", href: "/faq" },
+  { label: "Care Guide", href: "/care-guide" },
+  {
+    label: "Leave a Review",
+    href: "https://g.page/r/CSc507MU7rrmEBM/review",
+    external: true,
+  },
 ];
 
 const shopLinks = [
-  { label: "Plain Pashmina", href: whatsappLink(siteConfig.whatsappMessages.product("Plain Pashmina")) },
-  { label: "Kani Collection", href: whatsappLink(siteConfig.whatsappMessages.product("Kani Pashmina")) },
-  { label: "Sozni Embroidery", href: whatsappLink(siteConfig.whatsappMessages.product("Sozni Embroidery")) },
-  { label: "Jamawar", href: whatsappLink(siteConfig.whatsappMessages.product("Jamawar")) },
-  { label: "Corporate Gifting", href: "#contact" },
+  { label: "Shop All Pashmina", href: "/shop" },
+  { label: "Wholesale & Corporate Gifting", href: "/wholesale" },
 ];
 
-export default function Footer() {
+const legalLinks = [
+  { label: "Privacy Policy", href: "/privacy" },
+  { label: "Terms", href: "/terms" },
+  { label: "Shipping", href: "/shipping" },
+  { label: "Returns", href: "/returns" },
+  { label: "Disclaimer", href: "/disclaimer" },
+];
+
+export default async function Footer() {
+  const [{ contact, social }, collections] = await Promise.all([
+    getShopSettings(),
+    getCachedCollections().catch(() => []),
+  ]);
+  const instagramHref = social.instagram || siteConfig.social.instagram;
+  const whatsappHref = contact.whatsapp
+    ? whatsappLink(siteConfig.whatsappMessages.default, contact.whatsapp)
+    : siteConfig.social.whatsapp;
+  const contactEmail = contact.email || siteConfig.contact.email;
+  const contactPhone = contact.phone || siteConfig.contact.phone;
+
   return (
     <footer className="bg-charcoal">
       {/* Gold accent top */}
@@ -30,19 +62,20 @@ export default function Footer() {
           {/* Brand column */}
           <div className="lg:col-span-4">
             <div className="flex items-center gap-3">
-              <AnimatedLogo size={44} variant="footer" />
-              <div>
-                <p className="font-heading text-xl font-bold text-ivory">The Kashmir Weaver</p>
-                <p className="font-accent text-[9px] font-light tracking-[0.4em] text-gold">EST. IN THE VALLEY</p>
-              </div>
+              <BrandMark className="h-11 w-11" />
+              <BrandLockup tone="light" className="text-[1.35rem] tracking-[0.12em]" />
             </div>
-            <p className="mt-6 max-w-sm text-sm leading-relaxed text-ivory/50">
-              Preserving the 600-year heritage of Kashmiri Pashmina — handwoven by artisans, delivered to the world. Every fibre tells a story of the Himalayas.
+            <p
+              className="mt-6 max-w-sm text-xl italic leading-snug text-ivory/70"
+              style={{ fontWeight: 300 }}
+            >
+              Timeless by nature.
+              <br /> Woven by heritage.
             </p>
             {/* Social icons */}
             <div className="mt-6 flex gap-3">
               <a
-                href={siteConfig.social.instagram}
+                href={instagramHref}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex h-10 w-10 items-center justify-center rounded-full border border-ivory/15 text-ivory/50 transition-all hover:border-gold/50 hover:text-gold"
@@ -53,7 +86,7 @@ export default function Footer() {
                 </svg>
               </a>
               <a
-                href={siteConfig.social.whatsapp}
+                href={whatsappHref}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex h-10 w-10 items-center justify-center rounded-full border border-ivory/15 text-ivory/50 transition-all hover:border-whatsapp/50 hover:text-whatsapp"
@@ -91,11 +124,11 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Quick links */}
+          {/* Our World */}
           <div className="lg:col-span-2">
-            <h4 className="font-accent text-[10px] font-light uppercase tracking-[0.35em] text-gold">
-              Quick Links
-            </h4>
+            <h2 className="font-accent text-[10px] font-light uppercase tracking-[0.35em] text-gold">
+              Our World
+            </h2>
             <ul className="mt-5 space-y-3">
               {quickLinks.map((l) => (
                 <li key={l.label}>
@@ -107,32 +140,74 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Shop via WhatsApp */}
-          <div className="lg:col-span-3">
-            <h4 className="font-accent text-[10px] font-light uppercase tracking-[0.35em] text-gold">
-              Shop via WhatsApp
-            </h4>
+          {/* Care */}
+          <div className="lg:col-span-2">
+            <h2 className="font-accent text-[10px] font-light uppercase tracking-[0.35em] text-gold">
+              Care
+            </h2>
             <ul className="mt-5 space-y-3">
-              {shopLinks.map((l) => (
+              {careLinks.map((l) => (
                 <li key={l.label}>
-                  <a
-                    href={l.href}
-                    target={l.href.startsWith("http") ? "_blank" : undefined}
-                    rel={l.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                    className="text-sm text-ivory/60 transition-colors hover:text-gold"
-                  >
-                    {l.label}
-                  </a>
+                  {"external" in l && l.external ? (
+                    <a
+                      href={l.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-sm text-ivory/60 transition-colors hover:text-gold"
+                    >
+                      {l.label}
+                    </a>
+                  ) : (
+                    <Link href={l.href} className="text-sm text-ivory/60 transition-colors hover:text-gold">
+                      {l.label}
+                    </Link>
+                  )}
                 </li>
               ))}
             </ul>
           </div>
 
+          {/* Shop */}
+          <div className="lg:col-span-2">
+            <h2 className="font-accent text-[10px] font-light uppercase tracking-[0.35em] text-gold">
+              Shop
+            </h2>
+            <ul className="mt-5 space-y-3">
+              {shopLinks.map((l) => (
+                <li key={l.label}>
+                  <Link href={l.href} className="text-sm text-ivory/60 transition-colors hover:text-gold">
+                    {l.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+
+            {collections.length > 0 && (
+              <>
+                <h3 className="font-accent mt-8 text-[10px] font-light uppercase tracking-[0.35em] text-gold">
+                  Collections
+                </h3>
+                <ul className="mt-5 space-y-3">
+                  {collections.map((c) => (
+                    <li key={c.handle}>
+                      <Link
+                        href={`/collections/${c.handle}`}
+                        className="text-sm text-ivory/60 transition-colors hover:text-gold"
+                      >
+                        {c.title}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )}
+          </div>
+
           {/* Contact */}
           <div className="lg:col-span-3">
-            <h4 className="font-accent text-[10px] font-light uppercase tracking-[0.35em] text-gold">
+            <h2 className="font-accent text-[10px] font-light uppercase tracking-[0.35em] text-gold">
               Visit Us
-            </h4>
+            </h2>
             <div className="mt-5 space-y-4 text-sm text-ivory/60">
               <p className="leading-relaxed">
                 {siteConfig.name}<br />
@@ -153,12 +228,12 @@ export default function Footer() {
               </a>
               <div className="space-y-1">
                 <p>
-                  <a href={`mailto:${siteConfig.contact.email}`} className="transition-colors hover:text-gold">
-                    {siteConfig.contact.email}
+                  <a href={`mailto:${contactEmail}`} className="transition-colors hover:text-gold">
+                    {contactEmail}
                   </a>
                 </p>
                 <p>
-                  <a href={`tel:${siteConfig.contact.phone}`} className="transition-colors hover:text-gold">
+                  <a href={`tel:${contactPhone}`} className="transition-colors hover:text-gold">
                     {siteConfig.contact.phoneDisplay}
                   </a>
                 </p>
@@ -170,18 +245,33 @@ export default function Footer() {
 
       {/* Bottom bar */}
       <div className="border-t border-ivory/8">
-        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-4 py-5 sm:flex-row sm:px-6 lg:px-8">
-          <p className="text-xs text-ivory/50">
-            &copy; {new Date().getFullYear()} The Kashmir Weaver. Handwoven in Kashmir.
-          </p>
-          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-xs text-ivory/50">
-            <span>GI Tag No. 46</span>
-            <span className="text-gold/30">◆</span>
-            <span>MCA Registered</span>
-            <span className="text-gold/30">◆</span>
-            <Link href="/privacy" className="transition-colors hover:text-gold">
-              Privacy Policy
-            </Link>
+        <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+          {/* Legal nav — its own full-width row so it never competes for space
+              with the copyright and payment marks. */}
+          <nav aria-label="Legal">
+            <ul className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-ivory/50 lg:justify-start">
+              {legalLinks.map((l) => (
+                <li key={l.href}>
+                  <Link href={l.href} className="transition-colors hover:text-gold">
+                    {l.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          <div className="mt-6 flex flex-col items-center gap-5 border-t border-ivory/8 pt-6 lg:flex-row lg:items-center lg:justify-between lg:gap-8">
+            <p className="order-3 text-center text-xs text-ivory/50 lg:order-1 lg:text-left">
+              &copy; {new Date().getFullYear()} The Kashmir Weaver. Handwoven in Kashmir.
+            </p>
+            <div className="order-1 flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-xs text-ivory/50 lg:order-2">
+              <span>GI Tag No. 46</span>
+              <span className="text-gold/30" aria-hidden="true">
+                ◆
+              </span>
+              <span>MCA Registered</span>
+            </div>
+            <PaymentMethods className="order-2 opacity-80 grayscale lg:order-3" />
           </div>
         </div>
       </div>

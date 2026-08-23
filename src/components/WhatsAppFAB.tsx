@@ -8,7 +8,7 @@ export default function WhatsAppFAB() {
       href={whatsappLink()}
       target="_blank"
       rel="noopener noreferrer"
-      className="animate-pulse-fab group fixed bottom-4 right-4 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-whatsapp shadow-lg transition-shadow hover:shadow-xl sm:bottom-6 sm:right-6 sm:h-14 sm:w-14"
+      className="animate-pulse-fab group fixed bottom-4 right-4 z-40 flex h-12 w-12 items-center justify-center rounded-full bg-whatsapp shadow-lg transition-shadow hover:shadow-xl sm:bottom-6 sm:right-6 sm:h-14 sm:w-14"
       aria-label="Chat with us on WhatsApp"
     >
       <svg className="h-6 w-6 text-white sm:h-7 sm:w-7" fill="currentColor" viewBox="0 0 24 24">
@@ -16,7 +16,7 @@ export default function WhatsAppFAB() {
       </svg>
 
       {/* Tooltip */}
-      <span className="pointer-events-none absolute right-full mr-3 whitespace-nowrap rounded-lg bg-charcoal px-3 py-1.5 text-xs font-medium text-ivory opacity-0 shadow-lg transition-opacity group-hover:opacity-100">
+      <span className="pointer-events-none absolute right-full mr-3 whitespace-nowrap bg-charcoal px-3 py-1.5 text-xs font-medium text-ivory opacity-0 shadow-lg transition-opacity group-hover:opacity-100">
         Chat with us on WhatsApp
       </span>
     </a>

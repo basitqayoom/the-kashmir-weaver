@@ -34,7 +34,7 @@ const tiles = [
   { src: `https://kashmirobserver.net/wp-content/uploads/2022/10/Wular-Lake.jpg`, alt: "Wular Lake View", tag: "Wular Lake" },
   { src: `${F}/Kunas_-_Wular_Lake,_by_George_Strahan.jpg`, alt: "Wular Lake 1894 Painting", tag: "Heritage" },
   { src: `https://images.moneycontrol.com/static-mcnews/2021/12/Pheran-man-and-grandson-photo-Dardic-warrior-via-wikimedia-commons.jpg`, alt: "Kashmiri Old Man in Traditional Pheran", tag: "Culture" },
-];
+].slice(0, 12);
 
 function TileRow({ onTileClick }: { onTileClick: (src: string, alt: string) => void }) {
   return (
@@ -45,7 +45,7 @@ function TileRow({ onTileClick }: { onTileClick: (src: string, alt: string) => v
           className="group relative flex-shrink-0 cursor-pointer"
           onClick={() => onTileClick(tile.src, tile.alt)}
         >
-          <div className="relative h-[260px] w-[200px] overflow-hidden rounded-xl sm:h-[320px] sm:w-[240px]">
+          <div className="relative h-[260px] w-[200px] overflow-hidden sm:h-[320px] sm:w-[240px]">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={tile.src}
@@ -78,7 +78,7 @@ export default function ShawlShowcase() {
         <p className="font-accent text-[10px] font-light uppercase tracking-[0.35em] text-gold">
           The Land That Weaves
         </p>
-        <h2 className="mt-4 font-heading text-3xl font-light text-ivory sm:text-4xl">
+        <h2 className="mt-4 font-heading text-4xl font-light text-ivory sm:text-5xl">
           Stories from <span className="italic">Kashmir</span>
         </h2>
         <p className="mx-auto mt-3 max-w-lg text-sm leading-relaxed text-ivory/70">

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useMemo } from "react";
+import { useRef, useMemo, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
@@ -15,12 +15,17 @@ function Thread({
 }) {
   const meshRef = useRef<THREE.Mesh>(null);
   const phase = useMemo(() => (index / total) * Math.PI * 2, [index, total]);
-  const speed = useMemo(() => 0.08 + Math.random() * 0.12, []);
-  const spread = 7;
+  const [speed] = useState(() => 0.08 + Math.random() * 0.12);
+  const spread = 9.5;
   const pos = useMemo(
     () => ((index / (total - 1)) - 0.5) * spread,
     [index, total]
   );
+
+  const [jitter] = useState(() => ({
+    weave: Math.random(),
+    radius: 0.006 + Math.random() * 0.008,
+  }));
 
   const geometry = useMemo(() => {
     const points: THREE.Vector3[] = [];
@@ -28,7 +33,7 @@ function Thread({
     for (let i = 0; i <= segments; i++) {
       const t = (i / segments) * 2 - 1;
       const weaveOffset =
-        Math.sin(t * Math.PI * (2 + Math.random())) * 0.04;
+        Math.sin(t * Math.PI * (2 + jitter.weave)) * 0.04;
       if (horizontal) {
         points.push(new THREE.Vector3(t * 5, weaveOffset, 0));
       } else {
@@ -36,9 +41,8 @@ function Thread({
       }
     }
     const curve = new THREE.CatmullRomCurve3(points);
-    const radius = 0.006 + Math.random() * 0.008;
-    return new THREE.TubeGeometry(curve, 40, radius, 5, false);
-  }, [horizontal]);
+    return new THREE.TubeGeometry(curve, 40, jitter.radius, 5, false);
+  }, [horizontal, jitter]);
 
   useFrame(({ clock }) => {
     if (!meshRef.current) return;
@@ -52,15 +56,15 @@ function Thread({
     }
   });
 
-  const opacity = useMemo(() => 0.08 + Math.random() * 0.14, []);
-  const color = useMemo(() => {
-    const colors = ["#D4AF37", "#C9A84C", "#B8941F", "#E0C068", "#A68523"];
+  const [opacity] = useState(() => 0.07 + Math.random() * 0.09);
+  const [color] = useState(() => {
+    const colors = ["#CE7A21", "#B8681A", "#A5601A", "#D98F3F", "#8A5417"];
     const base = new THREE.Color(
       colors[Math.floor(Math.random() * colors.length)]
     );
     base.offsetHSL(Math.random() * 0.02 - 0.01, 0, Math.random() * 0.08 - 0.04);
     return base;
-  }, []);
+  });
 
   return (
     <mesh
@@ -118,21 +122,21 @@ function FloatingNeedle() {
   return (
     <group ref={groupRef}>
       <mesh geometry={bodyGeom}>
-        <meshBasicMaterial color="#C0C0C0" transparent opacity={0.25} depthWrite={false} />
+        <meshBasicMaterial color="#C9A084" transparent opacity={0.3} depthWrite={false} />
       </mesh>
       <mesh geometry={eyeGeom} position={[-1.15, 0, 0]} rotation={[0, Math.PI / 2, 0]}>
-        <meshBasicMaterial color="#D4AF37" transparent opacity={0.3} depthWrite={false} />
+        <meshBasicMaterial color="#A5601A" transparent opacity={0.38} depthWrite={false} />
       </mesh>
       <mesh geometry={trailingThread}>
-        <meshBasicMaterial color="#D4AF37" transparent opacity={0.18} depthWrite={false} />
+        <meshBasicMaterial color="#A5601A" transparent opacity={0.24} depthWrite={false} />
       </mesh>
     </group>
   );
 }
 
 function WeaveScene() {
-  const warpCount = 28;
-  const weftCount = 18;
+  const warpCount = 13;
+  const weftCount = 9;
 
   return (
     <>
@@ -150,7 +154,17 @@ function WeaveScene() {
 
 export default function FiberCanvas() {
   return (
-    <div className="absolute inset-0 z-0 pointer-events-none" aria-hidden="true" role="presentation">
+    <div
+      className="absolute inset-0 z-0 pointer-events-none"
+      aria-hidden="true"
+      role="presentation"
+      style={{
+        maskImage:
+          "radial-gradient(ellipse 75% 70% at 50% 44%, transparent 0%, transparent 48%, black 92%)",
+        WebkitMaskImage:
+          "radial-gradient(ellipse 75% 70% at 50% 44%, transparent 0%, transparent 48%, black 92%)",
+      }}
+    >
       <Canvas
         camera={{ position: [0, 0, 5], fov: 50 }}
         gl={{ antialias: true, alpha: true }}

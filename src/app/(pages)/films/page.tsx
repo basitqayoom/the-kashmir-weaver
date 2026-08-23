@@ -1,34 +1,22 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import YouTubeFacade from "@/components/YouTubeFacade";
+import EditorialCTA from "@/components/EditorialCTA";
 import { siteConfig, whatsappLink } from "@/config/site";
+import { seoBundle } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = seoBundle({
   title: "Films — The Kashmir Weaver",
   description:
     "Two short films on the art of Kashmiri Pashmina — from the Changthangi goat of Ladakh to the handwoven shawl. Watch the anatomy of a shawl and the journey of the craft.",
-  openGraph: {
-    title: "Films — The Kashmir Weaver",
-    description:
-      "Two short films on the art of Kashmiri Pashmina — from Himalayan fleece to handwoven shawl.",
-    type: "website",
-    images: siteConfig.films.map((film) => ({
-      url: `https://i.ytimg.com/vi/${film.youtubeId}/maxresdefault.jpg`,
-      width: 1280,
-      height: 720,
-      alt: film.title,
-    })),
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Films — The Kashmir Weaver",
-    description:
-      "Two short films on the art of Kashmiri Pashmina — from Himalayan fleece to handwoven shawl.",
-  },
-  alternates: {
-    canonical: "/films",
-  },
-};
+  pathname: "/films",
+  images: siteConfig.films.map((film) => ({
+    url: `https://i.ytimg.com/vi/${film.youtubeId}/maxresdefault.jpg`,
+    width: 1280,
+    height: 720,
+    alt: film.title,
+  })),
+});
 
 const runtimeToISO = (runtime: string) => {
   const [m, s] = runtime.split(":").map((n) => Number(n));
@@ -66,7 +54,7 @@ export default function FilmsPage() {
   }));
 
   return (
-    <main className="bg-ivory bg-linen">
+    <main id="main-content" className="bg-ivory bg-linen">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -84,29 +72,29 @@ export default function FilmsPage() {
       ))}
 
       {/* Hero */}
-      <section className="relative overflow-hidden bg-charcoal pb-16 pt-28 sm:pb-20 sm:pt-32">
+      <section className="relative overflow-hidden bg-paper-alt pb-16 pt-28 sm:pb-20 sm:pt-32">
         <div
-          className="pointer-events-none absolute inset-0 opacity-[0.04]"
+          className="pointer-events-none absolute inset-0 opacity-[0.05]"
           aria-hidden="true"
           style={{
             backgroundImage:
-              "repeating-linear-gradient(0deg, transparent, transparent 6px, #D4AF37 6px, #D4AF37 7px), repeating-linear-gradient(90deg, transparent, transparent 6px, #D4AF37 6px, #D4AF37 7px)",
+              "repeating-linear-gradient(0deg, transparent, transparent 6px, #CE7A21 6px, #CE7A21 7px), repeating-linear-gradient(90deg, transparent, transparent 6px, #CE7A21 6px, #CE7A21 7px)",
           }}
         />
         <div className="relative mx-auto max-w-3xl px-4 text-center sm:px-6 lg:px-8">
-          <p className="font-accent text-[10px] font-light uppercase tracking-[0.35em] text-gold">
+          <p className="font-accent text-[10px] font-light uppercase tracking-[0.35em] text-gold-text">
             The Kashmir Weaver &middot; Films
           </p>
-          <h1 className="mt-6 font-heading text-4xl font-light leading-[1.1] text-ivory sm:text-5xl lg:text-6xl">
+          <h1 className="mt-6 font-heading text-4xl font-light leading-[1.1] text-charcoal sm:text-5xl lg:text-6xl">
             Moving Portraits of the{" "}
             <span className="italic">Craft</span>
           </h1>
-          <p className="mx-auto mt-6 max-w-xl text-base leading-[1.8] text-ivory/70">
+          <p className="mx-auto mt-6 max-w-xl text-base leading-[1.8] text-charcoal/70">
             Two short films on the art of Kashmiri Pashmina — from the
             Changthangi goat of Ladakh to the handwoven shawl, and the
             anatomy of a single piece.
           </p>
-          <p className="mx-auto mt-6 max-w-lg font-heading text-sm italic leading-relaxed text-ivory/50">
+          <p className="mx-auto mt-6 max-w-lg font-heading text-sm italic leading-relaxed text-charcoal/70">
             Some films on this page are AI-generated creative interpretations —
             artistic tributes to a craft practised by hand for over six
             centuries.
@@ -149,7 +137,7 @@ export default function FilmsPage() {
 
                 {/* Meta */}
                 <div className="mt-5 flex flex-col items-center justify-between gap-3 text-xs sm:flex-row">
-                  <p className="font-accent tracking-[0.2em] uppercase text-charcoal/60">
+                  <p className="font-accent tracking-[0.2em] uppercase text-charcoal/70">
                     Runtime &middot; {film.runtime}
                   </p>
                   <a
@@ -246,6 +234,13 @@ export default function FilmsPage() {
           </div>
         </div>
       </section>
+      <EditorialCTA
+        eyebrow="The Collections"
+        title="See the craft in person"
+        description="Every film tells part of the story — the shawls themselves carry the rest."
+        href="/shop"
+        ctaLabel="Shop the Collection"
+      />
     </main>
   );
 }

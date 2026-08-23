@@ -56,22 +56,19 @@ export default function FAQ() {
           <p className="font-accent text-[10px] font-light uppercase tracking-[0.35em] text-gold-text">
             FAQ
           </p>
-          <h2 className="mt-4 font-heading text-3xl font-bold text-charcoal sm:text-4xl">
+          <h2 className="mt-4 font-heading text-4xl font-bold text-charcoal sm:text-5xl">
             Common Questions
           </h2>
         </div>
 
-        <div className="mt-12 space-y-3">
+        <div className="mt-12 divide-y divide-charcoal/10 border-t border-charcoal/10">
           {faqs.map((faq, i) => {
             const isOpen = openIndex === i;
             return (
-              <div
-                key={i}
-                className="reveal rounded-xl border border-gold/10 bg-white/70 shadow-sm transition-all"
-              >
+              <div key={i} className="reveal">
                 <button
                   onClick={() => setOpenIndex(isOpen ? null : i)}
-                  className="flex w-full items-center justify-between px-6 py-5 text-left"
+                  className="flex w-full items-center justify-between py-6 text-left"
                   aria-expanded={isOpen}
                   aria-controls={`faq-answer-${i}`}
                 >
@@ -87,10 +84,11 @@ export default function FAQ() {
                 <div
                   id={`faq-answer-${i}`}
                   role="region"
+                  aria-label={faq.q}
                   className="overflow-hidden transition-all duration-300"
                   style={{ maxHeight: isOpen ? "500px" : "0" }}
                 >
-                  <p className="px-6 pb-5 text-sm leading-relaxed text-charcoal/70">
+                  <p className="pb-6 pr-10 text-sm leading-relaxed text-charcoal/70">
                     {faq.a}
                   </p>
                 </div>
