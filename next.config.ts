@@ -6,6 +6,10 @@ const nextConfig: NextConfig = {
     optimizePackageImports: ["@react-three/fiber", "three", "react-social-media-embed"],
   },
   images: {
+    // Vercel's metered image optimizer is over its plan quota (402
+    // OPTIMIZED_IMAGE_REQUEST_PAYMENT_REQUIRED on /_next/image) — serve
+    // originals unoptimized rather than paying/upgrading for more transforms.
+    unoptimized: true,
     formats: ["image/avif", "image/webp"],
     // Shopify CDN assets are content-addressed, so they can be cached hard.
     minimumCacheTTL: 31536000,
