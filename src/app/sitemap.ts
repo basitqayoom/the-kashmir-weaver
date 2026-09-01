@@ -68,7 +68,9 @@ async function pagesSitemap(): Promise<MetadataRoute.Sitemap> {
     getAllProductsForCatalog().catch(() => []),
     getJournalArticles(250).catch(() => []),
   ]);
-  const catalogUpdated = latestDate(products.map((p) => p.updatedAt ?? p.createdAt));
+  const catalogUpdated = latestDate(
+    products.map((p) => p.updatedAt ?? p.createdAt),
+  );
   const journalUpdated = latestDate(articles.map((a) => a.publishedAt));
 
   return [
@@ -216,7 +218,9 @@ async function productSitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: new Date(p.updatedAt ?? p.createdAt),
       changeFrequency: "weekly",
       priority: 0.8,
-      ...(images.length ? { images: Array.from(new Set(images)).slice(0, 10) } : {}),
+      ...(images.length
+        ? { images: Array.from(new Set(images)).slice(0, 10) }
+        : {}),
     };
   });
 }
@@ -227,7 +231,9 @@ async function collectionSitemap(): Promise<MetadataRoute.Sitemap> {
     getCollections(),
     getAllProductsForCatalog().catch(() => []),
   ]);
-  const catalogUpdated = latestDate(products.map((p) => p.updatedAt ?? p.createdAt));
+  const catalogUpdated = latestDate(
+    products.map((p) => p.updatedAt ?? p.createdAt),
+  );
   return [
     {
       url: `${baseUrl}/collections`,
@@ -260,12 +266,14 @@ async function journalSitemap(): Promise<MetadataRoute.Sitemap> {
 
   // Taxonomy pages are only reachable via in-page links otherwise.
   const taxonomyEntries: MetadataRoute.Sitemap = [
-    ...JOURNAL_CATEGORIES.filter((category) => category !== "All").map((category) => ({
-      url: `${baseUrl}/blog/category/${slugify(category)}`,
-      lastModified: journalUpdated,
-      changeFrequency: "weekly" as const,
-      priority: 0.5,
-    })),
+    ...JOURNAL_CATEGORIES.filter((category) => category !== "All").map(
+      (category) => ({
+        url: `${baseUrl}/blog/category/${slugify(category)}`,
+        lastModified: journalUpdated,
+        changeFrequency: "weekly" as const,
+        priority: 0.5,
+      }),
+    ),
     ...collectJournalTags(articles).map((tag) => ({
       url: `${baseUrl}/blog/tag/${slugify(tag)}`,
       lastModified: journalUpdated,

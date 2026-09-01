@@ -3,7 +3,11 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   productionBrowserSourceMaps: false,
   experimental: {
-    optimizePackageImports: ["@react-three/fiber", "three", "react-social-media-embed"],
+    optimizePackageImports: [
+      "@react-three/fiber",
+      "three",
+      "react-social-media-embed",
+    ],
   },
   images: {
     // Vercel's metered image optimizer is over its plan quota (402
@@ -38,7 +42,8 @@ const nextConfig: NextConfig = {
           },
           {
             key: "Permissions-Policy",
-            value: "camera=(), microphone=(), geolocation=(), browsing-topics=()",
+            value:
+              "camera=(), microphone=(), geolocation=(), browsing-topics=()",
           },
           { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
         ],
@@ -49,7 +54,8 @@ const nextConfig: NextConfig = {
           { key: "X-Robots-Tag", value: "noindex" },
           {
             key: "Cache-Control",
-            value: "public, max-age=3600, s-maxage=3600, stale-while-revalidate=86400",
+            value:
+              "public, max-age=3600, s-maxage=3600, stale-while-revalidate=86400",
           },
         ],
       },
