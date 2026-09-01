@@ -74,11 +74,15 @@ export function seoBundle(options: SeoBundleOptions): Metadata {
       : {}),
   };
 
+  // Twitter falls back to the first Open Graph image so routes that pass
+  // `images` (not `image`) still get a large summary card.
+  const twitterImage = options.image ?? ogImages?.[0]?.url;
+
   metadata.twitter = {
     card: "summary_large_image",
     title: options.title,
     description: options.description,
-    ...(options.image ? { images: [options.image] } : {}),
+    ...(twitterImage ? { images: [twitterImage] } : {}),
   };
 
   return metadata;

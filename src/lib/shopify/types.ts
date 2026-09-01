@@ -133,6 +133,8 @@ export type CartLine = {
     product: {
       handle: string;
       title: string;
+      vendor?: string;
+      productType?: string;
     };
   };
 };

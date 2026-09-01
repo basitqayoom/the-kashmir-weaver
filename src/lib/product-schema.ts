@@ -2,6 +2,13 @@
 
 const FREE_SHIPPING_THRESHOLD = 200;
 const INTERNATIONAL_SHIPPING_RATE = 25;
+const PRICE_VALIDITY_DAYS = 30;
+
+/** Google drops offers without a future expiry; matches the merchant feed window. */
+export function offerPriceValidUntil(): string {
+  const expiry = new Date(Date.now() + PRICE_VALIDITY_DAYS * 86_400_000);
+  return expiry.toISOString().split("T")[0];
+}
 
 function monetaryAmount(value: number, currency: string) {
   return {

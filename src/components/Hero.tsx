@@ -47,7 +47,7 @@ export default function Hero() {
 
   return (
     <section
-      className="relative flex min-h-svh items-center justify-center overflow-hidden pt-19 pb-28 sm:pb-32 md:pt-20"
+      className="relative flex min-h-svh items-center justify-center overflow-hidden pt-19 pb-8 sm:pb-10 md:pt-20 md:pb-16 lg:pb-20"
       style={{
         background: isGradient ? theme.background : theme.background,
         backgroundColor: isGradient ? undefined : theme.background,

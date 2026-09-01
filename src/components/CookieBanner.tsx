@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { useEffect, useLayoutEffect, useRef, useState, useSyncExternalStore } from "react";
 import {
   acceptAllConsent,
   getConsentState,
@@ -9,6 +9,9 @@ import {
   subscribeConsent,
   type ConsentPreferences,
 } from "@/lib/tracking-consent";
+
+// Plain useEffect + setState is a lint error under react-hooks/set-state-in-effect.
+const useIsomorphicLayoutEffect = typeof window === "undefined" ? useEffect : useLayoutEffect;
 
 function subscribe(callback: () => void) {
   return subscribeConsent(callback);
@@ -25,6 +28,7 @@ function getServerSnapshot() {
 export default function CookieBanner() {
   const visible = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
   const [showManage, setShowManage] = useState(false);
+  const [timedOut, setTimedOut] = useState(false);
   const [prefs, setPrefs] = useState<ConsentPreferences>({ analytics: true, marketing: true });
   const btnRef = useRef<HTMLButtonElement>(null);
 
@@ -34,7 +38,19 @@ export default function CookieBanner() {
     }
   }, [visible]);
 
-  if (!visible) return null;
+  // Re-arm when the visitor reopens preferences from the footer.
+  useIsomorphicLayoutEffect(() => {
+    if (visible) setTimedOut(false);
+  }, [visible]);
+
+  useEffect(() => {
+    if (!visible || showManage) return;
+
+    const timeoutId = window.setTimeout(() => setTimedOut(true), 12_000);
+    return () => window.clearTimeout(timeoutId);
+  }, [visible, showManage]);
+
+  if (!visible || timedOut) return null;
 
   return (
     <div
@@ -42,8 +58,8 @@ export default function CookieBanner() {
       aria-label="Cookie consent"
       aria-describedby="cookie-banner-text"
       aria-live="polite"
-      className="fixed bottom-0 left-0 right-0 z-50 border-t border-ivory/10 bg-charcoal/95 px-4 py-4 backdrop-blur-md sm:px-6"
-      style={{ paddingBottom: "max(1rem, env(safe-area-inset-bottom))" }}
+      className="fixed top-0 left-0 right-0 z-50 border-b border-ivory/10 bg-charcoal/95 px-4 py-4 backdrop-blur-md sm:top-auto sm:bottom-0 sm:border-t sm:border-b-0 sm:px-6"
+      style={{ paddingTop: "max(1rem, env(safe-area-inset-top))", paddingBottom: "max(1rem, env(safe-area-inset-bottom))" }}
     >
       <div className="mx-auto max-w-7xl">
         {showManage ? (

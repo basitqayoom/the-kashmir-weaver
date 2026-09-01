@@ -4,6 +4,8 @@ import { seoBundle } from "@/lib/seo";
 
 export const metadata: Metadata = seoBundle({
     title: "Terms of Service",
+    description:
+        "The terms governing purchases, wholesale enquiries and use of The Kashmir Weaver storefront, including pricing, authenticity and GI certification.",
     pathname: "/terms",
 });
 

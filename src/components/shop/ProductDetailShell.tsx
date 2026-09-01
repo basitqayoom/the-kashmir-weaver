@@ -9,6 +9,7 @@ import {
   productUsesColourStudio,
 } from "@/lib/shopify/colour-studio";
 import { isColorOptionName } from "@/lib/shopify/parse-size-option";
+import ProductDetails from "./ProductDetails";
 import ProductGallery from "./ProductGallery";
 import VariantPicker from "./VariantPicker";
 import { siteConfig, whatsappLink } from "@/config/site";
@@ -49,13 +50,10 @@ export default function ProductDetailShell({
   product,
   images,
   children,
-  initialShadeCode,
 }: {
   product: ProductDetail;
   images: StorefrontImage[];
   children: ReactNode;
-  /** Deep link from home Colour Studio (`?shadeCode=`). */
-  initialShadeCode?: string | null;
 }) {
   const variants = product.variants.nodes;
   const productShades = useMemo(() => getProductShades(product), [product]);
@@ -69,11 +67,20 @@ export default function ProductDetailShell({
     return initial;
   });
 
-  const [selectedShadeCode, setSelectedShadeCode] = useState(() => {
-    const fromLink = initialShadeCode?.trim();
-    if (fromLink && findShadeByCode(productShades, fromLink)) return fromLink;
-    return getDefaultShadeCode(productShades);
-  });
+  const [selectedShadeCode, setSelectedShadeCode] = useState(() =>
+    getDefaultShadeCode(productShades),
+  );
+
+  // The `?shadeCode=` deep link from the home Colour Studio is applied after
+  // hydration rather than read on the server, so this page stays static.
+  useIsomorphicLayoutEffect(() => {
+    const fromLink = new URLSearchParams(window.location.search)
+      .get("shadeCode")
+      ?.trim();
+    if (fromLink && findShadeByCode(productShades, fromLink)) {
+      setSelectedShadeCode(fromLink);
+    }
+  }, [productShades]);
 
   const selectedShade = useMemo(
     () =>
@@ -103,6 +110,7 @@ export default function ProductDetailShell({
   }, [matchedVariant?.id, product.id]);
 
   return (
+      <>
       <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
       <div>
         <ProductGallery
@@ -127,10 +135,11 @@ export default function ProductDetailShell({
             onSelectedChange={setSelected}
             selectedShadeCode={selectedShadeCode}
             onShadeCodeChange={setSelectedShadeCode}
-            initialShadeCode={initialShadeCode}
           />
         </div>
       </div>
     </div>
+      <ProductDetails product={product} selectedVariant={matchedVariant} />
+      </>
   );
 }

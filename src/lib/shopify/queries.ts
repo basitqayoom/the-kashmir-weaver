@@ -94,6 +94,81 @@ export const PRODUCTS_QUERY = /* GraphQL */ `
   ${PRODUCT_CARD_FRAGMENT}
 `;
 
+/**
+ * Variant-level catalogue export — powers the Google Merchant Center, Meta and
+ * Pinterest product feeds, which all require one row per purchasable variant.
+ */
+export const PRODUCT_FEED_QUERY = /* GraphQL */ `
+  query ProductFeed($first: Int!, $after: String) {
+    products(first: $first, after: $after, sortKey: UPDATED_AT, reverse: true) {
+      nodes {
+        id
+        handle
+        title
+        vendor
+        productType
+        description
+        tags
+        createdAt
+        updatedAt
+        availableForSale
+        onlineStoreUrl
+        featuredImage {
+          ...ImageFragment
+        }
+        images(first: 10) {
+          nodes {
+            ...ImageFragment
+          }
+        }
+        collections(first: 5) {
+          nodes {
+            handle
+            title
+          }
+        }
+        material: metafield(namespace: "custom", key: "material") {
+          value
+        }
+        googleCategory: metafield(namespace: "custom", key: "google_product_category") {
+          value
+        }
+        variants(first: 50) {
+          nodes {
+            id
+            title
+            sku
+            barcode
+            availableForSale
+            quantityAvailable
+            weight
+            weightUnit
+            price {
+              ...MoneyFragment
+            }
+            compareAtPrice {
+              ...MoneyFragment
+            }
+            selectedOptions {
+              name
+              value
+            }
+            image {
+              ...ImageFragment
+            }
+          }
+        }
+      }
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+    }
+  }
+  ${IMAGE_FRAGMENT}
+  ${MONEY_FRAGMENT}
+`;
+
 export const COLLECTIONS_QUERY = /* GraphQL */ `
   query Collections {
     collections(first: 20) {
@@ -365,6 +440,8 @@ export const CART_FRAGMENT = /* GraphQL */ `
             product {
               handle
               title
+              vendor
+              productType
             }
           }
         }

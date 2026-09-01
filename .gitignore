@@ -45,3 +45,8 @@ next-env.d.ts
 .env*.local
 .shopify-admin-state.json
 /tmp/
+
+# service-account keys / local credential material — never commit
+secrets/
+# stray shell-history scratch file
+.new

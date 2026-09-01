@@ -1,5 +1,5 @@
 import Link from "next/link";
-import type { ProductDetail } from "@/lib/shopify/types";
+import type { ProductDetail, ProductVariant } from "@/lib/shopify/types";
 import {
   parseAccordionItems,
   parseBulletItems,
@@ -56,17 +56,21 @@ function Accordion({
   );
 }
 
-function specRows(product: ProductDetail) {
+function specRows(product: ProductDetail, selectedVariant: ProductVariant | null) {
   const variants = product.variants.nodes;
   const sizeOptions = product.options.filter((o) => !isDefaultOption(o));
-  const weights = Array.from(
+  const selectedWeight = selectedVariant
+    ? formatVariantWeight(selectedVariant.weight, selectedVariant.weightUnit)
+    : null;
+  const fallbackWeights = Array.from(
     new Set(
       variants
         .map((v) => formatVariantWeight(v.weight, v.weightUnit))
         .filter((w): w is string => Boolean(w)),
     ),
   );
-  const skus = Array.from(new Set(variants.map((v) => v.sku).filter(Boolean)));
+  const selectedSku = selectedVariant?.sku ?? null;
+  const fallbackSkus = Array.from(new Set(variants.map((v) => v.sku).filter(Boolean)));
 
   const rows: { label: string; value: string }[] = [];
   const push = (label: string, value?: string | null) => {
@@ -100,17 +104,24 @@ function specRows(product: ProductDetail) {
     );
   }
 
-  push("Weight", weights.join(" · "));
+  push("Weight", selectedWeight ?? fallbackWeights.join(" · "));
   push("Certification", "GI-Certified Kashmiri Pashmina");
   push("Edition", product.limited?.value === "true" ? "Limited — one of a kind" : null);
-  push("SKU", skus.join(" · "));
+  push("SKU", selectedSku ?? fallbackSkus.join(" · "));
 
   return rows;
 }
 
 /** Scannable spec table plus the long-form accordions, below the buy box. */
-export default function ProductDetails({ product }: { product: ProductDetail }) {
-  const rows = specRows(product);
+export default function ProductDetails({
+  product,
+  selectedVariant = null,
+}: {
+  product: ProductDetail;
+  /** Weight/SKU rows reflect this variant; falls back to an aggregate across all variants when absent. */
+  selectedVariant?: ProductVariant | null;
+}) {
+  const rows = specRows(product, selectedVariant);
   const story =
     product.story?.value && !isPlaceholderStory(product.story.value)
       ? product.story.value

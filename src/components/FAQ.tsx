@@ -10,11 +10,11 @@ const faqs = [
   },
   {
     q: "How do I know if a Pashmina shawl is genuine?",
-    a: "The only reliable proof is the GI mark — Geographical Indication No. 46, issued by the Government of India after lab testing at PTQCC in Srinagar. The popular \"ring test\" is a myth — many synthetics pass it. A burn test can confirm natural fibre, but only GI certification confirms it is specifically Changthangi Pashm. Every Kashmir Weaver piece carries this mark.",
+    a: "The most reliable proof is GI certification — Geographical Indication No. 46, issued by the Government of India after lab testing at PTQCC in Srinagar. The popular \"ring test\" is unreliable — many synthetics pass it. A burn test can suggest natural fibre, but lab certification is what confirms it is specifically Changthangi Pashm. Every Kashmir Weaver piece carries this mark.",
   },
   {
     q: "How is a Pashmina shawl made?",
-    a: "Over 20 hand processes: the fibre is hand-combed from Changthangi goats in Ladakh, dehaired, hand-spun, hand-dyed, and hand-woven on a wooden Saaz loom. After weaving, the shawl is washed in spring water and struck against river stones for softness. If embroidered, months or years of additional needlework follow. Zero machines at any stage.",
+    a: "Over 20 hand processes: the fibre is hand-combed from Changthangi goats in Ladakh, dehaired, hand-spun, hand-dyed, and hand-woven on a wooden Saaz loom. After weaving, the shawl is washed in spring water and struck against river stones for softness. If embroidered, months or years of additional needlework follow. No machines are used in the spinning or weaving.",
   },
   {
     q: "Why is Pashmina so expensive?",

@@ -8,7 +8,7 @@ import { seoBundle } from "@/lib/seo";
 export const metadata: Metadata = seoBundle({
     title: "The Craft — The Kashmir Weaver",
     description:
-        "From raw Changthangi fibre to a finished shawl — over 20 hand processes, zero machines, and the artisans who carry each step.",
+        "From raw Changthangi fibre to a finished shawl — over 20 hand processes and the artisans who carry each step.",
     pathname: "/craft",
 });
 
@@ -37,7 +37,7 @@ export default function CraftPage() {
                         <span className="italic">By Hand</span>
                     </>
                 }
-                description="Over 20 hand processes separate a genuine Pashmina from an imitation — from fibre to finished shawl, zero machines touch the work."
+                description="Over 20 hand processes separate a genuine Pashmina from an imitation — from fibre to finished shawl, spun and woven entirely by hand."
             />
             <CraftProcess />
             <EditorialCTA />

@@ -61,7 +61,7 @@ export async function sendConciergeInquiryEmail(
     siteConfig.contact.email;
   const from =
     process.env.CONCIERGE_EMAIL_FROM?.trim() ||
-    "The Kashmir Weaver Concierge <concierge@thekashmirweaver.shop>";
+    "The Kashmir Weaver Concierge <concierge@thekashmirweaver.com>";
   const { subject, text, html } = formatConciergeInquiryEmail(inquiry);
 
   try {

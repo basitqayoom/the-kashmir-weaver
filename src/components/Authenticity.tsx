@@ -314,8 +314,8 @@ export default function Authenticity() {
             &ldquo;
           </span>
           <p className="mt-1 font-heading text-lg italic leading-relaxed text-charcoal/80 sm:text-xl">
-            In a world where 90% of what is sold as Pashmina is fake,
-            the GI mark is the only truth.
+            In a market where an estimated 90% of what is sold as Pashmina is fake,
+            the GI mark is the clearest proof of the real thing.
           </p>
           <div className="mx-auto mt-4 h-px w-16 bg-gold/30" />
           <p className="mt-3 text-xs tracking-widest text-gold/50">

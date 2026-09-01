@@ -14,14 +14,15 @@ export const siteConfig = {
   },
 
   address: {
-    line1: "Ali Jan Complex, Lal Chowk",
+    line1: "Firdous Abad Colony, Batmaloo Bypass Road",
     city: "Srinagar",
     state: "Jammu & Kashmir",
     stateShort: "J&K",
     postalCode: "190001",
     country: "IN",
-    mapsUrl: "https://maps.app.goo.gl/4bjkSoCjsdMyNVsf8",
-    geo: { latitude: 34.0837, longitude: 74.7973 },
+    // TODO: swap for a precise Google Maps pin once available; this is a search query, not a dropped pin.
+    mapsUrl:
+      "https://www.google.com/maps/search/?api=1&query=Firdous+Abad+Colony%2C+Batmaloo+Bypass+Road%2C+Srinagar%2C+Jammu+%26+Kashmir+190001",
   },
 
   social: {
@@ -46,6 +47,8 @@ export const siteConfig = {
   verification: {
     google: "Z1IoiWticf5Ho_AAlEmWW1G-eA4niLGaphHfO3EOO10",
     pinterest: "cd185cc54ba7583aaa8909b821744b15",
+    // Pinterest Ads conversion tag — the tag stays inert until this is set.
+    pinterestTagId: process.env.NEXT_PUBLIC_PINTEREST_TAG_ID ?? "",
   },
 
   films: [

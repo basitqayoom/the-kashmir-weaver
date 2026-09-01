@@ -1,8 +1,11 @@
 "use client";
 
-import { useActionState, useState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { useFormStatus } from "react-dom";
 import { submitContactInquiry, type ContactFormState } from "@/app/actions/contact";
+import { trackGenerateLead } from "@/components/GoogleAnalytics";
+import { trackLead } from "@/components/MetaPixel";
+import { trackPinterestLead } from "@/components/PinterestTag";
 import Spinner from "./Spinner";
 
 const inquiryTypes = [
@@ -46,6 +49,14 @@ export default function ContactForm({ defaultInquiryType = "" }: { defaultInquir
   const [state, formAction] = useActionState(submitContactInquiry, initialState);
 
   const isB2B = b2bTypes.includes(inquiryType);
+
+  useEffect(() => {
+    if (!state.success) return;
+    const label = inquiryType || "Contact Inquiry";
+    trackGenerateLead(label);
+    trackLead(label);
+    trackPinterestLead(label);
+  }, [state.success, inquiryType]);
 
   if (state.success) {
     return (

@@ -86,6 +86,13 @@ export function saveConsentPreferences(prefs: ConsentPreferences): void {
   notifyConsentChange();
 }
 
+/** Clears the stored decision so the banner reappears — backs the footer link. */
+export function reopenConsentBanner(): void {
+  localStorage.removeItem(CONSENT_KEY);
+  localStorage.removeItem(`${CONSENT_KEY}-prefs`);
+  notifyConsentChange();
+}
+
 const listeners = new Set<() => void>();
 
 export function subscribeConsent(callback: () => void): () => void {

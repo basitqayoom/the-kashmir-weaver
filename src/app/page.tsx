@@ -3,7 +3,6 @@ import { Suspense } from "react";
 import { siteConfig } from "@/config/site";
 import Navbar from "@/components/SiteHeader";
 import Hero from "@/components/Hero";
-import TrustStrip from "@/components/TrustStrip";
 import HomeShopSection from "@/components/HomeShopSection";
 import HomeColourStudio from "@/components/HomeColourStudio";
 import Heritage from "@/components/Heritage";
@@ -13,7 +12,11 @@ import Footer from "@/components/Footer";
 import WhatsAppFAB from "@/components/FabSpeedDial";
 import ScrollReveal from "@/components/ScrollReveal";
 import ImageModalProvider from "@/components/ImageModal";
-import { SectionSpinner } from "@/components/Spinner";
+import {
+  HomeShopSectionSkeleton,
+  HomeColourStudioSkeleton,
+  StoriesSkeleton,
+} from "@/components/HomeSectionSkeletons";
 
 const FAQ = dynamic(() => import("@/components/FAQ"));
 
@@ -34,11 +37,6 @@ const localBusinessJsonLd = {
     addressRegion: siteConfig.address.state,
     postalCode: siteConfig.address.postalCode,
     addressCountry: siteConfig.address.country,
-  },
-  geo: {
-    "@type": "GeoCoordinates",
-    latitude: siteConfig.address.geo.latitude,
-    longitude: siteConfig.address.geo.longitude,
   },
   sameAs: [siteConfig.social.instagram, siteConfig.social.linkedin],
 };
@@ -82,15 +80,14 @@ export default function Home() {
       <Navbar overlay />
       <main id="main-content">
         <Hero />
-        <TrustStrip />
-        <Suspense fallback={<SectionSpinner label="Loading the collection" />}>
+        <Suspense fallback={<HomeShopSectionSkeleton />}>
           <HomeShopSection />
         </Suspense>
-        <Suspense fallback={<SectionSpinner label="Loading the colour studio" />}>
+        <Suspense fallback={<HomeColourStudioSkeleton />}>
           <HomeColourStudio />
         </Suspense>
         <Heritage />
-        <Suspense fallback={<SectionSpinner label="Loading stories" />}>
+        <Suspense fallback={<StoriesSkeleton />}>
           <Stories />
         </Suspense>
         <FAQ />

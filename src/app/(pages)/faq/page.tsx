@@ -29,7 +29,7 @@ const faqJsonLd = {
             name: "How do I know if a Pashmina shawl is genuine?",
             acceptedAnswer: {
                 "@type": "Answer",
-                text: "The only reliable proof is the GI mark — Geographical Indication No. 46, issued by the Government of India after lab testing at PTQCC in Srinagar. Every Kashmir Weaver piece carries this mark.",
+                text: "The most reliable proof is GI certification — Geographical Indication No. 46, issued by the Government of India after lab testing at PTQCC in Srinagar. Every Kashmir Weaver piece carries this mark.",
             },
         },
         {

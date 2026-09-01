@@ -1,9 +1,14 @@
 import { ImageResponse } from "next/og";
-import { getProductByHandle } from "@/lib/shopify/products";
+import { getProductByHandle, getAllProductsForCatalog } from "@/lib/shopify/products";
 
 export const alt = "The Kashmir Weaver Product";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
+
+export async function generateStaticParams() {
+  const products = await getAllProductsForCatalog();
+  return products.map((product) => ({ handle: product.handle }));
+}
 
 export default async function OGImage({
   params,

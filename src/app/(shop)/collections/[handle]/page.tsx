@@ -4,7 +4,6 @@ import Image from "next/image";
 import { Suspense } from "react";
 import { getCollectionByHandle, getProductsPage, getCollections } from "@/lib/shopify/products";
 import ProductCatalog from "@/components/shop/ProductCatalog";
-import CollectionProductsScrollCue from "@/components/CollectionProductsScrollCue";
 import TrustStrip from "@/components/TrustStrip";
 import { siteConfig } from "@/config/site";
 import { seoBundle } from "@/lib/seo";
@@ -65,14 +64,34 @@ export default async function CollectionPage({
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
             />
 
-            {/* Hero */}
+            {/* Products */}
+            <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+                <p className="font-accent text-[10px] font-light uppercase tracking-[0.35em] text-gold-text">
+                    The Kashmir Weaver &middot; Collection
+                </p>
+                <h1 className="mt-4 font-heading text-4xl font-light text-charcoal sm:text-5xl">
+                    {collection.title}
+                </h1>
+                <Suspense fallback={<div className="mt-8 min-h-96 animate-pulse rounded-lg bg-paper-alt" aria-hidden="true" />}>
+                    <div className="mt-8">
+                        <ProductCatalog
+                            products={products}
+                            pageInfo={pageInfo}
+                            collections={collections}
+                            collectionHandle={handle}
+                            showCollectionFilter={false}
+                        />
+                    </div>
+                </Suspense>
+            </section>
+
+            {/* Hero: editorial closer for the collection just browsed, before the generic cross-sell CTA */}
             <section className="relative aspect-4/5 w-full overflow-hidden bg-paper-alt md:aspect-21/9">
                 {heroImage && (
                     <Image
                         src={heroImage.url}
                         alt={heroImage.altText ?? collection.title}
                         fill
-                        priority
                         sizes="100vw"
                         className="object-cover"
                     />
@@ -83,11 +102,11 @@ export default async function CollectionPage({
                         <p className="font-accent text-[10px] font-light uppercase tracking-[0.35em] text-gold">
                             The Kashmir Weaver &middot; Collection
                         </p>
-                        <h1 className="mt-4 font-heading text-4xl font-light text-ivory sm:text-5xl md:text-6xl">
+                        <h2 className="mt-4 font-heading text-4xl font-light text-ivory sm:text-5xl md:text-6xl">
                             {collection.title}
-                        </h1>
+                        </h2>
                         {collection.description && (
-                            <p className="mt-4 hidden max-w-xl text-base leading-relaxed text-ivory/80 md:block">
+                            <p className="mt-4 max-w-xl text-base leading-relaxed text-ivory/80">
                                 {collection.description}
                             </p>
                         )}
@@ -96,30 +115,6 @@ export default async function CollectionPage({
             </section>
 
             <TrustStrip compact />
-
-            <CollectionProductsScrollCue />
-
-            <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-                <Suspense fallback={<div className="min-h-[24rem] animate-pulse rounded-lg bg-paper-alt" aria-hidden="true" />}>
-                    <ProductCatalog
-                        products={products}
-                        pageInfo={pageInfo}
-                        collections={collections}
-                        collectionHandle={handle}
-                        showCollectionFilter={false}
-                    />
-                </Suspense>
-            </section>
-
-            {/* Mobile story — shop first, read second */}
-            {collection.description && (
-                <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 md:hidden">
-                    <p className="font-accent text-[10px] font-light uppercase tracking-[0.35em] text-gold-text">
-                        About This Collection
-                    </p>
-                    <p className="mt-4 text-base leading-relaxed text-charcoal/70">{collection.description}</p>
-                </section>
-            )}
 
             <section className="mx-auto max-w-7xl px-4 py-20 text-center sm:px-6 lg:px-8">
                 <p className="font-accent text-[10px] font-light uppercase tracking-[0.35em] text-gold-text">Shop</p>

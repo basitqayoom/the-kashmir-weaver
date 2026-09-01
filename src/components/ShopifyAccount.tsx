@@ -34,6 +34,30 @@ function useIsLgUp() {
   );
 }
 
+/**
+ * Read after hydration instead of during the server render — reading the
+ * session on the server would opt every page out of static prerendering.
+ */
+function useCustomerLoginState(initial: boolean): boolean {
+  const [isLoggedIn, setIsLoggedIn] = useState(initial);
+
+  useEffect(() => {
+    if (initial) return;
+    const controller = new AbortController();
+    fetch("/api/account/state", { signal: controller.signal })
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data: { isLoggedIn?: boolean } | null) => {
+        if (data?.isLoggedIn) setIsLoggedIn(true);
+      })
+      .catch(() => {
+        /* anonymous is the safe default */
+      });
+    return () => controller.abort();
+  }, [initial]);
+
+  return isLoggedIn;
+}
+
 function UserIcon({ className }: { className?: string }) {
   return (
     <svg
@@ -106,7 +130,7 @@ function AccountMenuPanel({
 
 /** Header account menu — sign-in, orders, profile, and sign-out. */
 export default function ShopifyAccount({
-  isLoggedIn = false,
+  isLoggedIn: initialLoggedIn = false,
   variant = "icon",
   onNavigate,
 }: {
@@ -114,6 +138,7 @@ export default function ShopifyAccount({
   variant?: "icon" | "tile";
   onNavigate?: () => void;
 }) {
+  const isLoggedIn = useCustomerLoginState(initialLoggedIn);
   const pathname = usePathname();
   const isLgUp = useIsLgUp();
   const [open, setOpen] = useState(false);

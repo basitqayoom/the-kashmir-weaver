@@ -1,5 +1,6 @@
 import Link from "next/link";
 import BrandLockup, { BrandMark } from "./BrandLockup";
+import CookiePreferencesLink from "./CookiePreferencesLink";
 import PaymentMethods from "./PaymentMethods";
 import { siteConfig, whatsappLink } from "@/config/site";
 import { getShopSettings } from "@/lib/shopify/shop-settings";
@@ -17,6 +18,7 @@ const quickLinks = [
 ];
 
 const careLinks = [
+  { label: "Contact Us", href: "/contact" },
   { label: "Concierge", href: "/concierge" },
   { label: "FAQ", href: "/faq" },
   { label: "Care Guide", href: "/care-guide" },
@@ -257,6 +259,9 @@ export default async function Footer() {
                   </Link>
                 </li>
               ))}
+              <li>
+                <CookiePreferencesLink />
+              </li>
             </ul>
           </nav>
 

@@ -2,10 +2,10 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getProductByHandle, getProductsPage, getAllProductsForCatalog } from "@/lib/shopify/products";
 import ProductDetailShell from "@/components/shop/ProductDetailShell";
-import ProductDetails from "@/components/shop/ProductDetails";
 import ProductCard from "@/components/shop/ProductCard";
 import { siteConfig } from "@/config/site";
-import { offerShippingDetails, merchantReturnPolicy } from "@/lib/product-schema";
+import { offerShippingDetails, merchantReturnPolicy, offerPriceValidUntil } from "@/lib/product-schema";
+import { gidTail } from "@/lib/tracking-ids";
 import { seoBundle } from "@/lib/seo";
 
 export const revalidate = 3600;
@@ -36,13 +36,10 @@ export async function generateMetadata({
 
 export default async function ProductPage({
     params,
-    searchParams,
 }: {
     params: Promise<{ handle: string }>;
-    searchParams: Promise<{ shadeCode?: string }>;
 }) {
     const { handle } = await params;
-    const { shadeCode } = await searchParams;
     const product = await getProductByHandle(handle);
     if (!product) notFound();
 
@@ -85,7 +82,8 @@ export default async function ProductPage({
         brand: { "@type": "Brand", name: siteConfig.name },
         ...(product.material?.value ? { material: product.material.value } : {}),
         category: product.productType || undefined,
-        ...(primarySku ? { sku: primarySku } : {}),
+        ...(primarySku ? { sku: primarySku, mpn: primarySku } : {}),
+        productID: gidTail(product.id),
         ...(hasReviews
             ? {
                 aggregateRating: {
@@ -99,11 +97,13 @@ export default async function ProductPage({
             "@type": "Offer",
             price: product.priceRange.minVariantPrice.amount,
             priceCurrency: product.priceRange.minVariantPrice.currencyCode,
+            priceValidUntil: offerPriceValidUntil(),
             itemCondition: "https://schema.org/NewCondition",
             availability: inStock
                 ? "https://schema.org/InStock"
                 : "https://schema.org/OutOfStock",
             url: productUrl,
+            seller: { "@type": "Organization", name: siteConfig.name, url: siteConfig.url },
             shippingDetails: offerShippingDetails(priceAmount, currency),
             hasMerchantReturnPolicy: merchantReturnPolicy(`${siteConfig.url}/returns`),
         },
@@ -162,7 +162,7 @@ export default async function ProductPage({
                     <span className="text-charcoal/70">{product.title}</span>
                 </nav>
 
-                <ProductDetailShell product={product} images={images} initialShadeCode={shadeCode}>
+                <ProductDetailShell product={product} images={images}>
                         <p className="eyebrow text-charcoal/70">
                             {product.productType || product.vendor}
                         </p>
@@ -230,8 +230,6 @@ export default async function ProductPage({
                         </div>
 
                 </ProductDetailShell>
-
-                <ProductDetails product={product} />
             </div>
 
             {/* You May Also Like */}

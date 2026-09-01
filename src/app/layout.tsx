@@ -7,6 +7,7 @@ import MotionReady from "@/components/MotionReady";
 import WebVitalsReporter from "@/components/WebVitalsReporter";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 import MetaPixel from "@/components/MetaPixel";
+import PinterestTag from "@/components/PinterestTag";
 import ConsentGatedAnalytics from "@/components/ConsentGatedAnalytics";
 import "./globals.css";
 
@@ -124,6 +125,7 @@ export default function RootLayout({
         <ConsentGatedAnalytics />
         <GoogleAnalytics />
         <MetaPixel />
+        <PinterestTag />
         <CookieBanner />
       </body>
     </html>

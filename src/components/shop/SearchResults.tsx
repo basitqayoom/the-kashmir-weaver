@@ -1,8 +1,13 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import ProductCard from "@/components/shop/ProductCard";
+import ProductListAnalytics from "@/components/shop/ProductListAnalytics";
 import PagePagination from "@/components/shop/PagePagination";
 import Spinner from "@/components/Spinner";
+import { trackSearch } from "@/components/GoogleAnalytics";
+import { trackSearchMeta } from "@/components/MetaPixel";
+import { trackPinterestSearch } from "@/components/PinterestTag";
 import { usePagePagination } from "@/hooks/use-page-pagination";
 import type { CatalogPageInfo } from "@/lib/shopify/catalog-pagination";
 import type { ProductCard as ProductCardType } from "@/lib/shopify/types";
@@ -22,6 +27,18 @@ export default function SearchResults({
         initialSort: "featured",
         initialFilters: { query },
     });
+
+    const trackedQuery = useRef<string | null>(null);
+    useEffect(() => {
+        if (!query || trackedQuery.current === query) return;
+        trackedQuery.current = query;
+        trackSearch(query, initialProducts.length);
+        trackSearchMeta(
+            query,
+            initialProducts.slice(0, 10).map((product) => product.id),
+        );
+        trackPinterestSearch(query);
+    }, [query, initialProducts]);
 
     if (pagination.products.length === 0) {
         return (
@@ -47,6 +64,11 @@ export default function SearchResults({
 
     return (
         <div>
+            <ProductListAnalytics
+                products={pagination.products}
+                listId="search_results"
+                listName="Search Results"
+            />
             <p className="mb-8 text-sm text-charcoal/70">{countLabel}</p>
             <div className="relative">
                 <div

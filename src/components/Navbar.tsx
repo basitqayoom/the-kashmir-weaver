@@ -13,7 +13,6 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import BrandLockup, { BrandMark } from "./BrandLockup";
-import CartDrawer from "./shop/CartDrawer";
 import CurrencyDropdown from "./CurrencyDropdown";
 import ShopifyAccount from "./ShopifyAccount";
 import {
@@ -30,6 +29,7 @@ import type { Collection, ProductCard } from "@/lib/shopify/types";
 const useIsomorphicLayoutEffect = typeof window === "undefined" ? useEffect : useLayoutEffect;
 
 const SearchModal = dynamic(() => import("./SearchModal"));
+const CartDrawer = dynamic(() => import("./shop/CartDrawer"));
 
 const MENU_CLOSE_MS = 300;
 
@@ -127,6 +127,20 @@ function useCartQuantity(): number {
   return cart?.totalQuantity ?? 0;
 }
 
+/** True from the first time the drawer opens — keeps its chunk off the initial load. */
+function useCartDrawerMounted(): boolean {
+  const { isOpen } = useSyncExternalStore(
+    subscribeCartUi,
+    getCartUiSnapshot,
+    getCartUiServerSnapshot,
+  );
+  const [mounted, setMounted] = useState(false);
+  useIsomorphicLayoutEffect(() => {
+    if (isOpen) setMounted(true);
+  }, [isOpen]);
+  return mounted;
+}
+
 function AnimatedHeaderBrand({
   condensed,
   overlay,
@@ -198,6 +212,7 @@ export default function Navbar({
   const [searchOpen, setSearchOpen] = useState(false);
   const [portalReady, setPortalReady] = useState(false);
   const cartQuantity = useCartQuantity();
+  const cartDrawerMounted = useCartDrawerMounted();
   const menuRef = useRef<HTMLDivElement>(null);
   const menuTriggerRef = useRef<HTMLButtonElement>(null);
   const menuClosingRef = useRef(false);
@@ -486,7 +501,7 @@ export default function Navbar({
 
       {mobileDrawer}
 
-      <CartDrawer />
+      {cartDrawerMounted && <CartDrawer />}
       {searchOpen && (
         <SearchModal
           open={searchOpen}

@@ -1,11 +1,14 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
 import { useFormStatus } from "react-dom";
 import {
   submitConciergeInquiry,
   type ConciergeFormState,
 } from "@/app/actions/contact";
+import { trackGenerateLead } from "@/components/GoogleAnalytics";
+import { trackLead } from "@/components/MetaPixel";
+import { trackPinterestLead } from "@/components/PinterestTag";
 import Spinner from "./Spinner";
 
 const INQUIRY_TYPES = [
@@ -39,6 +42,13 @@ export default function ConciergeForm() {
     submitConciergeInquiry,
     initialState,
   );
+
+  useEffect(() => {
+    if (!state.success) return;
+    trackGenerateLead("Concierge");
+    trackLead("Concierge");
+    trackPinterestLead("Concierge");
+  }, [state.success]);
 
   if (state.success) {
     return (

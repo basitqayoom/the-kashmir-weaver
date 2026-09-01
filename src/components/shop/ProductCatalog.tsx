@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import ProductCard from "@/components/shop/ProductCard";
+import ProductListAnalytics from "@/components/shop/ProductListAnalytics";
 import PagePagination from "@/components/shop/PagePagination";
 import Spinner from "@/components/Spinner";
 import { usePagePagination } from "@/hooks/use-page-pagination";
@@ -403,6 +404,11 @@ export default function ProductCatalog({
                         </div>
                     ) : (
                         <>
+                            <ProductListAnalytics
+                                products={filtered}
+                                listId={collectionHandle ?? "shop_all"}
+                                listName={collectionHandle ? `Collection: ${collectionHandle}` : "Shop"}
+                            />
                             <div className="relative">
                                 <div
                                     ref={gridRef}

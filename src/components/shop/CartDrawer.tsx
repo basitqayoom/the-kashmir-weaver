@@ -356,7 +356,11 @@ function startCartUpdate(lineId: string, quantity: number, maxQty = UNTRACKED_MA
 function startCartRemove(
     lineId: string,
     line?: {
-        merchandise: { id: string; product: { title: string }; title: string };
+        merchandise: {
+            id: string;
+            product: { title: string; vendor?: string; productType?: string };
+            title: string;
+        };
         quantity: number;
         cost: { amountPerQuantity: { amount: string; currencyCode: string } };
     },
@@ -367,6 +371,8 @@ function startCartRemove(
                 item_id: line.merchandise.id,
                 item_name: line.merchandise.product.title,
                 item_variant: line.merchandise.title,
+                item_brand: line.merchandise.product.vendor || undefined,
+                item_category: line.merchandise.product.productType || undefined,
                 price: Number(line.cost.amountPerQuantity.amount),
                 quantity: line.quantity,
             },

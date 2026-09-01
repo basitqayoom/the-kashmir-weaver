@@ -6,18 +6,17 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: "/",
-      disallow: ["/api/", "/_next/"],
+      // /cart and /search rely on noindex meta instead, so they stay crawlable.
+      disallow: ["/api/", "/_next/", "/account/", "/cart/", "/discount/"],
     },
-    // Split sitemap (see src/app/sitemap.ts generateSitemaps) — Next.js doesn't
-    // auto-generate an index at a plain /sitemap.xml when generateSitemaps is
-    // used, so each child sitemap is listed directly (robots.txt supports
-    // multiple Sitemap: lines natively).
+    // Index first, then children. /sitemap/editorial.xml is intentionally not
+    // listed — it duplicates URLs the native sitemaps already cover.
     sitemap: [
+      `${siteConfig.url}/sitemap.xml`,
       `${siteConfig.url}/sitemap/pages.xml`,
       `${siteConfig.url}/sitemap/products.xml`,
       `${siteConfig.url}/sitemap/collections.xml`,
       `${siteConfig.url}/sitemap/journal.xml`,
-      `${siteConfig.url}/sitemap/editorial.xml`,
     ],
   };
 }

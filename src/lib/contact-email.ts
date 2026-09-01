@@ -58,7 +58,7 @@ export async function sendContactInquiryEmail(
   const to = process.env.CONCIERGE_EMAIL_TO?.trim() || siteConfig.contact.email;
   const from =
     process.env.CONCIERGE_EMAIL_FROM?.trim() ||
-    "The Kashmir Weaver <concierge@thekashmirweaver.shop>";
+    "The Kashmir Weaver <concierge@thekashmirweaver.com>";
   const { subject, text, html } = formatContactInquiryEmail(inquiry);
 
   try {

@@ -43,21 +43,37 @@ export default async function PrivacyPage() {
           </section>
 
           <section>
-            <h2 className="font-heading text-lg font-bold text-charcoal">Cookies</h2>
+            <h2 className="font-heading text-lg font-bold text-charcoal">Cookies &amp; Tracking</h2>
             <p className="mt-2">
-              We use minimal cookies to remember your cookie consent preference. We do not use
-              tracking cookies or third-party analytics cookies at this time.
+              Essential cookies remember your cookie consent preference and your cart. Nothing else
+              loads until you choose. If you accept, we may set analytics cookies (Google Analytics 4)
+              and advertising cookies (Meta Pixel, Pinterest Tag) to measure how the store is used and
+              to measure advertising performance. Google Consent Mode v2 is used so advertising and
+              analytics storage stay denied unless you grant them.
+            </p>
+            <p className="mt-2">
+              You can decline all non-essential cookies, or choose analytics and marketing separately,
+              from the consent banner. Declining does not affect your ability to browse or order.
             </p>
           </section>
 
           <section>
             <h2 className="font-heading text-lg font-bold text-charcoal">Third-Party Services</h2>
             <p className="mt-2">
-              Our contact form is powered by Google Forms. Please refer to{" "}
+              With your consent we use{" "}
               <a href="https://policies.google.com/privacy" className="text-gold-text underline" target="_blank" rel="noopener noreferrer">
-                Google&rsquo;s privacy policy
+                Google Analytics
+              </a>
+              ,{" "}
+              <a href="https://www.facebook.com/privacy/policy" className="text-gold-text underline" target="_blank" rel="noopener noreferrer">
+                Meta
               </a>{" "}
-              for information on how they handle data.
+              and{" "}
+              <a href="https://policy.pinterest.com/en/privacy-policy" className="text-gold-text underline" target="_blank" rel="noopener noreferrer">
+                Pinterest
+              </a>
+              . Orders and checkout are processed by Shopify. Please refer to each provider&rsquo;s
+              privacy policy for details on how they handle data.
             </p>
           </section>
 

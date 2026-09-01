@@ -67,10 +67,7 @@ function CollectionBlock({
         />
       )}
       <div>
-        <p className="font-accent text-[10px] font-light uppercase tracking-[0.35em] text-gold-text">
-          Shop by Category
-        </p>
-        <h3 className="mt-4 font-heading text-2xl font-bold text-charcoal sm:text-3xl md:text-4xl">
+        <h3 className="font-heading text-2xl font-bold text-charcoal sm:text-3xl md:text-4xl">
           {firstName}{" "}
           {restName ? <span className="italic font-normal">{restName}</span> : null}
         </h3>
@@ -114,21 +111,12 @@ export default async function HomeShopSection() {
   if (blocks.length === 0) return null;
 
   return (
-    <section className="reveal bg-ivory py-20 sm:py-28">
+    <section className="reveal bg-ivory pt-0 pb-20 sm:pb-28">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="max-w-2xl">
-          <p className="font-accent text-[10px] font-light uppercase tracking-[0.35em] text-gold-text">
-            Signature collections
-          </p>
-          <h2 className="mt-4 font-heading text-4xl font-bold text-charcoal sm:text-5xl">
-            Choose a weave
-          </h2>
-          <p className="mt-6 max-w-xl text-base leading-relaxed text-charcoal/70">
-            Each collection is a different language of the same fibre — pick the one that speaks to you.
-          </p>
-        </div>
-
-        <div className="mt-16 flex flex-col gap-16 sm:mt-20 sm:gap-20">
+        <h2 className="font-heading text-3xl font-bold text-charcoal sm:text-4xl md:text-5xl">
+          Shop By <span className="italic font-normal">Category</span>
+        </h2>
+        <div className="mt-10 flex flex-col gap-16 sm:mt-12 sm:gap-20">
           {blocks.map(({ collection, products }, i) => (
             <CollectionBlock
               key={collection.handle}
@@ -142,3 +130,4 @@ export default async function HomeShopSection() {
     </section>
   );
 }
+
