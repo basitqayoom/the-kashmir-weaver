@@ -1,0 +1,22 @@
+# Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
+
+client_id = "713a94a85fd1e175117a0ca35c4561d5"
+application_url = "https://example.com"
+embedded = true
+name = "the-kashmir-weaver-dev"
+
+[webhooks]
+api_version = "2026-07"
+
+[[webhooks.subscriptions]]
+topics = [ "orders/create" ]
+uri = "https://thekashmirweaver.com/api/webhooks/shopify/orders-create"
+
+[access_scopes]
+# Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
+scopes = "read_orders"
+optional_scopes = [ ]
+use_legacy_install_flow = false
+
+[auth]
+redirect_urls = [ ]
